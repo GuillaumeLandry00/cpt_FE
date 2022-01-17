@@ -1,13 +1,30 @@
-import React, { useState } from "react";
-import { checkLoginStatus } from "../../functions/authentification";
+import React, { useState, useEffect, useRef } from "react";
+import { checkLoginStatus, checkAuth, redirectLogin } from "../../functions/authentification";
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
 
+    //We initialize data
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const err: string = "";
+    const [data, setData]: Array<any> = useState("");
+    const [err, setErr] = useState("");
+    const navigate = useNavigate();
 
-    checkLoginStatus();
+    useEffect(() => {
+
+        if (data) {
+            if (data.code === 200) {
+
+                //We register the token
+                localStorage.setItem("token", data.token);
+                navigate("/dashboard")
+            } else {
+                setErr(data['message']);
+            }
+        }
+
+    }, [data])
 
     return (
         <div className="w-full pt-32 from-red-600 to-red-200 bg-gradient-to-b h-screen">
@@ -35,7 +52,7 @@ const Login = () => {
                 </div>
                 <p className="text-rose-600 text-center mb-2">{err}</p>
                 <div className="flex items-center justify-between">
-                    <button className="bg-red-600 hover:bg-red-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  w-full" type="button">
+                    <button className="bg-red-600 hover:bg-red-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  w-full" type="button" onClick={async () => setData(await checkLoginStatus())}>
                         Me connecter
                     </button>
                 </div>
