@@ -6,7 +6,7 @@ export const checkLoginStatus = async (): Promise<any> => {
         const response: any = await axios.post(BASE_URL + "auth/login", { "email": "landry.guillaume00@hotmail.com", "password": "54321Guy" });
         return response.data;
     } catch (error) {
-
+        console.log(error);
     }
 }
 

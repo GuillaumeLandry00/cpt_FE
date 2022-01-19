@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { redirectLogin } from "../../functions/authentification";
 import NavBar from "../Dashboard/NavBar";
+import Table from "./Table";
 
 const Dashboard = () => {
 
@@ -13,7 +14,10 @@ const Dashboard = () => {
 
 
     return (
-        <NavBar />
+        <>
+            <NavBar />
+            <Table />
+        </>
     );
 }
 
