@@ -1,42 +1,70 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, } from "react";
 import { getAllClient } from "../../functions/clients";
-import { useTable } from "react-table";
+import { FcEditImage } from 'react-icons/fc';
+import { FcSearch } from 'react-icons/fc';
+import { MdOutlineDeleteForever } from 'react-icons/md';
+import { GrFormView } from 'react-icons/gr';
 
 const Table = () => {
 
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any[]>([{}]);
+
+    //Make the api request
+    const getData = async () => {
+        setData([...await getAllClient()]);
+        console.log([...await getAllClient()])
+    };
 
     //Make the request when the component is created
     useEffect(() => {
-        const getData = async () => {
-            setData(await getAllClient());
-        };
         getData();
     }, [])
 
     return (<>
-        <table>
-            <tr>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Adresse</th>
-            </tr>
-            <tbody>
-                {data && data.map((res) => {
+        <div className="w-4/5 mb-28 overscroll-auto  ml-auto mr-auto ">
+            <h2 className="text-center mt-8">Liste des clients</h2>
+            <div className="pt-2 relative mx-auto text-gray-600">
+                <input className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full" type="search" name="search" placeholder="Search" />
+                <button type="submit" className="absolute right-0 top-0 mt-4 mr-4">
+                    <FcSearch size={28} />
+                </button>
+            </div>
 
-                })}
-                <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
-                </tr>
-            </tbody>
-        </table>
+            <table className="w-full h-full shadow-2xl mt-8">
+                <thead className="bg-gray-800 border-b">
+                    <tr>
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                            #
+                        </th>
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                            Nom
+                        </th>
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                            Prenom
+                        </th>
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                            Adresse
+                        </th>
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((client, index) =>
+                        <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                            <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{client.ID}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Nom}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Prenom}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Adresse}</td>
+                            <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
+                                <GrFormView size={22} color="grey" /><FcEditImage size={22} className="ml-3" /> <MdOutlineDeleteForever size={22} color="#fa1e3c" className="ml-3" />
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
     </>);
 }
 
