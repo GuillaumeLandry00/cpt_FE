@@ -13,6 +13,11 @@ const Login = () => {
 
     useEffect(() => {
 
+        //We verify if the user is already logged
+        if (localStorage.getItem("token")) {
+            navigate("/dashboard")
+        }
+
         if (data) {
             if (data.code === 200) {
 
@@ -33,6 +38,7 @@ const Login = () => {
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Courriel :</label>
                     <input
+
                         name="email"
                         type="text"
                         value={email}

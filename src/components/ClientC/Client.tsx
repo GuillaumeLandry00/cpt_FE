@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { redirectLogin } from "../../functions/authentification";
 import NavBar from "../Dashboard/NavBar";
 import Table from "./Table";
+import FormClient from "./FormClient";
 
 const Dashboard = () => {
 
@@ -16,7 +17,7 @@ const Dashboard = () => {
     return (
         <>
             <NavBar />
-            <Table />
+            <FormClient />
         </>
     );
 }
