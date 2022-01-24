@@ -3,6 +3,7 @@ import { redirectLogin } from "../../functions/authentification";
 import NavBar from "../Dashboard/NavBar";
 import Table from "./Table";
 import FormClient from "./FormClient";
+import ViewClient from "./ViewClient";
 
 const Dashboard = () => {
 
@@ -17,7 +18,9 @@ const Dashboard = () => {
     return (
         <>
             <NavBar />
-            <FormClient />
+            {/* <FormClient /> */}
+            {/* <Table /> */}
+            <ViewClient />
         </>
     );
 }
