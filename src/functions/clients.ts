@@ -4,7 +4,10 @@ import { IResponse } from "../interface/interfaces";
 
 export const getAllClient = async (): Promise<any> => {
     try {
-        const response: IResponse = await axios.get(BASE_URL + "client/");
+        //We check if a user is registred in local storage
+        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
+        if (!utilisateur.nom) return;
+        const response: IResponse = await axios.get(BASE_URL + "client/" + utilisateur.type_utilisateur === "1" ? "all" : utilisateur.nom);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -14,7 +17,7 @@ export const getAllClient = async (): Promise<any> => {
 
 export const getClient = async (id: string): Promise<any> => {
     try {
-        const response: IResponse = await axios.get(BASE_URL + "client/" + id);
+        const response: IResponse = await axios.get(BASE_URL + "client/view/" + id);
         return response.data;
     } catch (error) {
         console.log(error);

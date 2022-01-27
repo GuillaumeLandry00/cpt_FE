@@ -35,7 +35,7 @@ const Table = () => {
 
     return (<>
         <div className="w-4/5 mb-28 overscroll-auto  ml-auto mr-auto ">
-            <h2 className="text-center mt-8">Liste des clients</h2>
+            <h2 className="text-center mt-8">Liste de mes clients</h2>
             <div className="pt-2 relative mx-auto text-gray-600" >
                 <input onKeyDown={(e) => e.key === 'Enter' ? getData() : ""} id="searchInput" className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full" type="search" name="rechercher" placeholder="Rechercher par nom & prénom" onChange={(e) => setSearch(e.target.value)} value={search} />
                 <button type="submit" className="absolute right-0 top-0 mt-4 mr-4" onClick={() => getData()}>

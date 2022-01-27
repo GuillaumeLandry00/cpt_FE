@@ -9,6 +9,7 @@ const Dashboard = () => {
         if (redirectLogin()) {
             //navigate("/");
         }
+        console.log(localStorage.getItem("utilisateur"));
     }, [])
 
 

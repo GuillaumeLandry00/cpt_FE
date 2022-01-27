@@ -23,6 +23,7 @@ const Login = () => {
 
                 //We register the token
                 localStorage.setItem("token", data.token);
+                localStorage.setItem("utilisateur", JSON.stringify(data.utilisateur));
                 navigate("/dashboard")
             } else {
                 setErr(data['message']);
