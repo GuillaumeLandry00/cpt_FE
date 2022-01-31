@@ -4,10 +4,12 @@ import { IResponse } from "../interface/interfaces";
 
 export const getAllClient = async (): Promise<any> => {
     try {
-        //We check if a user is registred in local storage
+        //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
-        if (!utilisateur.nom) return;
-        const response: IResponse = await axios.get(BASE_URL + "client/" + utilisateur.type_utilisateur === "1" ? "all" : utilisateur.nom);
+        console.log(utilisateur);
+        let who: string =  utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
+    
+        const response: IResponse = await axios.get(BASE_URL + "client/" + who);
         return response.data;
     } catch (error) {
         console.log(error);

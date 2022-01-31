@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { redirectLogin } from "../../functions/authentification";
 import NavBar from "../Dashboard/NavBar";
 import Table from "./Table";
@@ -7,20 +7,22 @@ import ViewClient from "./ViewClient";
 
 const Dashboard = () => {
 
-    //we check if the user has the right
+    const [id, setId] = useState<any>();
+    
+
     useEffect(() => {
-        if (redirectLogin()) {
-            //navigate("/");
-        }
+        let url:URL = new URL(window.location.href);
+        setId(url.searchParams.get("id"));
     }, [])
+
+    
 
 
     return (
         <>
             <NavBar />
+            <Table/>
             {/* <FormClient /> */}
-            {/* <Table /> */}
-            <ViewClient />
         </>
     );
 }

@@ -16,6 +16,7 @@ const Table = () => {
     const [data, setData] = useState<IClient[]>([]);
     const [search, setSearch] = useState<string>("");
 
+
     //Make the api request
     const getData = async () => {
         if (search == "") {
@@ -71,7 +72,7 @@ const Table = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Prenom}</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Adresse}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                <Link to={""}>
+                                <Link to={`view/?id=${client.ID}`}>
                                     <GrFormView size={22} color="grey" />
                                 </Link>
                                 <Link to={""}>

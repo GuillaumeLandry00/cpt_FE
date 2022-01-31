@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { redirectLogin } from "../../functions/authentification";
 import { getClient } from "../../functions/clients";
+import NavBar from "../Dashboard/NavBar";
 
-const ViewClient = () => {
+const ViewClient = ({id}:any) => {
 
     const [client, setClient] = useState<any>();
 
@@ -23,6 +24,8 @@ const ViewClient = () => {
     }, [])
 
     return (
+        <>
+        <NavBar />
         <div className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8">
             {client ?
                 (<>
@@ -93,6 +96,7 @@ const ViewClient = () => {
                 </>) : (<h1>Vous n'avez pas de client</h1>)}
 
         </div>
+        </>
     );
 }
 

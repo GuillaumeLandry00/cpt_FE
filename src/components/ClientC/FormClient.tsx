@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { validateClient, addClient } from "../../functions/clients";
+import NavBar from "../Dashboard/NavBar";
 
 const FormClient = () => {
 
@@ -19,22 +20,41 @@ const FormClient = () => {
     const [file, setFile] = useState<any>();
     const [errors, setErrors] = useState<string[]>([]);
     const [confirmation, setConfirmation] = useState<string>("");
+    const [id, setId] = useState<any>();
 
+    //this is how we know if we update the client or add a new one
+    useEffect(()=>{
+        let url = new URL(window.location.href);
+        setId(url.searchParams.get("id"));
+        //We search all the client info 
+        if(id){
+
+        }
+
+    },[])
+    
     const handleSubmit = async () => {
-
         let checkClient: string[] = validateClient({ nom: name, prenom: lastName, naissance: birthdate, ville: city, adresse: address, zip: zip, phone1: phone, courriel: email });
         if (checkClient.length > 0) {
             setErrors(checkClient);
             console.log("ici: " + errors);
         } else {
+            let clientDb;
+
             //Ok no error, we send the request
-            const clientAdded = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, })
-            if (clientAdded.affectedRows > 0) {
-                setConfirmation(clientAdded);
+            if(id){
+                //we add
+            }else{
+                clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, })
+            }
+
+            if (clientDb.affectedRows > 0) {
+                setConfirmation(clientDb);
             }
         }
     }
 
+    //This use Effect handle errors
     useEffect(() => {
         console.log(errors.indexOf("client_name"))
         if (errors.indexOf("client_name") > -1) {
@@ -212,7 +232,7 @@ const FormClient = () => {
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-3">
                         <label className="tracking-wide text-gray-700 text-sm font-bold  mb-3">Veuillez valider toutes les informations</label>
-                        <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">Envoyer</button>
+                        <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id ? "Modifier" : "Ajouter"}</button>
                     </div>
                 </div>
             </form>
