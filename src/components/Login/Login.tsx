@@ -14,9 +14,9 @@ const Login = () => {
     useEffect(() => {
 
         //We verify if the user is already logged
-        if (localStorage.getItem("token")) {
-            navigate("/dashboard")
-        }
+        // if (localStorage.getItem("token")) {
+        //     navigate("/dashboard")
+        // }
 
         if (data) {
             if (data.code === 200) {

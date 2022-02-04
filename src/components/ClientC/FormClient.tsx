@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { validateClient, addClient } from "../../functions/clients";
+import { validateClient, addClient, getClient, updateClient } from "../../functions/clients";
 import NavBar from "../Dashboard/NavBar";
 
 const FormClient = () => {
@@ -21,18 +21,43 @@ const FormClient = () => {
     const [errors, setErrors] = useState<string[]>([]);
     const [confirmation, setConfirmation] = useState<string>("");
     const [id, setId] = useState<any>();
+    const url = new URL(window.location.href);
+
+    /**
+     * This function help get all client info
+     */
+    const request = async () => {
+        console.log("Making the request...");
+        console.log(id);
+        const client = await getClient(url.searchParams.get("id") as string);
+        //we update the form
+        setAddress(client[0].Adresse);
+        setEmail(client[0].Courriel);
+        setLanguage(client[0].Langue);
+        setBirthDate(client[0].Naissance.substr(0, 10));
+        setName(client[0].Prenom);
+        setLastName(client[0].Nom);
+        setProvince(client[0].Province);
+        setPhone(client[0].Telephone1);
+        setCity(client[0].Ville);
+        setZip(client[0].Zip);
+        setGender(client[0].gender);
+        setNote(client[0].Note);
+    }
 
     //this is how we know if we update the client or add a new one
-    useEffect(()=>{
-        let url = new URL(window.location.href);
-        setId(url.searchParams.get("id"));
-        //We search all the client info 
-        if(id){
+    useEffect(() => {
 
+        if (url.searchParams.get("action") == "edit") {
+            setId(url.searchParams.get("id"));
+            //We search all the client info 
+            if (url.searchParams.get("id")) {
+                request();
+            }
         }
 
-    },[])
-    
+    }, [])
+
     const handleSubmit = async () => {
         let checkClient: string[] = validateClient({ nom: name, prenom: lastName, naissance: birthdate, ville: city, adresse: address, zip: zip, phone1: phone, courriel: email });
         if (checkClient.length > 0) {
@@ -42,12 +67,14 @@ const FormClient = () => {
             let clientDb;
 
             //Ok no error, we send the request
-            if(id){
+            if (id) {
                 //we add
-            }else{
+                clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, id: id, })
+            } else {
                 clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, })
             }
 
+            //We confirm the changes
             if (clientDb.affectedRows > 0) {
                 setConfirmation(clientDb);
             }
@@ -60,13 +87,13 @@ const FormClient = () => {
         if (errors.indexOf("client_name") > -1) {
             console.log(errors);
         }
-
     }, [errors])
 
     return (
         <>
+            <NavBar />
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8">
-                <h1 className="text-2xl border-b-2">Formulaire client {confirmation !== "" && <strong className="text-xl text-green-500">Utilisateur ajouté</strong>}</h1>
+                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">Utilisateur ajouté</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">

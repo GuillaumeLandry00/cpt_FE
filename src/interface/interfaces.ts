@@ -35,4 +35,17 @@ interface IResponse {
     data: Object[],
 }
 
-export type { IResponse, IResponseAuth, IClient }
+interface IReducerClientArray {
+    client: any
+}
+
+interface IReducerClient {
+    id: number
+}
+
+interface IActionReducer {
+    type: string,
+    payload?: number
+}
+
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IActionReducer }

@@ -75,7 +75,7 @@ const Table = () => {
                                 <Link to={`view/?id=${client.ID}`}>
                                     <GrFormView size={22} color="grey" />
                                 </Link>
-                                <Link to={""}>
+                                <Link to={`form/?action=edit&id=${client.ID}`}>
                                     <FcEditImage size={22} className="ml-3" />
                                 </Link>
                                 <Link to={""}>
