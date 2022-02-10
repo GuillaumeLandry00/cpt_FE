@@ -45,7 +45,28 @@ interface IReducerClient {
 
 interface IActionReducer {
     type: string,
-    payload?: number
+    payload?: {
+        value: number,
+        id: number
+    }
+}
+interface IActionReducerItinerary {
+    type: string,
+    payload?: {
+        id: number,
+        what: string,
+        value: string,
+        origin?: string,
+        destination?: string,
+        cie?: string,
+        volNo?: string,
+        classe?: string,
+        departure?: string,
+        time_d?: string,
+        arrival?: string,
+        time_a?: string,
+        notes?: string
+    }
 }
 
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IActionReducer }
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IActionReducer, IActionReducerItinerary }
