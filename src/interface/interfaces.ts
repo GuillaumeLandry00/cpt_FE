@@ -39,8 +39,13 @@ interface IReducerClientArray {
     client: any
 }
 
-interface IReducerClient {
-    id: number
+
+interface IUtilisateur {
+    email: string,
+    nom: string,
+    nomComplet: string,
+    typeUtilisateur: number,
+    agences: string
 }
 
 interface IActionReducer {
@@ -69,4 +74,4 @@ interface IActionReducerItinerary {
     }
 }
 
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IActionReducer, IActionReducerItinerary }
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IActionReducer, IActionReducerItinerary, IUtilisateur }
