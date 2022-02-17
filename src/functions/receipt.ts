@@ -1,6 +1,6 @@
 import axios from "axios"
 import { BASE_URL } from "../constants/constantes"
-import { IUtilisateur } from "../interface/interfaces";
+import { IResponse, IUtilisateur } from "../interface/interfaces";
 
 export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
 
@@ -52,5 +52,15 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
 
 export const sendReceipt = async (receipt: any) => {
     const response: any = await axios.post(BASE_URL + "receipt/", receipt);
+    console.log(response);
+}
 
+export const getReceipts = async (search: string = ""): Promise<any> => {
+    try {
+        let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
+        const response: IResponse = await axios.get(BASE_URL + `receipt/${utilisateur.nom}?search=${search}`);
+        return response.data;
+    } catch (error: unknown) {
+        console.log(error);
+    }
 }

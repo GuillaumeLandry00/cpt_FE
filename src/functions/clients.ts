@@ -28,9 +28,14 @@ export const getClient = async (id: string): Promise<any> => {
 
 export const getClientSearch = async (search: string): Promise<any> => {
     try {
-        const response: IResponse = await axios.get(BASE_URL + `client/?search=${search}`)
+        //We check if user is registred in local storage
+        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
+        console.log(utilisateur);
+        let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
+
+        const response: IResponse = await axios.get(BASE_URL + `client/${who}?search=${search}`)
         return response.data;
-    } catch (error) {
+    } catch (error: unknown) {
         console.log(error);
     }
 }

@@ -91,7 +91,6 @@ const FormClient = () => {
 
     return (
         <>
-            <NavBar />
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8">
                 <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">Utilisateur ajouté</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">

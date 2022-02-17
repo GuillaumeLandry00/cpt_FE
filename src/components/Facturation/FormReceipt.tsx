@@ -17,7 +17,6 @@ const FormReceipt = () => {
     const utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
 
     const handleBtn = (): void => {
-
         var myForm = document.getElementById('myForm') as HTMLFormElement;
         if (myForm != null) {
             const formData: FormData = new FormData(myForm);
@@ -29,7 +28,6 @@ const FormReceipt = () => {
 
     return (
         <>
-            <NavBar />
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev: any) => {
                 ev.preventDefault();
             }}>
