@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Select from 'react-select';
 import { CHOICES } from "../../constants/select_constants";
+import { ISingleProps } from "../../interface/interfaces";
 
-const Terms = () => {
+const Terms = ({ data }: ISingleProps) => {
 
 
     return (

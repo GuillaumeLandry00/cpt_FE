@@ -3,9 +3,10 @@ import { ORIGINE } from "../../constants/select_constants";
 import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { ISingleProps } from "../../interface/interfaces";
 
 
-const Itinerary = () => {
+const Itinerary = ({ data }: ISingleProps) => {
 
 
     //Component

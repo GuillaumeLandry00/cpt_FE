@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Select from 'react-select';
 import { REMARKS } from "../../constants/select_constants";
+import { ISingleProps } from "../../interface/interfaces";
 
 
-const OpcRemarks = () => {
+const OpcRemarks = ({ data }: ISingleProps) => {
 
 
     return (

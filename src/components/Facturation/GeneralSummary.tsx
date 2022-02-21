@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { ISingleProps } from "../../interface/interfaces";
 
-const GeneralSummary = () => {
+const GeneralSummary = ({ data }: ISingleProps) => {
 
 
     return (

@@ -3,8 +3,9 @@ import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
+import { ISingleProps } from "../../interface/interfaces";
 
-const PayementsSummary = () => {
+const PayementsSummary = ({ data }: ISingleProps) => {
 
     const divPayementsDiv = (id: number) => {
         return (<div className="flex flex-wrap -mx-3 mt-2">

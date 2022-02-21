@@ -14,7 +14,7 @@ const Dashboard = () => {
 
 
     return (
-        <NavBar />
+        <p>Dashboard... But nothing for now...</p>
     );
 }
 

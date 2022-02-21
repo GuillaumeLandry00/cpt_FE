@@ -55,10 +55,13 @@ export const sendReceipt = async (receipt: any) => {
     console.log(response);
 }
 
-export const getReceipts = async (search: string = ""): Promise<any> => {
+export const getReceipts = async (search: string = "", id: string = ""): Promise<any> => {
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        const response: IResponse = await axios.get(BASE_URL + `receipt/${utilisateur.nom}?search=${search}`);
+        let request: string = BASE_URL + `receipt/${utilisateur.nom}?search=${search}`;
+        if (id) request += `&id=${id}`;
+        console.log(request);
+        const response: IResponse = await axios.get(request);
         return response.data;
     } catch (error: unknown) {
         console.log(error);

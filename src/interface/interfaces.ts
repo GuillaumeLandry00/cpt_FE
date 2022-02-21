@@ -58,8 +58,11 @@ interface IReceipt {
     data?: IGenericObject
 
 }
+interface ISingleProps {
+    data: Array<string>
+}
 
 interface IGenericObject {
     [key: string]: any
 }
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt }
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps }
