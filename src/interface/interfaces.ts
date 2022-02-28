@@ -59,7 +59,7 @@ interface IReceipt {
 
 }
 interface ISingleProps {
-    data: Array<string>
+    data: Array<any> | any
 }
 
 interface IGenericObject {

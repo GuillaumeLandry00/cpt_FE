@@ -7,21 +7,26 @@ import { AiOutlineMinusCircle } from 'react-icons/ai';
 
 
 
-const Passagers = ({ data }: ISingleProps) => {
+const Passagers = ({ data }: any) => {
 
     const [counter, setCounter] = useState<number>(2);
     const [clients, setClients] = useState<any>([]);
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
 
+
+
     useEffect(() => {
         getClients();
-        if (data) {
+    }, [])
+
+    useEffect(() => {
+        if (data != undefined) {
             setCounter(data.length);
-            for (let i = 0; i < data.length; i++) {
-                setClientsDiv([...clientsDiv, divClient(i)]);
+            for (let i = 1; i < data.length; i++) {
+                clientsDiv[i] = divClient(i);
             }
         }
-    }, [])
+    }, [data])
 
     const getClients = async () => {
         let clientsDirty = await getAllClient();
@@ -58,16 +63,16 @@ const Passagers = ({ data }: ISingleProps) => {
 
     //Component
     const divClient = (id: number,) => {
-
-
         return (
+
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {counter}</label>
-                <Select name={"Cpassager_" + id} options={clients} defaultValue={data[id + 1] ? { value: data, label: "TEST" } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                {/* We set up a default value if needed it */}
+                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: data[id].label, value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
         );
     }
-    console.log(data ? { value: data[0], label: "datssaa" } : "");
 
     return (
         <>
@@ -76,7 +81,7 @@ const Passagers = ({ data }: ISingleProps) => {
             <div className="flex flex-wrap -mx-3 mt-2">
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients 1</label>
-                    <Select name={"Cpassager_" + 0} options={clients} defaultValue={data ? { value: data[0], label: "dataa" } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name={"Cpassager_" + 0} options={clients} value={data ? { label: data[0].label, value: data[0].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 {clientsDiv.map((item: any) => { return item })}
             </div>

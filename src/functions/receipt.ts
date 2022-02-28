@@ -4,7 +4,7 @@ import { IResponse, IUtilisateur } from "../interface/interfaces";
 
 export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
 
-    let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: {}, product: {}, opc: {}, summary: {}, others: {} };
+    let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
     for (const [key, value] of Object.entries(values)) {
 
@@ -20,39 +20,43 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
                 receipt.passagers.push(value)
                 break;
             case "I":
-                if (!receipt.itinerary.hasOwnProperty("itinerary" + key.charAt(key.length - 1))) {
-                    receipt.itinerary["itinerary" + key.charAt(key.length - 1)] = {};
+                if (receipt.itinerary.length <= key.charAt(key.length - 1)) {
+                    receipt.itinerary.push({});
                 }
-                receipt.itinerary["itinerary" + key.charAt(key.length - 1)][name] = value;
+                receipt.itinerary[key.charAt(key.length - 1)][name] = value;
                 break;
             case "T":
-                if (!receipt.product.hasOwnProperty("product" + key.charAt(key.length - 1))) {
-                    receipt.product["product" + key.charAt(key.length - 1)] = {};
+
+
+                if (receipt.product.length <= key.charAt(key.length - 1)) {
+                    receipt.product.push({});
                 }
-                receipt.product["product" + key.charAt(key.length - 1)][name] = value;
+
+
+                receipt.product[key.charAt(key.length - 1)][name] = value;
                 break;
             case "O":
                 receipt.opc[name] = value;
                 break;
             case "S":
-                if (!receipt.summary.hasOwnProperty("summary" + key.charAt(key.length - 1))) {
-                    receipt.summary["summary" + key.charAt(key.length - 1)] = {};
+                if (receipt.summary.length <= key.charAt(key.length - 1)) {
+                    receipt.summary.push({});
                 }
-                receipt.summary["summary" + key.charAt(key.length - 1)][name] = value;
+                receipt.summary[key.charAt(key.length - 1)][name] = value;
                 break;
             default:
                 receipt.others[key] = value;
                 break;
         }
     }
-    console.log(receipt);
+
     sendReceipt(receipt);
 }
 
 
 export const sendReceipt = async (receipt: any) => {
     const response: any = await axios.post(BASE_URL + "receipt/", receipt);
-    console.log(response);
+
 }
 
 export const getReceipts = async (search: string = "", id: string = ""): Promise<any> => {
@@ -60,7 +64,7 @@ export const getReceipts = async (search: string = "", id: string = ""): Promise
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let request: string = BASE_URL + `receipt/${utilisateur.nom}?search=${search}`;
         if (id) request += `&id=${id}`;
-        console.log(request);
+
         const response: IResponse = await axios.get(request);
         return response.data;
     } catch (error: unknown) {

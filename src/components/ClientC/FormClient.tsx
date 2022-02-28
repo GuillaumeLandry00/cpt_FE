@@ -27,8 +27,7 @@ const FormClient = () => {
      * This function help get all client info
      */
     const request = async () => {
-        console.log("Making the request...");
-        console.log(id);
+
         const client = await getClient(url.searchParams.get("id") as string);
         //we update the form
         setAddress(client[0].Adresse);
@@ -62,7 +61,7 @@ const FormClient = () => {
         let checkClient: string[] = validateClient({ nom: name, prenom: lastName, naissance: birthdate, ville: city, adresse: address, zip: zip, phone1: phone, courriel: email });
         if (checkClient.length > 0) {
             setErrors(checkClient);
-            console.log("ici: " + errors);
+
         } else {
             let clientDb;
 
@@ -83,9 +82,9 @@ const FormClient = () => {
 
     //This use Effect handle errors
     useEffect(() => {
-        console.log(errors.indexOf("client_name"))
+
         if (errors.indexOf("client_name") > -1) {
-            console.log(errors);
+
         }
     }, [errors])
 

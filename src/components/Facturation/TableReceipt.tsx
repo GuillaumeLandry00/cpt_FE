@@ -23,7 +23,7 @@ const TableReceipt = () => {
             setData([...await getReceipts(search)]);
         }
 
-        console.log([...await getReceipts()])
+
     };
 
     //Make the request when the component is created
@@ -49,7 +49,7 @@ const TableReceipt = () => {
                             #
                         </th>
                         <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
-                            Date
+                            Date de création
                         </th>
                         <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
                             Nom  client

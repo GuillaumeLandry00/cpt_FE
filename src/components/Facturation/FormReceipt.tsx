@@ -29,7 +29,6 @@ const FormReceipt = () => {
         let buff = Buffer.from(receipt[0].f_data, 'base64');
         let text = buff.toString('ascii');
         setData(JSON.parse(text));
-        console.log("JSON:", JSON.parse(text));
     }
 
     //this is how we know if we update the client or add a new one
@@ -38,7 +37,7 @@ const FormReceipt = () => {
             setId(url.searchParams.get("id") as string);
             //We search all the client info 
             if (url.searchParams.get("id")) {
-                console.log("we here");
+
 
                 getData();
             }

@@ -25,7 +25,7 @@ const Table = () => {
             setData([...await getClientSearch(search)]);
         }
 
-        console.log([...await getAllClient()])
+
     };
 
     //Make the request when the component is created

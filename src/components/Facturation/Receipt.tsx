@@ -11,9 +11,6 @@ const Receipt = ({ utilisateur, data }: ReceiptProps) => {
 
     let agency: Array<string> = utilisateur.agences.split(" ");
 
-    console.log(data);
-
-
     return (
         <>
             <h1 className="text-2xl border-b-2 text-center">Facturation</h1>
@@ -26,7 +23,7 @@ const Receipt = ({ utilisateur, data }: ReceiptProps) => {
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TPS</label>
-                    <input type="text" name="Ftps" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" disabled defaultValue={"841822257"} value={"841822257"} />
+                    <input type="text" name="Ftps" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" disabled defaultValue={"841822257"} />
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TVQ</label>
@@ -39,7 +36,7 @@ const Receipt = ({ utilisateur, data }: ReceiptProps) => {
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Agence</label>
                     <select name="Fagency" className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                        {agency.map((item) => (<option defaultValue={(data && data.hasOwnProperty("agency")) ? data.agency : ""} value={item}>{item}</option>))}
+                        {agency.map((item, index) => (<option key={index} defaultValue={(data && data.hasOwnProperty("agency")) ? data.agency : ""} value={item}>{item}</option>))}
                     </select>
                 </div>
             </div>
