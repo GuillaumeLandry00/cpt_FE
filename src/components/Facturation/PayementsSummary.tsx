@@ -23,7 +23,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Mode</label>
-                <Select options={MODE} name={`Smode_${id}`} value={data && data.length - 1 >= id ? { label: data[id].mode, value: data[id].mode } : ""} />
+                <Select options={MODE} name={`Smode_${id}`} defaultValue={data && data.length - 1 >= id ? { label: data[id].mode, value: data[id].mode } : ""} />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro de carte</label>
@@ -48,6 +48,29 @@ const PayementsSummary = ({ data }: ISingleProps) => {
         </div>);
     }
 
+
+    const [counter, setCounter] = useState<number>(0);
+    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
+
+    //Here we deal with react-select async problem
+    useEffect(() => {
+        const url: URL = new URL(window.location.href);
+        if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
+            setPayementsDiv([divPayementsDiv(0)])
+        }
+    }, [])
+
+    useEffect(() => {
+
+        if (data != undefined) {
+            setCounter(data.length);
+
+            for (let i = 0; i < data.length; i++) {
+                payementsDiv[i] = divPayementsDiv(i);
+            }
+        }
+    }, [data])
+
     const handleClick = (action: string): void => {
         console.log("alllo");
 
@@ -71,19 +94,6 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }
 
 
-    const [counter, setCounter] = useState<number>(0);
-    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([divPayementsDiv(0)]);
-
-    useEffect(() => {
-
-        if (data != undefined) {
-            setCounter(data.length);
-
-            for (let i = 0; i < data.length; i++) {
-                payementsDiv[i] = divPayementsDiv(i);
-            }
-        }
-    }, [data])
 
     return (
         <>

@@ -9,20 +9,25 @@ import { AiOutlineMinusCircle } from 'react-icons/ai';
 
 const Passagers = ({ data }: any) => {
 
-    const [counter, setCounter] = useState<number>(2);
+    const [counter, setCounter] = useState<number>(0);
     const [clients, setClients] = useState<any>([]);
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
 
 
 
+
     useEffect(() => {
         getClients();
+        const url: URL = new URL(window.location.href);
+        if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
+            setClientsDiv([divClient(0)])
+        }
     }, [])
 
     useEffect(() => {
         if (data != undefined) {
             setCounter(data.length);
-            for (let i = 1; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 clientsDiv[i] = divClient(i);
             }
         }
@@ -67,7 +72,7 @@ const Passagers = ({ data }: any) => {
 
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
 
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {counter}</label>
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
                 {/* We set up a default value if needed it */}
                 <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: data[id].label, value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
@@ -79,10 +84,6 @@ const Passagers = ({ data }: any) => {
             <h1 className="text-2xl  text-center border-b-2 ">Passagers</h1>
 
             <div className="flex flex-wrap -mx-3 mt-2">
-                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients 1</label>
-                    <Select name={"Cpassager_" + 0} options={clients} value={data ? { label: data[0].label, value: data[0].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-                </div>
                 {clientsDiv.map((item: any) => { return item })}
             </div>
             <div className="mt-2">

@@ -11,11 +11,13 @@ const NavBar = () => {
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
-                                <img
-                                    className="h-8 w-8"
-                                    src="https://www.voyagesgabymsh.ca/wp-content/uploads/2019/07/ctww.jpg"
-                                    alt="logo"
-                                />
+                                <Link to={"/dashboard"}>
+                                    <img
+                                        className="h-8 w-8"
+                                        src="https://www.voyagesgabymsh.ca/wp-content/uploads/2019/07/ctww.jpg"
+                                        alt="logo"
+                                    />
+                                </Link>
                             </div>
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">

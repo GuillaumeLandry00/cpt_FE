@@ -62,30 +62,30 @@ export const validateClient = (client: any): string[] => {
         errors.push("city");
     }
 
-    //Validate the address
-    // regExp = new RegExp("^([#.0-9a-zA-Z\s,']-?)+$", "i");
-    // console.log(client.adresse.trim());
-    // if (!regExp.test(client.adresse.trim())) {
-    //     errors.push("address");
-    // }
+    // Validate the address
+    regExp = new RegExp(/^([#.0-9a-zA-Z\s,']-?)+$/, "i");
+    console.log(client.adresse);
+    if (!regExp.test(client.adresse)) {
+        errors.push("address");
+    }
 
     //validate the zip code
-    // regExp = new RegExp("^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", "i");
-    // if (!regExp.test(client.zip.trim())) {
-    //     errors.push("zip_code");
-    // }
+    regExp = new RegExp(/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/, "i");
+    if (!regExp.test(client.zip.trim())) {
+        errors.push("zip_code");
+    }
 
-    //Validate phone number
-    // regExp = new RegExp("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", "i");
-    // if (!regExp.test(client.phone1.trim())) {
-    //     errors.push("telephone");
-    // }
+    // Validate phone number
+    regExp = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, "i");
+    if (!regExp.test(client.phone1.trim())) {
+        errors.push("telephone");
+    }
 
     //validate the email
-    // regExp = new RegExp("^\S+@\S+\.\S+$", "i");
-    // if (!regExp.test(client.courriel.trim())) {
-    //     errors.push("email");
-    // }
+    regExp = new RegExp(/^\S+@\S+\.\S+$/, "i");
+    if (!regExp.test(client.courriel.trim())) {
+        errors.push("email");
+    }
 
     return errors;
 }

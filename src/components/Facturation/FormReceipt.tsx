@@ -18,6 +18,7 @@ const FormReceipt = () => {
     const url: URL = new URL(window.location.href);
     const [id, setId] = useState<string>();
     const [data, setData] = useState<IGenericObject>([]);
+    const [opcAmount, setOpcAmount] = useState<number>(0);
 
     /**
     * This function help get all receipt info
@@ -27,7 +28,7 @@ const FormReceipt = () => {
 
         //We decode the base 64 json
         let buff = Buffer.from(receipt[0].f_data, 'base64');
-        let text = buff.toString('ascii');
+        let text = buff.toString('utf8');
         setData(JSON.parse(text));
     }
 
@@ -37,8 +38,6 @@ const FormReceipt = () => {
             setId(url.searchParams.get("id") as string);
             //We search all the client info 
             if (url.searchParams.get("id")) {
-
-
                 getData();
             }
         }
@@ -50,8 +49,13 @@ const FormReceipt = () => {
         if (myForm != null) {
             const formData: FormData = new FormData(myForm);
             const values = Object.fromEntries(formData.entries())
-            buildReceipt(values, utilisateur);
-
+            if (url.searchParams.get("id") && url.searchParams.get("action") == "edit") {
+                //we update
+                buildReceipt(values, utilisateur, "update", url.searchParams.get("id") as string);
+            } else {
+                //we add a new one
+                buildReceipt(values, utilisateur, "add");
+            }
         }
     }
 
@@ -65,12 +69,12 @@ const FormReceipt = () => {
                 <Receipt utilisateur={utilisateur} data={data.facturation} />
                 <Passagers data={data.passagers} />
                 <Itinerary data={data.itinerary} />
-                <TravelProducts data={data.product} />
-                <OpcRemark data={data.opc} />
+                <TravelProducts data={data.product} setOpcAmount={setOpcAmount} />
+                <OpcRemark data={data.opc} opcAmount={opcAmount} />
                 <PayementsSummary data={data.summary} />
                 <GeneralSummary data={data.others} />
                 <Terms data={data.others} />
-                <button onClick={() => { handleBtn() }}>Press me</button>
+                <button onClick={() => { handleBtn() }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full mt-8">Enregistrer la facture</button>
             </form>
         </>
     );

@@ -3,26 +3,24 @@ import { ORIGINE } from "../../constants/select_constants";
 import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
-import { IGenericObject, ISingleProps } from "../../interface/interfaces";
+import { IGenericObject } from "../../interface/interfaces";
 
 
 const Itinerary = ({ data }: IGenericObject) => {
-    const [defaultValue, setDefaultValue] = useState<any>(undefined);
 
-
-    //Component
-    const divItineraries = (id: number) => {
-        data && data.length - 1 >= id ? console.log("Ici, ", { id: id, label: data[id].origin, value: data[id].origin }) : console.log("rien");
+    //Samll inner component
+    const divItineraries = (id: number,) => {
         return (
             <div key={id} >
+
                 <div className="flex flex-wrap -mx-3 mt-2">
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Origine</label>
-                        <Select name={`Iorigin_${id}`} options={ORIGINE} value={data && data.length - 1 >= id ? { label: data[id].origin, value: data[id].origin } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Iorigin_${id}`} options={ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].origin, value: data[id].origin } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Destination</label>
-                        <Select name={`Idestination_${id}`} options={ORIGINE} value={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Idestination_${id}`} options={ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cie</label>
@@ -83,22 +81,36 @@ const Itinerary = ({ data }: IGenericObject) => {
         );
     }
 
+    const [itinerariesDiv, setItinerariesDiv] = useState<Array<any>>([]);
     const [counter, setCounter] = useState<number>(0);
-    const [itinerariesDiv, setItinerariesDiv] = useState<Array<any>>([divItineraries(0)]);
 
-
+    //Here we deal with react-select async problem
     useEffect(() => {
-        // console.log(data);
+        const url: URL = new URL(window.location.href);
+        if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
+            setItinerariesDiv([divItineraries(0)])
+        }
+    }, [])
+
+
+
+
+    //This help deal with default values
+    useEffect(() => {
         if (data != undefined) {
             setCounter(data.length);
+            let newArr = new Array(data.length);
 
             for (let i = 0; i < data.length; i++) {
-                itinerariesDiv[i] = divItineraries(i);
+                newArr[i] = divItineraries(i);
             }
-            setDefaultValue([...data]);
+
+            setItinerariesDiv([...newArr])
         }
     }, [data])
 
+
+    //This will handle our click by adding new input or removing input
     const handleClick = (action: string): void => {
         if (action === "add") {
             if (counter < 12) {
@@ -106,7 +118,7 @@ const Itinerary = ({ data }: IGenericObject) => {
                 setItinerariesDiv([...itinerariesDiv, divItineraries(counter + 1)]);
             }
         } else {
-            if (counter > 2) {
+            if (counter > 0) {
                 setCounter(counter - 1);
                 let newArray: Array<any> = itinerariesDiv;
                 newArray.pop();
@@ -119,6 +131,7 @@ const Itinerary = ({ data }: IGenericObject) => {
     return (
         <>
             <h1 className="text-2xl border-b-2 text-center">Itineraire du voyage</h1>
+            {itinerariesDiv.length == 0 ? (<p className="font-bold">Veuillez ajouter une itinéraire en appuyant sur le +</p>) : ""}
             {itinerariesDiv.map((item) => { return item })}
             <div className="mt-2">
                 <button onClick={() => { handleClick("remove"); }}><AiOutlineMinusCircle size={28} color={"red"} /></button>

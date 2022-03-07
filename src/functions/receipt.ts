@@ -1,8 +1,9 @@
 import axios from "axios"
 import { BASE_URL } from "../constants/constantes"
-import { IResponse, IUtilisateur } from "../interface/interfaces";
+import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces";
+import download from 'downloadjs'
 
-export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
+export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
@@ -36,7 +37,7 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
                 receipt.product[key.charAt(key.length - 1)][name] = value;
                 break;
             case "O":
-                receipt.opc[name] = value;
+                receipt.opc[key.substring(1, key.length)] = value;
                 break;
             case "S":
                 if (receipt.summary.length <= key.charAt(key.length - 1)) {
@@ -50,19 +51,31 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur) => {
         }
     }
 
-    sendReceipt(receipt);
+    //we add an ID if we update 
+    if (id) receipt.id = id;
+    sendReceipt(receipt, action);
 }
 
 
-export const sendReceipt = async (receipt: any) => {
-    const response: any = await axios.post(BASE_URL + "receipt/", receipt);
+export const sendReceipt = async (receipt: IGenericObject, action: string) => {
+    let response: IGenericObject;
 
+    if (action == "add") {
+        response = await axios.post(BASE_URL + "receipt/", receipt);
+    } else {
+        console.log("PATCH");
+        console.log(receipt);
+
+        response = await axios.patch(BASE_URL + "receipt/", receipt);
+    }
+
+    return response;
 }
 
 export const getReceipts = async (search: string = "", id: string = ""): Promise<any> => {
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        let request: string = BASE_URL + `receipt/${utilisateur.nom}?search=${search}`;
+        let request: string = `${BASE_URL}receipt/${utilisateur.nom}?search=${search}`;
         if (id) request += `&id=${id}`;
 
         const response: IResponse = await axios.get(request);
@@ -70,4 +83,18 @@ export const getReceipts = async (search: string = "", id: string = ""): Promise
     } catch (error: unknown) {
         console.log(error);
     }
+}
+
+export const downloadReceipt = async (id: number): Promise<void> => {
+    try {
+        const response: IResponse = await axios.get(`${BASE_URL}receipt/generate/${id}`, {
+            responseType: 'blob', // had to add this one here
+        });
+
+
+    } catch (error) {
+        console.log(error);
+
+    }
+    return;
 }

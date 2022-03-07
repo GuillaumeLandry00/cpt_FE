@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface IResponse {
     code: number,
 }
@@ -32,7 +34,8 @@ interface IClient {
 }
 
 interface IResponse {
-    data: Object[],
+    data: any,
+    headers: IGenericObject
 }
 
 interface IReducerClientArray {
@@ -59,7 +62,9 @@ interface IReceipt {
 
 }
 interface ISingleProps {
-    data: Array<any> | any
+    data: Array<any> | any,
+    opcAmount?: number,
+    setOpcAmount?: Dispatch<SetStateAction<number>>
 }
 
 interface IGenericObject {

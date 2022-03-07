@@ -10,9 +10,7 @@ const ViewClient = ({ id }: any) => {
 
 
     const makeRequest = async (id: string) => {
-        console.log(id);
         const client = await getClient(id);
-        console.log(client);
         setClient(client[0])
     }
     useEffect(() => {
@@ -26,7 +24,6 @@ const ViewClient = ({ id }: any) => {
 
     return (
         <>
-            <NavBar />
             <div className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8">
                 {client ?
                     (<>
