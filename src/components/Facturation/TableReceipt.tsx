@@ -1,11 +1,13 @@
 import React, { useEffect, useState, } from "react";
-import { downloadReceipt, getReceipts } from "../../functions/receipt";
+import { getReceipts } from "../../functions/receipt";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../constants/constantes";
 
 //The icons
 import { FcEditImage } from 'react-icons/fc';
 import { FcSearch } from 'react-icons/fc';
 import { GrDocumentPdf } from 'react-icons/gr';
+import { AiOutlineMail } from 'react-icons/ai';
 import { GrFormView } from 'react-icons/gr';
 import { IReceipt } from "../../interface/interfaces";
 
@@ -22,8 +24,6 @@ const TableReceipt = () => {
         } else {
             setData([...await getReceipts(search)]);
         }
-
-
     };
 
     //Make the request when the component is created
@@ -55,16 +55,16 @@ const TableReceipt = () => {
             <table className="w-full h-full shadow-2xl mt-8">
                 <thead className="bg-gray-800 border-b">
                     <tr>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-1/6">
                             #
                         </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
                             Date de création
                         </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
                             Nom  client
                         </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left">
+                        <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left w-2/6">
                             Actions
                         </th>
                     </tr>
@@ -76,11 +76,17 @@ const TableReceipt = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.nom}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                <button className="mr-4" onClick={() => { downloadReceipt(parseInt(receipt.facturationID)) }}>
-                                    <GrDocumentPdf size={20} color="grey" />
-                                </button>
+                                <Link to={`form/?action=view&id=${receipt.facturationID}`}>
+                                    <GrFormView size={22} />
+                                </Link>
                                 <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
-                                    <FcEditImage size={22} className="ml-3" />
+                                    <FcEditImage size={22} className="ml-4" />
+                                </Link>
+                                <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
+                                    <GrDocumentPdf size={20} color="grey" />
+                                </a>
+                                <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
+                                    <AiOutlineMail size={22} className="ml-4" />
                                 </Link>
                             </td>
                         </tr>

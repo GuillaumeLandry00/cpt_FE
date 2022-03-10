@@ -34,7 +34,7 @@ const FormReceipt = () => {
 
     //this is how we know if we update the client or add a new one
     useEffect(() => {
-        if (url.searchParams.get("action") == "edit") {
+        if (url.searchParams.get("action")) {
             setId(url.searchParams.get("id") as string);
             //We search all the client info 
             if (url.searchParams.get("id")) {
@@ -66,15 +66,18 @@ const FormReceipt = () => {
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev: any) => {
                 ev.preventDefault();
             }}>
-                <Receipt utilisateur={utilisateur} data={data.facturation} />
-                <Passagers data={data.passagers} />
-                <Itinerary data={data.itinerary} />
-                <TravelProducts data={data.product} setOpcAmount={setOpcAmount} />
-                <OpcRemark data={data.opc} opcAmount={opcAmount} />
-                <PayementsSummary data={data.summary} />
-                <GeneralSummary data={data.others} />
-                <Terms data={data.others} />
-                <button onClick={() => { handleBtn() }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full mt-8">Enregistrer la facture</button>
+                <fieldset disabled={url.searchParams.get("action") !== "view" ? false : true}>
+                    <Receipt utilisateur={utilisateur} data={data.facturation} />
+                    <Passagers data={data.passagers} />
+                    <Itinerary data={data.itinerary} />
+                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} />
+                    <OpcRemark data={data.opc} opcAmount={opcAmount} />
+                    <PayementsSummary data={data.summary} />
+                    <GeneralSummary data={data.others} />
+                    <Terms data={data.others} />
+                </fieldset>
+                {(url.searchParams.get("action") !== "view") && (<button onClick={() => { handleBtn() }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full mt-8">Enregistrer la facture</button>)}
+
             </form>
         </>
     );

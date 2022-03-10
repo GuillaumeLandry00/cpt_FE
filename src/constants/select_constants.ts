@@ -1234,3 +1234,16 @@ export const CHOICES = [
     { label: `Oui`, value: `oui` },
     { label: `Non`, value: `non` },
 ]
+
+export const OBJET = [
+    { label: `Bon retour de voyage !`, value: `Bon retour de voyage !` },
+    { label: `Facture à produire Client / dossier`, value: `Facture à produire Client / dossier` },
+    { label: `Il est maintenant temps de faire les valises.. Bon Voyage !`, value: `Il est maintenant temps de faire les valises.. Bon Voyage !` },
+    { label: `Important à lire`, value: `Important à lire` },
+    { label: `Joyeuses Fêtes à vous et votre famille !`, value: `Joyeuses Fêtes à vous et votre famille !` },
+    { label: `Joyeux anniversaire à vous !`, value: `Joyeux anniversaire à vous !` },
+    { label: `Merci pour votre achat avec notre agence de voyages, voici votre facture.`, value: `Merci pour votre achat avec notre agence de voyages, voici votre facture.` },
+    { label: `Pour votre information`, value: `Pour votre information` },
+]
+
+export const SIGNATURE = {}

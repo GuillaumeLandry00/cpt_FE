@@ -17,7 +17,8 @@ const Passagers = ({ data }: any) => {
 
 
     useEffect(() => {
-        getClients();
+        const fetchClients = async () => { await getClients(); }
+        fetchClients();
         const url: URL = new URL(window.location.href);
         if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
             setClientsDiv([divClient(0)])

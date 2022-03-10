@@ -59,6 +59,7 @@ interface IReceipt {
     dossier_no: string,
     nom: string,
     data?: IGenericObject
+    courriel: string
 
 }
 interface ISingleProps {

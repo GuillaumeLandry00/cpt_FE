@@ -8,6 +8,7 @@ import FormReceipt from './components/Facturation/FormReceipt';
 import TableReceipt from './components/Facturation/TableReceipt';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Dashboard/NavBar";
+import EmailEditor from './components/Email/EmailEditor';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/dashboard/client/form/" element={<FormClient />} />
           <Route path="/dashboard/facturation/form" element={<FormReceipt />} />
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
+          <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
         </Routes>
       </BrowserRouter>
     </div>
