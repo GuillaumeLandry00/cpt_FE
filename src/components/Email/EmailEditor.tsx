@@ -4,7 +4,7 @@ import Select from "react-select";
 import { OBJET } from "../../constants/select_constants";
 import 'react-quill/dist/quill.snow.css';
 import * as constants from "../../constants/email_template";
-import { sendMails } from "../../functions/email";
+import { addCronTask, sendMails } from "../../functions/email";
 
 const EmailEditor: React.FC = () => {
 
@@ -14,6 +14,9 @@ const EmailEditor: React.FC = () => {
     const [signature, setSignature] = useState<string>(constants.SIGNATURE_CWT);
     const [value, setValue] = useState<string>(signature);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [enableDate, setEnableDate] = useState<boolean>(false);
+    const [sendingDate, setSendingDate] = useState<string>("");
+    const [type, setType] = useState<string>("");
     const url: URL = new URL(window.location.href);
 
 
@@ -28,7 +31,17 @@ const EmailEditor: React.FC = () => {
      * @param valueChange, value of the template
      */
     const handleSelect = (valueChange: string): void => {
+        setEnableDate(false);
+        setType(valueChange);
         switch (valueChange) {
+            case "birthday":
+                setEnableDate(true);
+                setValue(constants.MESSAGE_ANNIV + signature);
+                break;
+            case "christmas":
+                setEnableDate(true);
+                setValue(constants.MESSAGE_NOEL + signature);
+                break;
             case "facMSH":
                 setValue(constants.FACTURATION_MSH + signature);
                 break;
@@ -40,12 +53,13 @@ const EmailEditor: React.FC = () => {
                 break;
             case "depart":
                 setValue(constants.MESSAGE_DEPART + signature);
+                setEnableDate(true);
                 break;
             case "retour":
+                setEnableDate(true);
                 setValue(constants.MESSAGE_RETOUR + signature);
                 break;
             case "cwt":
-
                 setValue(value.replace(constants.SIGNATURE_BSP, constants.SIGNATURE_CWT));
                 setSignature(constants.SIGNATURE_CWT);
                 break;
@@ -65,10 +79,17 @@ const EmailEditor: React.FC = () => {
         if (selectedValue !== "") {
             setIsLoading(true);
             //we make the api request
-            if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
-                window.location.href = window.location.href += "&send=true"
+
+            //we check if we need to send the mail right now...
+            if (sendingDate) {
+                //we add it to the db
+                addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate);
             } else {
-                setErr("Il y a eu une erreur lors de l'envoie du courriel veuillez ressayer")
+                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
+                    window.location.href = window.location.href += "&send=true"
+                } else {
+                    setErr("Il y a eu une erreur lors de l'envoie du courriel veuillez ressayer")
+                }
             }
             setIsLoading(false);
         } else {
@@ -94,17 +115,18 @@ const EmailEditor: React.FC = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-l font-bold">Gabarit par défaut: </label>
                         <select name="templateSelector" defaultValue="aucun" id="templateSelector" onChange={(e) => { handleSelect(e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="aucun" >Aucun</option>
+                            <option value="birthday">Joyeux anniversaire</option>
                             <option value="facMSH">Facturation MSH</option>
-                            <option value="facVAPF">Facturation VAPF</option>
                             <option value="facProduire">Facture à produire</option>
                             <option value="depart">Message de départ</option>
                             <option value="retour">Message de retour</option>
+                            <option value="christmas">Joyeux Noel</option>
                         </select>
+                        {enableDate && (<> <span className=" mt-5 uppercase tracking-wide text-gray-700 text-l font-bold">Envoyer le: </span><input value={sendingDate} onChange={(e) => setSendingDate(e.target.value)} className="appearance-none  bg-gray-200 border border-gray-200 text-gray-700 mt-5 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="date" required /> </>)}
                         {err && (<span className="font-bold text-red-500 ">{err}</span>)}
                         <p className="text-m mt-5">De: <span className="font-bold text-l">{userEmail} </span> </p>
                         <p className="text-m">À: <span className="font-bold text-l">{url.searchParams.get("to")}, {"<AgentTechnique>"}</span> </p>
                         <div className="w-full ml-auto mr-auto flex row-auto">
-
                             <div className="w-1/2">
                                 <label className="block uppercase tracking-wide text-gray-700 text-l font-bold">Objet: </label>
                                 <Select options={OBJET} id="objectSelect" name="objectSelect" onChange={handleChange} value={OBJET.find(obj => obj.value === selectedValue)} className="block appearance-none w-full  text-gray-700 py-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
@@ -117,6 +139,8 @@ const EmailEditor: React.FC = () => {
                                 </select>
                             </div>
                         </div>
+
+
                         <div className="w-full">
                             <ReactQuill theme="snow" value={(value)} onChange={setValue} />
                         </div>
