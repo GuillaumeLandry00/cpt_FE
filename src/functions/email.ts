@@ -33,9 +33,8 @@ export const addCronTask = async (from: string, to: string, object: string, msg:
         method: "post",
         url: BASE_URL + "cron",
         data: params,
-        headers: { "Content-Type": 'application/x-www-form-urlencoded' },
-    });
-    console.log(response);
+        headers: { "Content-Type": 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
+    });;
     return response;
 }
 

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URL } from "../constants/constantes"
+import { BASE_URL, SITE_URL } from "../constants/constantes"
 
 export const checkLoginStatus = async (): Promise<any> => {
     try {
@@ -41,4 +41,13 @@ export const checkAuth = async (): Promise<any> => {
     } catch (error) {
 
     }
+}
+
+export const authToken = (response: any) => {
+    //Token failed so we delete the old one
+    if (response.code && response.code == 500) {
+        localStorage.setItem("token", "");
+        window.location.href = `${SITE_URL}?token_failed=true`;
+    }
+
 }

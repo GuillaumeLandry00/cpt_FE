@@ -1,6 +1,7 @@
 import axios from "axios"
 import { BASE_URL } from "../constants/constantes"
 import { IResponse } from "../interface/interfaces";
+import { authToken } from "./authentification";
 
 export const getAllClient = async (): Promise<any> => {
     try {
@@ -8,8 +9,8 @@ export const getAllClient = async (): Promise<any> => {
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
         console.log(utilisateur);
         let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
-
-        const response: IResponse = await axios.get(BASE_URL + "client/" + who);
+        const response: IResponse = await axios.get(BASE_URL + "client/" + who, { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        authToken(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -18,8 +19,12 @@ export const getAllClient = async (): Promise<any> => {
 
 
 export const getClient = async (id: string): Promise<any> => {
+
     try {
-        const response: IResponse = await axios.get(BASE_URL + "client/view/" + id);
+        const response: IResponse = await axios.get(BASE_URL + "client/view/" + id, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        });
+        authToken(response.data);
         return await response.data;
     } catch (error) {
         console.log(error);
@@ -29,11 +34,14 @@ export const getClient = async (id: string): Promise<any> => {
 export const getClientSearch = async (search: string): Promise<any> => {
     try {
         //We check if user is registred in local storage
-        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
-        console.log(utilisateur);
+        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
 
-        const response: IResponse = await axios.get(BASE_URL + `client/${who}?search=${search}`)
+        //We make the request
+        const response: IResponse = await axios.get(BASE_URL + `client/${who}?search=${search}`, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        })
+        authToken(response.data);
         return response.data;
     } catch (error: unknown) {
         console.log(error);
@@ -116,8 +124,9 @@ export const updateClient = async (client: any): Promise<any> => {
             method: "post",
             url: BASE_URL + "client/update",
             data: params,
-            headers: { "Content-Type": 'application/x-www-form-urlencoded' },
+            headers: { "Content-Type": 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
         });
+        authToken(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -151,8 +160,9 @@ export const addClient = async (client: any): Promise<any> => {
             method: "post",
             url: BASE_URL + "client/addclient",
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { "Content-Type": "multipart/form-data", "x-access-token": localStorage.getItem('token') as string },
         });
+        authToken(response.data);
         return response.data;
     } catch (error) {
         console.log(error);

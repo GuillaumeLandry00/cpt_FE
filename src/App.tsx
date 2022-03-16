@@ -9,13 +9,14 @@ import TableReceipt from './components/Facturation/TableReceipt';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Dashboard/NavBar";
 import EmailEditor from './components/Email/EmailEditor';
+import { SITE_URL } from './constants/constantes';
 
 function App() {
   return (
     <div className="App">
 
       <BrowserRouter>
-        {localStorage.getItem("token") ? (<NavBar />) : ""}
+        {window.location.href !== SITE_URL ? (<NavBar />) : ""}
         <Routes>
 
           <Route path="/" element={<Login />} />

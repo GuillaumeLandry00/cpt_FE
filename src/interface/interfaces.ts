@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 interface IResponse {
-    code: number,
+    code?: number,
 }
 
 interface IResponseAuth extends IResponse {

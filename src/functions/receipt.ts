@@ -2,6 +2,7 @@ import axios from "axios"
 import { BASE_URL } from "../constants/constantes"
 import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces";
 import download from 'downloadjs'
+import { authToken } from "./authentification";
 
 export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
@@ -27,13 +28,9 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: str
                 receipt.itinerary[key.charAt(key.length - 1)][name] = value;
                 break;
             case "T":
-
-
                 if (receipt.product.length <= key.charAt(key.length - 1)) {
                     receipt.product.push({});
                 }
-
-
                 receipt.product[key.charAt(key.length - 1)][name] = value;
                 break;
             case "O":
@@ -61,15 +58,23 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
     let response: IGenericObject;
 
     if (action == "add") {
-        response = await axios.post(BASE_URL + "receipt/", receipt);
+        response = await axios({
+            method: "post",
+            url: BASE_URL + "receipt/",
+            data: receipt,
+            headers: { "x-access-token": localStorage.getItem('token') as string },
+        });
+
     } else {
-        console.log("PATCH");
-        console.log(receipt);
-
-        response = await axios.patch(BASE_URL + "receipt/", receipt);
+        response = await axios({
+            method: "patch",
+            url: BASE_URL + "receipt/",
+            data: receipt,
+            headers: { "x-access-token": localStorage.getItem('token') as string },
+        });
     }
-
-    return response;
+    authToken(response.data);
+    return response.data;
 }
 
 export const getReceipts = async (search: string = "", id: string = ""): Promise<any> => {
@@ -78,7 +83,10 @@ export const getReceipts = async (search: string = "", id: string = ""): Promise
         let request: string = `${BASE_URL}receipt/${utilisateur.nom}?search=${search}`;
         if (id) request += `&id=${id}`;
 
-        const response: IResponse = await axios.get(request);
+        const response: IResponse = await axios.get(request, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        });
+        authToken(response.data);
         return response.data;
     } catch (error: unknown) {
         console.log(error);
