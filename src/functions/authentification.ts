@@ -1,28 +1,15 @@
 import axios from "axios"
 import { BASE_URL, SITE_URL } from "../constants/constantes"
 
-export const checkLoginStatus = async (): Promise<any> => {
+export const checkLoginStatus = async (email: string, password: string): Promise<any> => {
     try {
-        const response: any = await axios.post(BASE_URL + "auth/login", { "email": "landry.guillaume00@hotmail.com", "password": "54321Guy" });
+        const response: any = await axios.post(BASE_URL + "auth/login", { "email": email, "password": password });
         return response.data;
     } catch (error) {
         console.log(error);
     }
 }
 
-/**
- * This function check 
- * @returns boolean
- */
-export const redirectLogin = (): boolean => {
-    let rtr: boolean = false;
-
-    if (localStorage.getItem("token") !== "") {
-        rtr = true;
-    }
-
-    return rtr;
-}
 
 export const checkAuth = async (): Promise<any> => {
     try {

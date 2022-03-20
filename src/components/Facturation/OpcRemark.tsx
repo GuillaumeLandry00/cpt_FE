@@ -11,7 +11,7 @@ const OpcRemarks = ({ data, opcAmount }: ISingleProps) => {
     //Here we deal with react-select async problem
     useEffect(() => {
         const url: URL = new URL(window.location.href);
-        if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
+        if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
             setOpcDiv([divOpc(0)])
         }
     }, [])

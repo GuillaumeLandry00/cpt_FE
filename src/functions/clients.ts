@@ -6,7 +6,7 @@ import { authToken } from "./authentification";
 export const getAllClient = async (): Promise<any> => {
     try {
         //We check if user is registred in local storage
-        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") || '{}');
+        let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         console.log(utilisateur);
         let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
         const response: IResponse = await axios.get(BASE_URL + "client/" + who, { headers: { "x-access-token": localStorage.getItem('token') as string } });
@@ -168,3 +168,13 @@ export const addClient = async (client: any): Promise<any> => {
         console.log(error);
     }
 }
+
+/**
+ * 
+ * @param string, string to capitalize 
+ * @returns 
+ */
+export const capitalizeString = (string: string): string => {
+    string = string.toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1);;
+}   

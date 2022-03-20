@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { redirectLogin } from "../../functions/authentification";
 import { getClient } from "../../functions/clients";
-import NavBar from "../Dashboard/NavBar";
 import { Link } from "react-router-dom";
 
 const ViewClient = ({ id }: any) => {

@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { redirectLogin } from "../../functions/authentification";
 import { IUtilisateur } from "../../interface/interfaces";
 import CronTable from "../Email/CronTable";
 
 const Dashboard = () => {
 
     const [utilisateur, setUtilisateur] = useState<any>(JSON.parse(localStorage.getItem("utilisateur") as string));
-
-    //we check if the user has the right
-    useEffect(() => {
-        if (redirectLogin()) {
-            //navigate("/");
-        }
-        console.log();
-    }, [])
-
 
     return (
         <>

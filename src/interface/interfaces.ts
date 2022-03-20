@@ -71,4 +71,9 @@ interface ISingleProps {
 interface IGenericObject {
     [key: string]: any
 }
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps }
+
+interface ISelect {
+    value: string | number,
+    label: string
+}
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps, ISelect }

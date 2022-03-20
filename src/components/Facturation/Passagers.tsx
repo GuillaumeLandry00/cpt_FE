@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllClient } from "../../functions/clients";
-import { IClient, IGenericObject, ISingleProps, IUtilisateur } from "../../interface/interfaces";
+import { capitalizeString, getAllClient } from "../../functions/clients";
+import { IClient, IGenericObject, ISelect, ISingleProps, IUtilisateur } from "../../interface/interfaces";
 import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
@@ -13,20 +13,24 @@ const Passagers = ({ data }: any) => {
     const [clients, setClients] = useState<any>([]);
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
 
-
-
-
+    //First off, we go fetch all the clients from the DB
     useEffect(() => {
-        const fetchClients = async () => { await getClients(); }
+        const fetchClients = async () => { await getClients() }
         fetchClients();
-        const url: URL = new URL(window.location.href);
-        if (!(url.searchParams.get("id") && url.searchParams.get("action") == "edit")) {
-            setClientsDiv([divClient(0)])
-        }
     }, [])
 
+    //Now all the clients are fetch from the db
+    useEffect(() => {
+        const url: URL = new URL(window.location.href);
+        if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
+            setClientsDiv([divClient(0)])
+        }
+    }, [clients])
+
+    //If we update or view an existing receipt, we put all the values as default
     useEffect(() => {
         if (data != undefined) {
+            console.log("We enter here");
             setCounter(data.length);
             for (let i = 0; i < data.length; i++) {
                 clientsDiv[i] = divClient(i);
@@ -36,11 +40,11 @@ const Passagers = ({ data }: any) => {
 
     const getClients = async () => {
         let clientsDirty = await getAllClient();
-        let clientClean: any = [];
+        let clientClean: Array<ISelect> = [];
         clientsDirty.map((item: IClient) => {
-            clientClean.push({ value: item.ID, label: item.Nom + ", " + item.Prenom });
+            clientClean.push({ value: item.ID, label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
         });
-        setClients(clientClean)
+        setClients(clientClean);
     }
 
 
@@ -54,7 +58,6 @@ const Passagers = ({ data }: any) => {
                 setCounter(counter + 1);
                 setClientsDiv([...clientsDiv, divClient(counter)]);
             }
-
         } else {
             if (counter > 2) {
                 setCounter(counter - 1);
@@ -68,14 +71,12 @@ const Passagers = ({ data }: any) => {
 
 
     //Component
-    const divClient = (id: number,) => {
+    const divClient = (id: number) => {
         return (
-
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
                 {/* We set up a default value if needed it */}
-                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: data[id].label, value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: data[id].label.capitalize(), value: data[id].value.capitalize() } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
         );
     }

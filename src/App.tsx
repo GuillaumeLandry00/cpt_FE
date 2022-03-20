@@ -16,7 +16,7 @@ function App() {
     <div className="App">
 
       <BrowserRouter>
-        {window.location.href !== SITE_URL ? (<NavBar />) : ""}
+        {localStorage.getItem("token") !== "" ? (<NavBar />) : ""}
         <Routes>
 
           <Route path="/" element={<Login />} />
