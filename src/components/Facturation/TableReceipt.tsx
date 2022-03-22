@@ -10,6 +10,7 @@ import { GrDocumentPdf } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
 import { GrFormView } from 'react-icons/gr';
 import { IReceipt } from "../../interface/interfaces";
+import { capitalizeString } from "../../functions/clients";
 
 const TableReceipt = () => {
 
@@ -74,7 +75,7 @@ const TableReceipt = () => {
                         <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
                             <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{receipt.dossier_no}</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.nom}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
                                 <Link to={`form/?action=view&id=${receipt.facturationID}`}>
                                     <GrFormView size={22} />

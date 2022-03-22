@@ -13,8 +13,8 @@ const NavBar = () => {
                             <div className="flex-shrink-0">
                                 <Link to={"/dashboard"}>
                                     <img
-                                        className="h-8 w-8"
-                                        src="https://www.voyagesgabymsh.ca/wp-content/uploads/2019/07/ctww.jpg"
+                                        className="h-10 w-22"
+                                        src="https://www.voyagesgabymsh.ca/wp-content/uploads/2021/07/CWT-2.png"
                                         alt="logo"
                                     />
                                 </Link>

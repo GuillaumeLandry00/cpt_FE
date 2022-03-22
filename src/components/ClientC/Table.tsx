@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from "react";
-import { getAllClient, getClientSearch } from "../../functions/clients";
+import { capitalizeString, deleteClient, getAllClient, getClientSearch } from "../../functions/clients";
 import { Link } from "react-router-dom";
 
 //The icons
@@ -16,6 +16,8 @@ const Table = () => {
     const [data, setData] = useState<IClient[]>([]);
     const [search, setSearch] = useState<string>("");
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [clientId, setClientId] = useState<number>(0);
+    const url = new URL(window.location.href);
 
 
     //Make the api request
@@ -46,7 +48,7 @@ const Table = () => {
                     Ajouter un client
                 </Link>
             </p>
-            <h2 className="text-center mt-8 font-bold text-xl">Liste de mes clients</h2>
+            <h2 className="text-center mt-8 font-bold text-xl">Liste de mes clients {url.searchParams.get("deleted") == "true" && (<span className="text-green-500 font-semibold text-lg">Client supprimé</span>)} {url.searchParams.get("deleted") == "false" && (<span className="text-red-500 font-semibold text-lg">Il y a eu une erreur, veuillez ressayer</span>)}</h2>
 
             <div className="pt-2 relative mx-auto text-gray-600" >
                 <input onKeyDown={(e) => e.key === 'Enter' ? getData() : ""} id="searchInput" className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full" type="search" name="rechercher" placeholder="Rechercher par nom & prénom" onChange={(e) => setSearch(e.target.value)} value={search} />
@@ -68,13 +70,11 @@ const Table = () => {
                             <div className="relative p-4">
                                 <div className="flex flex-shrink-0 flex-wrap items-center p-4 justify-around rounded-b-md">
                                     <button
-                                        onClick={() => {
-                                            setShowModal(false); console.log("click");
-                                        }}
+                                        onClick={() => { setShowModal(false); }}
                                         className=" px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
                                     >Non, revenir en arrière
                                     </button>
-                                    <button onClick={() => { setShowModal(true); console.log("click") }} className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Oui, je confirme</button>
+                                    <button onClick={() => { setShowModal(true); deleteClient(clientId) }} className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Oui, je confirme</button>
                                 </div>
                             </div>
                         </div>
@@ -106,8 +106,8 @@ const Table = () => {
                     {data.map((client, index) =>
                         <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
                             <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{client.ID}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Nom}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Prenom}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Nom)}</td>
+                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Prenom)}</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Adresse}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
                                 <Link to={`view/?id=${client.ID}`}>
@@ -117,7 +117,7 @@ const Table = () => {
                                     <FcEditImage size={22} className="ml-3" />
                                 </Link>
                                 <button onClick={() => {
-                                    setShowModal(true); console.log("click");
+                                    setShowModal(true); setClientId(client.ID)
                                 }}>
                                     <MdOutlineDeleteForever size={22} color="#fa1e3c" className="ml-3" />
                                 </button>

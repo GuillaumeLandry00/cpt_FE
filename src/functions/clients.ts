@@ -3,13 +3,12 @@ import { BASE_URL } from "../constants/constantes"
 import { IResponse } from "../interface/interfaces";
 import { authToken } from "./authentification";
 
-export const getAllClient = async (): Promise<any> => {
+export const getAllClient = async (limit = 25): Promise<any> => {
     try {
         //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        console.log(utilisateur);
         let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
-        const response: IResponse = await axios.get(BASE_URL + "client/" + who, { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        const response: IResponse = await axios.get(BASE_URL + "client/" + who + `?limit=${limit}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         return response.data;
     } catch (error) {
@@ -48,8 +47,26 @@ export const getClientSearch = async (search: string): Promise<any> => {
     }
 }
 
-export const deleteClient = async () => {
+export const deleteClient = async (id: number) => {
+    try {
 
+        //We make the request
+        const response: IResponse = await axios.delete(BASE_URL + `client/delete/${id}`, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        })
+        authToken(response.data);
+
+
+        if (response.data.affectedRows > 0) {
+
+        } else {
+
+        }
+        window.location.href = window.location.href += response.data.affectedRows > 0 ? "/?deleted=true" : "/?deleted=false";
+
+    } catch (error: unknown) {
+        console.log(error);
+    }
 }
 
 export const validateClient = (client: any): string[] => {
@@ -176,5 +193,12 @@ export const addClient = async (client: any): Promise<any> => {
  */
 export const capitalizeString = (string: string): string => {
     string = string.toLowerCase();
-    return string.charAt(0).toUpperCase() + string.slice(1);;
+    let arrString = string.split(" ");
+
+    let capitalizedString = "";
+    for (let i = 0; i < arrString.length; i++) {
+        capitalizedString += arrString[i].charAt(0).toUpperCase() + arrString[i].slice(1) + " ";
+    }
+
+    return capitalizedString;
 }   

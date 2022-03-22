@@ -30,7 +30,7 @@ const Passagers = ({ data }: any) => {
     //If we update or view an existing receipt, we put all the values as default
     useEffect(() => {
         if (data != undefined) {
-            console.log("We enter here");
+
             setCounter(data.length);
             for (let i = 0; i < data.length; i++) {
                 clientsDiv[i] = divClient(i);
@@ -39,7 +39,7 @@ const Passagers = ({ data }: any) => {
     }, [data])
 
     const getClients = async () => {
-        let clientsDirty = await getAllClient();
+        let clientsDirty = await getAllClient(500);
         let clientClean: Array<ISelect> = [];
         clientsDirty.map((item: IClient) => {
             clientClean.push({ value: item.ID, label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
@@ -76,7 +76,7 @@ const Passagers = ({ data }: any) => {
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
                 {/* We set up a default value if needed it */}
-                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: data[id].label.capitalize(), value: data[id].value.capitalize() } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data.length - 1 >= id ? { label: capitalizeString(data[id].label), value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
         );
     }

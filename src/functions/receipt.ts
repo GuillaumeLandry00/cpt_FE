@@ -4,7 +4,7 @@ import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces
 import download from 'downloadjs'
 import { authToken } from "./authentification";
 
-export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
+export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
@@ -50,7 +50,7 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: str
 
     //we add an ID if we update 
     if (id) receipt.id = id;
-    sendReceipt(receipt, action);
+    return await sendReceipt(receipt, action);
 }
 
 

@@ -117,13 +117,32 @@ Anglais&nbsp;:<br>
 
 export const FACTURE_A_PRODUIRE: string = `Bonjour,<div><br></div><div>Voici ma facture à produire.</div><div><br></div><div>Merci et bonne journée!</div>`;
 
-export const MESSAGE_DEPART: string = `A bientôt!<div><br></div><div><u>Merci</u></div>`;
+export const MESSAGE_DEPART: string = `
+<div>
+	<h1>Votre voyage approche à grand pas ! </h1>
+	<p>Assurez-vous d'être bien couvert en cas d'imprévu.</p>
+	<p>Avez-vous bien une assurance voyage ?</p>
+	<p>Au besoin, appelez-moi pour plus de détails.</p>
+	<h3>Merci de votre confiance et n'hésitez pas à communiquer avec nous si vous avez besoin d'aide avant ou pendant votre voyage</h3>
+</div>
+<p> Profitez-en bien et surtout, BON VOYAGE!</p>`;
 
-export const MESSAGE_RETOUR: string = `Bon retour de la part de VAPF<div><br></div><div><i>Merci</i></div>`;
+export const MESSAGE_RETOUR: string = `
+<div>
+	<h1>BON RETOUR À VOUS !</h1>
+	<p>En espérant que vous avez profité pleinement de vos vacances et que vous en garderez de beaux souvenirs.</p>
+	<p>N’hésitez pas à nous faire part de vos commentaires.</p>
+	<p>Au plaisir de vous servir à nouveau lors de votre prochain voyage!</p>
+	<h3>Merci de votre confiance et n'hésitez pas à communiquer avec nous si vous avez besoin d'aide avant ou pendant votre voyage</h3>
+</div>
+<p> Profitez-en bien et surtout, BON VOYAGE!</p>`;
 
-export const MESSAGE_ANNIV: string = `Bonne fête de la part de VAPF<div><br></div><div><i>Merci</i></div>`;
+export const MESSAGE_ANNIV: string = `
+<p>En cette journée d'anniversaire, nous vous souhaitons une journée remplie de bonheur et que tous vos rêves deviennent réalité!</p>
+<h3>Joyeux anniversaire de notre regroupement</h3>
+`;
 
-export const MESSAGE_NOEL: string = `Joyeux Noël de la part de VAPF<div><br></div><div><i>Merci</i></div>`;
+export const MESSAGE_NOEL: string = `<p>Il n’y a pas de moment mieux choisi pour vous dire Merci ! </p><p>C’est aussi, pour nous, l’occasion de vous souhaiter, à vous et à vos proches, une merveilleuse saison des Fêtes et une très heureuse nouvelle année.</p>`;
 
 export const SIGNATURE_BSP: string = `<div>1040 BOUL MGR DE LAVAL</div><div>BAIE ST PAUL&nbsp;</div><div>G3Z 0G3</div><br>
 	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/03/bsp.jpg" width="300" border="1" style="margin:3px;">`

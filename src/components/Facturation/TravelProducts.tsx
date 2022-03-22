@@ -95,11 +95,15 @@ const TravelProducts = ({ data, setOpcAmount }: ISingleProps) => {
     //This we calculate the total amount of OPC
     const opcCalculator = (): void => {
         let sum = 0
-        for (let i = 0; i < counter; i++) {
-            let qty: number = parseInt((document.getElementById(`qty${i}`) as HTMLInputElement).value);
-            let price: number = parseInt((document.getElementById(`prix${i}`) as HTMLInputElement).value);
+        for (let i = -1; i < counter; i++) {
+            let qty: number = parseInt((document.getElementById(`qty${i + 1}`) as HTMLInputElement).value);
+            let price: number = parseInt((document.getElementById(`prix${i + 1}`) as HTMLInputElement).value);
+
+
             sum += qty * price;
         }
+        console.log("The sum: ", sum);
+
         if (setOpcAmount) setOpcAmount(sum);
     }
 
