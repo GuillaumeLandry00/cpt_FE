@@ -1,4 +1,5 @@
 import axios from "axios"
+import { resolve } from "path";
 import { BASE_URL, SITE_URL } from "../constants/constantes"
 
 export const checkLoginStatus = async (email: string, password: string): Promise<any> => {
@@ -9,6 +10,35 @@ export const checkLoginStatus = async (email: string, password: string): Promise
         console.log(error);
     }
 }
+
+/**
+ * This function will send a request for changing a password
+ */
+export const sendPasswordResetToken = async (email: string) => {
+    try {
+        const response = await axios.post(BASE_URL + "auth/lostpassword", { email: email });
+        console.log(response);
+
+        return response.data;
+    } catch (error: unknown) {
+        console.log(error);
+    }
+}
+
+export const changePassword = async (password: string, token: string) => {
+    try {
+
+        const response = await axios.post(BASE_URL + "auth/changepassword", { password: password, token: token });
+        console.log(response);
+        return response.data.response;
+
+    } catch (error: unknown) {
+        console.log(error);
+
+    }
+}
+
+
 
 
 export const checkAuth = async (): Promise<any> => {
