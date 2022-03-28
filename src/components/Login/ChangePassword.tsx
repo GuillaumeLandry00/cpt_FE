@@ -14,8 +14,6 @@ const ChangePassword = () => {
         setErr("")
         if (password == passwordConfirm) {
             const response = await changePassword(password, url.searchParams.get("refresh_token") as string);
-            console.log(response);
-
             if (!response.name) {
                 window.location.href = SITE_URL + "?password_changed=true";
             } else {

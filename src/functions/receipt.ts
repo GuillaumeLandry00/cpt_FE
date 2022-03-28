@@ -10,7 +10,6 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
     for (const [key, value] of Object.entries(values)) {
 
-        //console.log(`${key}: ${value}`);
         let name = key;
         name = name.substring(1, key.length - 2);
 

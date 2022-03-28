@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URL } from "../constants/constantes"
+import { BASE_URL, SITE_URL } from "../constants/constantes"
 import { IResponse } from "../interface/interfaces";
 import { authToken } from "./authentification";
 
@@ -50,6 +50,7 @@ export const getClientSearch = async (search: string): Promise<any> => {
 export const deleteClient = async (id: number) => {
     try {
 
+
         //We make the request
         const response: IResponse = await axios.delete(BASE_URL + `client/delete/${id}`, {
             headers: { "x-access-token": localStorage.getItem('token') as string }
@@ -57,12 +58,7 @@ export const deleteClient = async (id: number) => {
         authToken(response.data);
 
 
-        if (response.data.affectedRows > 0) {
-
-        } else {
-
-        }
-        window.location.href = window.location.href += response.data.affectedRows > 0 ? "/?deleted=true" : "/?deleted=false";
+        window.location.href = `${SITE_URL}dashboard/client` + (response.data.affectedRows > 0 ? "/?deleted=true" : "/?deleted=false");
 
     } catch (error: unknown) {
         console.log(error);
@@ -89,7 +85,7 @@ export const validateClient = (client: any): string[] => {
 
     // Validate the address
     regExp = new RegExp(/^([#.0-9a-zA-Z\s,']-?)+$/, "i");
-    console.log(client.adresse);
+
     if (!regExp.test(client.adresse)) {
         errors.push("address");
     }
@@ -156,6 +152,8 @@ export const updateClient = async (client: any): Promise<any> => {
 export const addClient = async (client: any): Promise<any> => {
     try {
         let utilisateur: any = JSON.parse(localStorage.getItem("utilisateur") as string);
+        let d = new Date();
+
         //We create formData for the request
         const formData: FormData = new FormData();
         formData.append("genre", client.genre);
@@ -171,7 +169,7 @@ export const addClient = async (client: any): Promise<any> => {
         formData.append("langue", client.langue);
         formData.append("agent", utilisateur.nom);
         formData.append("note", client.note);
-        formData.append("passport_pdf", client.file);
+        formData.append("passport_pdf", d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + d.getHours() + "_" + client.file.name);
 
         const response: any = await axios({
             method: "post",

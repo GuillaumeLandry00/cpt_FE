@@ -1,15 +1,18 @@
 import axios, { Axios } from "axios";
 import { IconContext } from "react-icons/lib";
-import { BASE_URL } from "../constants/constantes";
+import { BASE_URL, EMAIL } from "../constants/constantes";
 import { IGenericObject } from "../interface/interfaces";
 
 export const sendMails = async (from: string, to: string, object: string, msg: string): Promise<boolean> => {
 
     //We build the body of the request
     let formData = new FormData();
-    formData.append("from", from);
+    formData.append("from", EMAIL);
     formData.append("to", to);
     formData.append("object", object);
+    //we add the custom signature 
+    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+
     formData.append("msg", msg);
 
     const response: boolean = await axios.post("https://www.voyagesgabymsh.ca/wp-json/mail/send", formData)
@@ -21,13 +24,18 @@ export const addCronTask = async (from: string, to: string, object: string, msg:
     //We build the body of the request
     const params: URLSearchParams = new URLSearchParams();
     params.append("sending_date", sendingDate);
-    params.append("from", from);
+    params.append("from", EMAIL);
     params.append("to", to);
     params.append("object", object);
+
+    //we add the custom signature 
+    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+
+
     params.append("msg", msg);
     params.append("type", type);
 
-    //console.log(from, to, type, sendingDate, msg);
+
 
     const response = await axios({
         method: "post",

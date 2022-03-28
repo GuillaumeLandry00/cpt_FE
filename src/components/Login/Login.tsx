@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { checkLoginStatus, sendPasswordResetToken } from "../../functions/authentification";
 import { Link, useNavigate } from "react-router-dom"
 import ChangePassword from "./ChangePassword";
+import { SITE_URL } from "../../constants/constantes";
 
 const Login = () => {
 
@@ -22,14 +23,14 @@ const Login = () => {
         }
 
         if (data) {
-            //console.log(data);
+
             if (data.code === 200) {
 
 
                 //We register the token
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("utilisateur", JSON.stringify(data.utilisateur));
-                navigate("/dashboard")
+                window.location.href = `${SITE_URL}dashboard`
             } else {
                 setErr(data['message']);
             }

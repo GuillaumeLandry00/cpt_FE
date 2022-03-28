@@ -21,6 +21,7 @@ const FormClient = () => {
     const [errors, setErrors] = useState<string[]>([]);
     const [confirmation, setConfirmation] = useState<string>("");
     const [id, setId] = useState<any>();
+    const [linkFile, setLinkFile] = useState<string>("");
     const url = new URL(window.location.href);
 
     /**
@@ -42,6 +43,7 @@ const FormClient = () => {
         setZip(client[0].Zip);
         setGender(client[0].gender);
         setNote(client[0].Note);
+        setLinkFile(client[0].Passeport)
     }
 
     //this is how we know if we update the client or add a new one
@@ -76,6 +78,8 @@ const FormClient = () => {
             //We confirm the changes
             if (clientDb.affectedRows > 0) {
                 setConfirmation(clientDb);
+                let myForm = document.getElementById("myForm") as HTMLFormElement;
+                myForm.reset();
                 if (clientDb !== "") setErrors([]);
             }
         }
@@ -84,7 +88,7 @@ const FormClient = () => {
 
     return (
         <>
-            <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8">
+            <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8" id="myForm">
                 <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Utilisateur {id ? "Modifié" : "Ajouté"}</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -247,7 +251,9 @@ const FormClient = () => {
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold">Téléverser le passport </label>
                         <small className="tracking-wide text-blue-600 text-xs font-bold mb-4">Veuillez bien le renommer avant</small>
+
                         <input onChange={(e) => setFile(e.target.files![0])} type="file" accept="application/pdf" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        {linkFile && (<p className="text-orange-400">**Attention Vous avez déjà ajouté un passeport, modifier le passeport va supprimer l'ancien</p>)}
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-3">
                         <label className="tracking-wide text-gray-700 text-sm font-bold  mb-3">Veuillez valider toutes les informations</label>

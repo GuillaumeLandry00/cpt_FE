@@ -6,19 +6,19 @@ import ViewClient from './components/ClientC/ViewClient';
 import FormClient from './components/ClientC/FormClient';
 import FormReceipt from './components/Facturation/FormReceipt';
 import TableReceipt from './components/Facturation/TableReceipt';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Dashboard/NavBar";
 import EmailEditor from './components/Email/EmailEditor';
 import { SITE_URL } from './constants/constantes';
 
 function App() {
+
   return (
     <div className="App">
 
-      <BrowserRouter>
-        {localStorage.getItem("token") !== "" ? (<NavBar />) : ""}
+      <Router >
+        {window.location.pathname !== "/" ? (<NavBar />) : ""}
         <Routes>
-
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/client" element={<Client />} />
@@ -28,7 +28,7 @@ function App() {
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }

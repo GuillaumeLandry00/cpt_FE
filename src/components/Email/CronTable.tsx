@@ -11,8 +11,6 @@ const CronTable = ({ utilisateur }: any) => {
     //Make the api request and get all task in table
     useEffect(() => {
         const getData = async () => {
-            console.log(await getCronTask(utilisateur.email));
-
             setData([...await getCronTask(utilisateur.email)]);
         };
         getData();

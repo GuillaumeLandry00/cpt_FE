@@ -144,9 +144,10 @@ export const MESSAGE_ANNIV: string = `
 
 export const MESSAGE_NOEL: string = `<p>Il n’y a pas de moment mieux choisi pour vous dire Merci ! </p><p>C’est aussi, pour nous, l’occasion de vous souhaiter, à vous et à vos proches, une merveilleuse saison des Fêtes et une très heureuse nouvelle année.</p>`;
 
-export const SIGNATURE_BSP: string = `<div>1040 BOUL MGR DE LAVAL</div><div>BAIE ST PAUL&nbsp;</div><div>G3Z 0G3</div><br>
+export const SIGNATURE_BSP: string = `<p style="color: blue;">Test</p><br><div>1040 BOUL MGR DE LAVAL</div><div>BAIE ST PAUL&nbsp;</div><div>G3Z 0G3</div><br>
 	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/03/bsp.jpg" width="300" border="1" style="margin:3px;">`
 
-export const SIGNATURE_CWT: string = `<div>200 Curé-Labelle, local 103 B</div><div>Ste-Thérèse&nbsp;</div><div>J7E 2X5</div><br>
+export const SIGNATURE_CWT: string = `<br><div>200 Curé-Labelle, local 103 B</div><div>Ste-Thérèse&nbsp;</div><div>J7E 2X5</div><br>
 	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/03/cwt.jpg" width="300" border="1" style="margin:3px;">`
+
 

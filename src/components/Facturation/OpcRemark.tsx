@@ -41,9 +41,6 @@ const OpcRemarks = ({ data, opcAmount }: ISingleProps) => {
             </div>
         )
     }
-
-    console.log("AMOUNT OPC", opcAmount);
-
     return (
         <>
             <h1 className="text-2xl  text-center border-b-2 ">Sommaire *OPC / Remarques</h1>

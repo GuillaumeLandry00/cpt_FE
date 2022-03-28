@@ -17,8 +17,6 @@ export const checkLoginStatus = async (email: string, password: string): Promise
 export const sendPasswordResetToken = async (email: string) => {
     try {
         const response = await axios.post(BASE_URL + "auth/lostpassword", { email: email });
-        console.log(response);
-
         return response.data;
     } catch (error: unknown) {
         console.log(error);
@@ -29,7 +27,6 @@ export const changePassword = async (password: string, token: string) => {
     try {
 
         const response = await axios.post(BASE_URL + "auth/changepassword", { password: password, token: token });
-        console.log(response);
         return response.data.response;
 
     } catch (error: unknown) {

@@ -102,8 +102,6 @@ const TravelProducts = ({ data, setOpcAmount }: ISingleProps) => {
 
             sum += qty * price;
         }
-        console.log("The sum: ", sum);
-
         if (setOpcAmount) setOpcAmount(sum);
     }
 

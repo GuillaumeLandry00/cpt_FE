@@ -72,7 +72,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }, [data])
 
     const handleClick = (action: string): void => {
-        console.log("alllo");
+
 
         if (action === "add") {
             if (counter < 12) {
@@ -80,14 +80,12 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 setPayementsDiv([...payementsDiv, divPayementsDiv(counter + 1)]);
             }
         } else {
-            console.log("allo dans le delete", counter);
+
 
             if (counter >= 1) {
                 setCounter(counter - 1);
                 let newArray: Array<any> = payementsDiv;
                 newArray.pop();
-                console.log("new", newArray);
-
                 setPayementsDiv([...newArray]);
             }
         }
