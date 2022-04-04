@@ -82,6 +82,9 @@ export const validateClient = (client: any): string[] => {
     if (!regExp.test(client.ville.trim())) {
         errors.push("city");
     }
+    if (client.naissance == "") {
+        errors.push("birthdate");
+    }
 
     // Validate the address
     regExp = new RegExp(/^([#.0-9a-zA-Z\s,']-?)+$/, "i");
@@ -169,7 +172,9 @@ export const addClient = async (client: any): Promise<any> => {
         formData.append("langue", client.langue);
         formData.append("agent", utilisateur.nom);
         formData.append("note", client.note);
-        formData.append("passport_pdf", d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + d.getHours() + "_" + client.file.name);
+        formData.append("passport_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + d.getHours() + "_" + client.file.name) : "No passport");
+
+
 
         const response: any = await axios({
             method: "post",

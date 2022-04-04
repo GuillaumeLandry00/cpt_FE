@@ -17,6 +17,7 @@ const EmailEditor: React.FC = () => {
     const [enableDate, setEnableDate] = useState<boolean>(false);
     const [sendingDate, setSendingDate] = useState<string>("");
     const [type, setType] = useState<string>("");
+    const [response, setResponse] = useState<string>("");
     const url: URL = new URL(window.location.href);
 
 
@@ -76,17 +77,22 @@ const EmailEditor: React.FC = () => {
 
     const handleBtn = async (): Promise<void> => {
         setErr("")
+        setResponse("");
         if (selectedValue !== "") {
             setIsLoading(true);
             //we make the api request
 
             //we check if we need to send the mail right now...
             if (sendingDate) {
+
                 //we add it to the db
-                addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate);
+                if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {
+                    setResponse("Tâche enregistré");
+                }
+                // console.log(await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate));
             } else {
                 if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
-                    window.location.href = window.location.href += "&send=true"
+                    setResponse("Le courriel a été envoyé")
                 } else {
                     setErr("Il y a eu une erreur lors de l'envoie du courriel veuillez ressayer")
                 }
@@ -105,7 +111,7 @@ const EmailEditor: React.FC = () => {
         <>
             <div className="w-4/5 ml-auto mr-auto">
                 <h1 className="text-xl font-bold text-center mt-5">Envoie de courriel</h1>
-                {(url.searchParams.get("send") as string) && (<span className="text-green-500 font-bold">Courriel envoyée</span>)}
+                {(response) && (<span className="text-green-500 font-bold">Courriel envoyée</span>)}
                 {isLoading ? (
                     <div className="w-full mt-10">
                         <h3 className="text-l font-bold text-center mt-5">Envoie de courriel</h3>

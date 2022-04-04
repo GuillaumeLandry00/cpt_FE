@@ -20,8 +20,6 @@ const OpcRemarks = ({ data, opcAmount }: ISingleProps) => {
     useEffect(() => {
         if (data != undefined) {
             setCounter(data.length);
-            let newArr = new Array(data.length);
-
             setOpcDiv([divOpc(0)])
         }
     }, [data])

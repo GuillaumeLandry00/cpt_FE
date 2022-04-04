@@ -21,25 +21,30 @@ const Passagers = ({ data }: any) => {
 
     //Now all the clients are fetch from the db
     useEffect(() => {
-        const url: URL = new URL(window.location.href);
-        if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
-            setClientsDiv([divClient(0)])
+
+        if (clients.length > 0) {
+
+            const url: URL = new URL(window.location.href);
+            if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
+                setClientsDiv([divClient(0)])
+            }
         }
     }, [clients])
 
     //If we update or view an existing receipt, we put all the values as default
     useEffect(() => {
-        if (data != undefined) {
-
-            setCounter(data.length);
-            for (let i = 0; i < data.length; i++) {
-                clientsDiv[i] = divClient(i);
+        if (clients.length > 0) {
+            if (data != undefined) {
+                setCounter(data.length);
+                for (let i = 0; i < data.length; i++) {
+                    clientsDiv[i] = divClient(i);
+                }
             }
         }
-    }, [data])
+    }, [data, clients])
 
     const getClients = async () => {
-        let clientsDirty = await getAllClient(500);
+        let clientsDirty = await getAllClient(250);
         let clientClean: Array<ISelect> = [];
         clientsDirty.map((item: IClient) => {
             clientClean.push({ value: item.ID, label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
@@ -72,6 +77,8 @@ const Passagers = ({ data }: any) => {
 
     //Component
     const divClient = (id: number) => {
+        console.log(clients);
+
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
