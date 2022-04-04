@@ -1,10 +1,11 @@
 import axios from "axios"
 import { BASE_URL } from "../constants/constantes"
 import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces";
-import download from 'downloadjs'
 import { authToken } from "./authentification";
 
 export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
+    console.log(values);
+
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
@@ -76,11 +77,14 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
     return response.data;
 }
 
-export const getReceipts = async (search: string = "", id: string = ""): Promise<any> => {
+export const getReceipts = async (order: string, by: string, search: string = "", id: string = ""): Promise<any> => {
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let request: string = `${BASE_URL}receipt/${utilisateur.nom}?search=${search}`;
+        request += `&order=${order}`;
+        request += `&by=${by}`
         if (id) request += `&id=${id}`;
+        console.log(request);
 
         const response: IResponse = await axios.get(request, {
             headers: { "x-access-token": localStorage.getItem('token') as string }

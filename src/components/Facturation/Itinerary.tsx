@@ -115,7 +115,7 @@ const Itinerary = ({ data }: IGenericObject) => {
         if (action === "add") {
             if (counter < 12) {
                 setCounter(counter + 1);
-                setItinerariesDiv([...itinerariesDiv, divItineraries(counter + 1)]);
+                setItinerariesDiv([...itinerariesDiv, divItineraries(counter)]);
             }
         } else {
             if (counter > 0) {

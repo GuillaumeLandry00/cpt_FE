@@ -11,19 +11,23 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { GrFormView } from 'react-icons/gr';
 import { IReceipt } from "../../interface/interfaces";
 import { capitalizeString } from "../../functions/clients";
+import FilterReceipt from "./FilterReceipt";
 
 const TableReceipt = () => {
 
     const [data, setData] = useState<IReceipt[]>([]);
     const [search, setSearch] = useState<string>("");
 
+    //Filter useState
+    const [order, setOrder] = useState<string>("DESC");
+    const [by, setBy] = useState<string>("date");
 
     //Make the api request
     const getData = async () => {
         if (search == "") {
-            setData([...await getReceipts()]);
+            setData([...await getReceipts(order, by,)]);
         } else {
-            setData([...await getReceipts(search)]);
+            setData([...await getReceipts(order, by, search)]);
         }
     };
 
@@ -50,8 +54,7 @@ const TableReceipt = () => {
                     <FcSearch size={28} />
                 </button>
             </div>
-
-
+            <FilterReceipt setOrder={setOrder} setBy={setBy} getData={getData} />
 
             <table className="w-full h-full shadow-2xl mt-8">
                 <thead className="bg-gray-800 border-b">
@@ -77,24 +80,30 @@ const TableReceipt = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                <Link to={`form/?action=view&id=${receipt.facturationID}`}>
-                                    <GrFormView size={22} />
-                                </Link>
-                                <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
-                                    <FcEditImage size={22} className="ml-4" />
-                                </Link>
-                                <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
-                                    <GrDocumentPdf size={20} color="grey" />
-                                </a>
-                                <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
-                                    <AiOutlineMail size={22} className="ml-4" />
-                                </Link>
+                                {receipt.dossier_no.charAt(0) == "|" ? (
+                                    <span>Vous ne pouvez pas modifier cette facture</span>
+                                ) : (
+                                    <>
+                                        <Link to={`form/?action=view&id=${receipt.facturationID}`}>
+                                            <GrFormView size={22} />
+                                        </Link>
+                                        <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
+                                            <FcEditImage size={22} className="ml-4" />
+                                        </Link>
+                                        <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
+                                            <GrDocumentPdf size={20} color="grey" />
+                                        </a>
+                                        <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
+                                            <AiOutlineMail size={22} className="ml-4" />
+                                        </Link>
+                                    </>
+                                )}
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
-        </div>
+        </div >
     </>);
 }
 

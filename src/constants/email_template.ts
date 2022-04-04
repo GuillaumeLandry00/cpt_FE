@@ -37,20 +37,6 @@ Français&nbsp;:<br>
 <br>
 ------------------------------------------</p>
 
-<p><strong><em>Days Inn , Aéroport de Montréal</em></strong></p>
-
-<p><strong><span style="color:#FF0000">115$</span> </strong><strong>en occupation double </strong></p>
-
-<p><em>Inclusions : 1 nuitée occ double , Stationnement pour une semaine, et le service de la navette vers l'Aéroport Aller / Retour . </em></p>
-
-<p><em>Contactez un agent de réservation au </em><em>450-430-2151 </em>&nbsp;<em>/ 450-464-6161</em></p>
-
-<p>La validité du passeport est la responsabilité de(s) passager(s) et je reconnais avoir donné le(s) nom(s) exacte(s) inscrit sur le(s) passeport(s) si applicable à ma destination.</p>
-
-<p>FRAIS ANNUL. AVANT DÉPART / Dépôt &amp; Paiement final Non-Remboursable /</p>
-
-<p>RAIS ANNUL. APRÈS DÉPART / 100% non-remboursable.</p>
-
 <p>Informations supplémentaires<br>
 <a href="http://voyage.gc.ca/" target="_blank">http://voyage.gc.ca/</a></p>`
 
@@ -95,22 +81,6 @@ Anglais&nbsp;:<br>
 <u><a href="http://www.parknfly.ca/Location/Montreal-Airport-Parking.aspx?referralid=1045&amp;coupon=68704" target="_blank">http://www.parknfly.ca/Location/Montreal-Airport-Parking.aspx?referralid=1045&amp;coupon=68704</a></u><br>
 <br>
 ------------------------------------------</p>
-
-<p><strong><em>Days Inn , Aéroport de Montréal</em></strong></p>
-
-<p><strong><span style="color:#FF0000">115$</span> </strong><strong>en occupation double </strong></p>
-
-<p><em>Inclusions : 1 nuitée occ double , Stationnement pour une semaine, et le service de la navette vers l'Aéroport Aller / Retour . </em></p>
-
-<p><em>Contactez un agent de réservation au 514-733-7770 / 1-866-929-7770 </em></p>
-
-<p><strong><em>Pour ce qui est de L'Aéroport de Québec vous devez nous contacter par téléphone au 1-866-929-7770</em></strong>&nbsp;</p>
-
-<p>La validité du passeport est la responsabilité de(s) passager(s) et je reconnais avoir donné le(s) nom(s) exacte(s) inscrit sur le(s) passeport(s) si applicable à ma destination.</p>
-
-<p>FRAIS ANNUL. AVANT DÉPART / Dépôt &amp; Paiement final Non-Remboursable /</p>
-
-<p>RAIS ANNUL. APRÈS DÉPART / 100% non-remboursable.</p>
 
 <p>Informations supplémentaires<br>
 <a href="http://voyage.gc.ca/" target="_blank">http://voyage.gc.ca/</a></p>`

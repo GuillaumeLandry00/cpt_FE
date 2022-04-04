@@ -39,7 +39,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Expiration</label>
-                <input type="text" name={`Sexp_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].exp : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <input type="text" name={`Sexp_${id}`} id={`exp_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].exp : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No. Dossier</label>
@@ -77,7 +77,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
         if (action === "add") {
             if (counter < 12) {
                 setCounter(counter + 1);
-                setPayementsDiv([...payementsDiv, divPayementsDiv(counter + 1)]);
+                setPayementsDiv([...payementsDiv, divPayementsDiv(counter)]);
             }
         } else {
 
