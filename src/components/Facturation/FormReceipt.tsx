@@ -19,6 +19,7 @@ const FormReceipt = () => {
     const [id, setId] = useState<string>();
     const [data, setData] = useState<IGenericObject>([]);
     const [opcAmount, setOpcAmount] = useState<number>(0);
+    const [grandTotal, setGrandTotal] = useState<number>(0);
     const [response, setResponse] = useState<string>("");
 
     /**
@@ -89,8 +90,8 @@ const FormReceipt = () => {
                     <Receipt utilisateur={utilisateur} data={data.facturation} />
                     <Passagers data={data.passagers} />
                     <Itinerary data={data.itinerary} />
-                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} />
-                    <OpcRemark data={data.opc} opcAmount={opcAmount} />
+                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal}/>
+                    <OpcRemark data={data.opc} opcAmount={opcAmount} grandTotal={grandTotal} />
                     <PayementsSummary data={data.summary} />
                     <GeneralSummary data={data.others} />
                     <Terms data={data.others} />

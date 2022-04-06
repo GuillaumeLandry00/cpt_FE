@@ -4,7 +4,7 @@ import { REMARKS } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
 import { OPC_RATE } from "../../constants/constantes";
 
-const OpcRemarks = ({ data, opcAmount }: ISingleProps) => {
+const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
 
     const [counter, setCounter] = useState<number>(0);
     const [opcDiv, setOpcDiv] = useState<Array<any>>([]);
@@ -49,7 +49,7 @@ const OpcRemarks = ({ data, opcAmount }: ISingleProps) => {
                 </div>
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Grand total</label>
-                    <input type="text" name={`Ogrand_total`} value={opcAmount} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <input type="text" name={`Ogrand_total`} value={grandTotal && opcAmount ? (grandTotal + (opcAmount * OPC_RATE)):0} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Notes</label>

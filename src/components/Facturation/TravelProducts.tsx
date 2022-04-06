@@ -6,14 +6,14 @@ import { TAXE_RATE, TPS_RATE, TVQ_RATE } from "../../constants/constantes";
 import { PRODUCT_TYPE } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
 
-const TravelProducts = ({ data, setOpcAmount }: ISingleProps) => {
+const TravelProducts = ({ data, setOpcAmount, setGrandTotal }: ISingleProps) => {
 
     const divProducts = (id: number,) => {
 
         return (<div className="flex flex-wrap -mx-3 mt-2" key={id}>
             <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Type de produit</label>
-                <select name="mySelectProduct" id={`mySelectProduct${id}`} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <select onChange={() => { taxesCalculator() }} name="mySelectProduct" id={`mySelectProduct${id}`} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                     {PRODUCT_TYPE.map((item, index) => (<option key={index} value={index}>{item.label}</option>))}
                 </select>
             </div>
@@ -98,31 +98,31 @@ const TravelProducts = ({ data, setOpcAmount }: ISingleProps) => {
     //This we calculate the total amount of OPC
     const opcCalculator = (): void => {
         let sum = 0
-        for (let i = 0; i < counter; i++) {
+        for (let i = 0; i < counter+1; i++) {
             let qty: number = parseInt((document.getElementById(`qty${i}`) as HTMLInputElement).value);
             let price: number = parseInt((document.getElementById(`prix${i}`) as HTMLInputElement).value);
 
 
             sum += qty * price;
         }
+        console.log("My sum of opc is: ", sum);
+        
         if (setOpcAmount) setOpcAmount(sum);
+        if (setGrandTotal) setGrandTotal(sum + sum * TAXE_RATE);
     }
 
     const taxesCalculator = (): void => {
-        console.log("we enter the function");
+        
 
         for (let i = 0; i < counter + 1; i++) {
             let qty: string = (document.getElementById(`qty${i}`) as HTMLInputElement).value;
             let price: string = (document.getElementById(`prix${i}`) as HTMLInputElement).value;
-            console.log(qty, price);
+            
             //We check if the user has entered anything
             if (qty != '' && price != '') {
                 let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
                 let sum = parseInt(qty) * parseInt(price);
 
-                console.log(qty, price);
-
-                console.log(PRODUCT_TYPE[index]);
                 //We add
                 if (PRODUCT_TYPE[index].taxe !== '0') { (document.getElementsByName(`Ttaxes${i}`)[0] as HTMLInputElement).value = String(sum * TAXE_RATE) };
                 (document.getElementsByName(`Tproduit_tps_${i}`)[0] as HTMLInputElement).value = String(sum * TPS_RATE);
@@ -135,7 +135,8 @@ const TravelProducts = ({ data, setOpcAmount }: ISingleProps) => {
 
     return (
         <>
-            <h1 className="text-2xl  text-center border-b-2 ">Détail des produits-voyage</h1>
+            <h1 className="text-2xl  text-center border-b-2 ">Détail des produits-voyage </h1>
+            <small className="text-sm text-center text-orange-500">**Veuillez selectionner un produit, la quantité et ensuite le prix</small>
             {productsDiv.map((item) => item)}
             <div className="mt-2">
                 <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>

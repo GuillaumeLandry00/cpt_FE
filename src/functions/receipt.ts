@@ -55,6 +55,10 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
 
 export const sendReceipt = async (receipt: IGenericObject, action: string) => {
+
+    //we check if the receipt is valid
+    validateReceipt(receipt);
+
     let response: IGenericObject;
 
     if (action == "add") {
@@ -96,16 +100,12 @@ export const getReceipts = async (order: string, by: string, search: string = ""
     }
 }
 
-export const downloadReceipt = async (id: number): Promise<void> => {
-    try {
-        const response: IResponse = await axios.get(`${BASE_URL}receipt/generate/${id}`, {
-            responseType: 'blob', // had to add this one here
-        });
+const validateReceipt = (receipt: IGenericObject)=>{
 
+    let err = false;
+    if(receipt.facturation.date == "") err = true;
+    
+    console.log(receipt);
+    
 
-    } catch (error) {
-        console.log(error);
-
-    }
-    return;
 }
