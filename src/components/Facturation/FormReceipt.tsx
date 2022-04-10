@@ -7,7 +7,7 @@ import OpcRemark from "./OpcRemark";
 import PayementsSummary from "./PayementsSummary";
 import GeneralSummary from "./GeneralSummary";
 import Terms from "./Terms";
-import { buildReceipt, getReceipts } from "../../functions/receipt";
+import { buildReceipt, getReceipt } from "../../functions/receipt";
 import { IUtilisateur, IGenericObject } from "../../interface/interfaces";
 import { Buffer } from "buffer";
 
@@ -26,7 +26,7 @@ const FormReceipt = () => {
     * This function help get all receipt info
     */
     const getData = async () => {
-        const receipt = await getReceipts("", url.searchParams.get("id") as string);
+        const receipt = await getReceipt(url.searchParams.get("id") as string);
 
         //We decode the base 64 json
         let buff = Buffer.from(receipt[0].f_data, 'base64');
@@ -78,7 +78,6 @@ const FormReceipt = () => {
     }
 
 
-
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev: any) => {
@@ -90,7 +89,7 @@ const FormReceipt = () => {
                     <Receipt utilisateur={utilisateur} data={data.facturation} />
                     <Passagers data={data.passagers} />
                     <Itinerary data={data.itinerary} />
-                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal}/>
+                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal} />
                     <OpcRemark data={data.opc} opcAmount={opcAmount} grandTotal={grandTotal} />
                     <PayementsSummary data={data.summary} />
                     <GeneralSummary data={data.others} />

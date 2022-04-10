@@ -100,12 +100,28 @@ export const getReceipts = async (order: string, by: string, search: string = ""
     }
 }
 
-const validateReceipt = (receipt: IGenericObject)=>{
+export const getReceipt = async (id: string): Promise<any> => {
+    try {
+
+        let request: string = `${BASE_URL}receipt/view/${id}`;
+        const response: IResponse = await axios.get(request, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        });
+
+        authToken(response.data);
+        return response.data;
+    } catch (error: unknown) {
+        console.log(error);
+    }
+}
+
+const validateReceipt = (receipt: IGenericObject) => {
 
     let err = false;
-    if(receipt.facturation.date == "") err = true;
-    
+    if (receipt.facturation.date == "") err = true;
+
+
     console.log(receipt);
-    
+
 
 }

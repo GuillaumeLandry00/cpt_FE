@@ -8,6 +8,9 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
 
     const [counter, setCounter] = useState<number>(0);
     const [opcDiv, setOpcDiv] = useState<Array<any>>([]);
+    const [opc, setOpc] = useState<string>("0");
+    const [grandTot, setGrandTot] = useState<string>("0");
+
     //Here we deal with react-select async problem
     useEffect(() => {
         const url: URL = new URL(window.location.href);
@@ -24,6 +27,11 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
         }
     }, [data])
 
+    useEffect(() => {
+        if (opcAmount) setOpc(String(Math.round((opcAmount * OPC_RATE + Number.EPSILON) * 100) / 100));
+        if (grandTotal) setGrandTot(String((Math.round((grandTotal + (parseFloat(opc) * OPC_RATE) + Number.EPSILON) * 100) / 100)));
+    }, [opcAmount, grandTotal]);
+
     const divOpc = (id: number) => {
         return (
             <div key={id} className="flex flex-wrap -mx-3 mt-2">
@@ -39,17 +47,18 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
             </div>
         )
     }
+
     return (
         <>
             <h1 className="text-2xl  text-center border-b-2 ">Sommaire *OPC / Remarques</h1>
             <div className="flex flex-wrap -mx-3 mt-2">
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Opc</label>
-                    <input type="text" name={"Oopc"} value={opcAmount ? opcAmount * OPC_RATE : 0} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required />
+                    <input type="text" name={"Oopc"} value={opc} onChange={(e) => setOpc(e.target.value)} defaultValue={data ? data.opc : 0} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required />
                 </div>
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Grand total</label>
-                    <input type="text" name={`Ogrand_total`} value={grandTotal && opcAmount ? (grandTotal + (opcAmount * OPC_RATE)):0} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <input type="text" name={`Ogrand_total`} value={grandTotal && opcAmount ? (Math.round((grandTotal + (opcAmount * OPC_RATE) + Number.EPSILON) * 100) / 100) : 0} defaultValue={data ? data.grand_total : 0} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Notes</label>
