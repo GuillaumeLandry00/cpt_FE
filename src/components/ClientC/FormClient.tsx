@@ -40,8 +40,8 @@ const FormClient = () => {
         setEmail(client[0].Courriel);
         setLanguage(client[0].Langue);
         setBirthDate(client[0].Naissance.substr(0, 10));
-        setName(client[0].Prenom);
-        setLastName(client[0].Nom);
+        setName(client[0].Nom);
+        setLastName(client[0].Prenom);
         setProvince(client[0].Province);
         setPhone(client[0].Telephone1);
         setCity(client[0].Ville);
@@ -73,7 +73,7 @@ const FormClient = () => {
 
             //Ok no error, we send the request
             if (id) {
-                //we add
+                //we update
                 clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, id: id, })
             } else {
                 //We get all the form data
@@ -82,8 +82,7 @@ const FormClient = () => {
                 const values = Object.fromEntries(formData.entries());
 
                 //we build the array 
-                let clients_array = buildClientArray(values)
-
+                let clients_array = buildClientArray(values);
                 clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, }, clients_array)
             }
             //We confirm the changes
@@ -132,7 +131,7 @@ const FormClient = () => {
                             Genre
                         </label>
                         <div className="relative">
-                            <select name={`${id}_gender`} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                            <select name={`${id}_genre`} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
                                 <option value={"M"}>M</option>
                                 <option value={"Mrs"}>Mrs</option>
                                 <option value={"Mme"}>Mme</option>
@@ -146,18 +145,18 @@ const FormClient = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Nom
                         </label>
-                        <input name={`${id}_name`} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" />
+                        <input name={`${id}_nom`} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" />
                     </div>
                     <div className="w-full md:w-2/6 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Prénom
                         </label>
-                        <input name={`${id}_lastname`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Doe" />
+                        <input name={`${id}_prenom`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Doe" />
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Date de naissance</label>
-                            <input name={`${id}_birthdate`} type="date" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" />
+                            <input name={`${id}_naissance`} type="date" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" />
                         </div>
                     </div>
                 </div>

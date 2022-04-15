@@ -143,6 +143,7 @@ export const updateClient = async (client: any): Promise<any> => {
             headers: { "Content-Type": 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
         });
         authToken(response.data);
+
         return response.data;
     } catch (error) {
         console.log(error);
@@ -156,6 +157,9 @@ export const addClient = async (client: any, clients_array = [{}]): Promise<any>
     try {
         let utilisateur: any = JSON.parse(localStorage.getItem("utilisateur") as string);
         let d = new Date();
+
+        console.log(clients_array);
+
 
         //We create formData for the request
         const formData: FormData = new FormData();
@@ -191,21 +195,20 @@ export const addClient = async (client: any, clients_array = [{}]): Promise<any>
 
 /**
  * This function will 
- * @param mixed,  
+ * @param mixedData,  
  * @returns array, with the values assembled
  */
 export const buildClientArray = (mixedData: IGenericObject) => {
 
-    //First off, we calculate the lenght of the array
-    let clients_array = new Array<IGenericObject>((Object.keys(mixedData).length - 1) / 4).fill({});
-    console.log(clients_array);
-
+    //First off, we initialize the array with default values.
+    let arrClients = new Array<any>((Object.keys(mixedData).length - 1) / 4);
+    for (let i = 0; i < arrClients.length; i++) { arrClients[i] = {}; }
 
     for (const [key, value] of Object.entries(mixedData)) {
-        if (key !== "notes") clients_array[parseInt(key.charAt(0))][key.substring(2)] = value;
+        if (key !== "notes") arrClients[parseInt(key.charAt(0))][key.substring(2)] = value;
     }
 
-    return clients_array;
+    return arrClients;
 
 }
 
