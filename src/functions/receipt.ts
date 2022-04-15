@@ -57,28 +57,32 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 
     //we check if the receipt is valid
-    validateReceipt(receipt);
+    if (!validateReceipt(receipt)) {
+        let response: IGenericObject;
 
-    let response: IGenericObject;
+        if (action == "add") {
+            response = await axios({
+                method: "post",
+                url: BASE_URL + "receipt/",
+                data: receipt,
+                headers: { "x-access-token": localStorage.getItem('token') as string },
+            });
 
-    if (action == "add") {
-        response = await axios({
-            method: "post",
-            url: BASE_URL + "receipt/",
-            data: receipt,
-            headers: { "x-access-token": localStorage.getItem('token') as string },
-        });
-
+        } else {
+            response = await axios({
+                method: "patch",
+                url: BASE_URL + "receipt/",
+                data: receipt,
+                headers: { "x-access-token": localStorage.getItem('token') as string },
+            });
+        }
+        authToken(response.data);
+        return response.data;
     } else {
-        response = await axios({
-            method: "patch",
-            url: BASE_URL + "receipt/",
-            data: receipt,
-            headers: { "x-access-token": localStorage.getItem('token') as string },
-        });
+        alert("Veuillez avoir au minimum rempli la date, le numéro de dossier, la date de départ et au moins un passager.")
     }
-    authToken(response.data);
-    return response.data;
+
+
 }
 
 export const getReceipts = async (order: string, by: string, search: string = "", id: string = ""): Promise<any> => {
@@ -118,10 +122,12 @@ export const getReceipt = async (id: string): Promise<any> => {
 const validateReceipt = (receipt: IGenericObject) => {
 
     let err = false;
+
     if (receipt.facturation.date == "") err = true;
+    if (receipt.facturation.no_dossier == "") err = true;
+    if (receipt.itinerary[0].date_depart == "") err = true;
+    if (receipt.passagers.length <= 0) err = true;
+    console.log(receipt.facturation.no_dossier, err);
 
-
-    console.log(receipt);
-
-
+    return err;
 }

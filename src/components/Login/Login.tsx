@@ -23,6 +23,7 @@ const Login = () => {
         }
 
         if (data) {
+            console.log(data);
 
             if (data.code === 200) {
 
@@ -41,7 +42,7 @@ const Login = () => {
     return (
         <div className="w-full pt-32 from-red-600 to-red-200 bg-gradient-to-b h-screen">
 
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/4 ml-auto mr-auto">
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/4 ml-auto mr-auto" onSubmit={(e) => { e.preventDefault() }}>
                 <img src="https://www.voyagesgabymsh.ca/wp-content/uploads/2021/06/CWT-logo-Color-RGB-copie.png" className="h-23 w-48 ml-auto mr-auto" alt="logo" />
                 {url.searchParams.get("token_failed") && (<span className="text-rose-600 text-center font-bold"> Le token a expiré, veuillez vous reconnecter</span>)}
                 {url.searchParams.get("password_changed") && (<span className="text-green-600 text-center font-bold">Le mot de passe a bien été changé</span>)}

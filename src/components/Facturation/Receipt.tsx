@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IGenericObject, IUtilisateur } from "../../interface/interfaces";
 
 
 type ReceiptProps = {
     utilisateur: IUtilisateur
     data: IGenericObject
+    setNoDossier: Dispatch<SetStateAction<number>>;
 };
 
-const Receipt = ({ utilisateur, data }: ReceiptProps) => {
+const Receipt = ({ utilisateur, data, setNoDossier }: ReceiptProps) => {
 
     let agency: Array<string> = utilisateur.agences.split(" ");
 
@@ -21,13 +22,17 @@ const Receipt = ({ utilisateur, data }: ReceiptProps) => {
                         <input type="date" name="Fdate" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" defaultValue={(data && data.hasOwnProperty("date")) ? data.date : ""} required />
                     </div>
                 </div>
-                <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                {/* <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TPS</label>
                     <input type="text" name="Ftps" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" disabled defaultValue={"841822257"} />
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TVQ</label>
                     <input type="text" name="Ftvq" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" disabled defaultValue={"1215801442"} />
+                </div> */}
+                <div className="w-full md:w-2/5 px-3 mb-6 md:mb-0">
+                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro dossier: </label>
+                    <input type="number" name="Fno_dossier" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" defaultValue={(data && data.hasOwnProperty("no_dossier")) ? data.no_dossier : ""} onChange={(e) => { setNoDossier(parseInt(e.target.value)) }} required />
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Agent</label>

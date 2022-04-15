@@ -18,6 +18,7 @@ const Table = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [clientId, setClientId] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isEnable, setIsEnable] = useState<boolean>(true);
     const url = new URL(window.location.href);
 
 
@@ -130,7 +131,10 @@ const Table = () => {
                             )}
                         </tbody>
                     </table>
-                    <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { setIsLoading(true); getData(1000) }}>Voir tous mes clients</button>
+                    {isEnable && (
+                        <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { setIsLoading(true); getData(1000); setIsEnable(false) }}>Voir tous mes clients</button>
+                    )}
+
                 </div>
             </>)}
     </>);

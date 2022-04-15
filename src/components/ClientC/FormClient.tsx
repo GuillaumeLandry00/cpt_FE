@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { validateClient, addClient, getClient, updateClient } from "../../functions/clients";
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
+import { validateClient, addClient, getClient, updateClient, buildClientArray } from "../../functions/clients";
 import NavBar from "../Dashboard/NavBar";
 
 const FormClient = () => {
@@ -23,6 +24,10 @@ const FormClient = () => {
     const [id, setId] = useState<any>();
     const [linkFile, setLinkFile] = useState<string>("");
     const url = new URL(window.location.href);
+
+    //Var for adding/removing passanger
+    const [compteur, setCompteur] = useState<number>(0);
+    const [passengerDiv, setPassengerDiv] = useState<Array<any>>([]);
 
     /**
      * This function help get all client info
@@ -63,7 +68,6 @@ const FormClient = () => {
         let checkClient: string[] = validateClient({ nom: name, prenom: lastName, naissance: birthdate, ville: city, adresse: address, zip: zip, phone1: phone, courriel: email });
         if (checkClient.length > 0) {
             setErrors(checkClient);
-
         } else {
             let clientDb;
 
@@ -72,9 +76,16 @@ const FormClient = () => {
                 //we add
                 clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, id: id, })
             } else {
-                clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, })
-            }
+                //We get all the form data
+                var myForm = document.getElementById('myForm') as HTMLFormElement;
+                const formData: FormData = new FormData(myForm);
+                const values = Object.fromEntries(formData.entries());
 
+                //we build the array 
+                let clients_array = buildClientArray(values)
+
+                clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, }, clients_array)
+            }
             //We confirm the changes
             if (clientDb.affectedRows > 0) {
                 setConfirmation(clientDb);
@@ -86,6 +97,77 @@ const FormClient = () => {
     }
 
 
+    //This will handle click for adding/removing passanger
+    //This handle our click by removing/adding inputs
+    const handleClick = (action: string): void => {
+        if (action === "add") {
+            if (compteur < 12) {
+
+                setCompteur(compteur + 1);
+                console.log(compteur);
+
+                setPassengerDiv([...passengerDiv, divPassanger(compteur)]);
+            }
+        } else {
+            if (compteur > 0) {
+
+                setCompteur(compteur - 1);
+                let newArray: Array<any> = passengerDiv;
+                newArray.pop();
+                setPassengerDiv([...newArray]);
+            }
+        }
+    }
+
+    /**
+     * Component for generating the form for extra passangers
+     */
+    const divPassanger = (id: number) => {
+        return (
+            <div key={id}>
+                <h4>Client # {id + 1}</h4>
+                <div className="flex flex-wrap -mx-3 mt-2" key={id}>
+                    <div className="w-1/6 md:w-1/6 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Genre
+                        </label>
+                        <div className="relative">
+                            <select name={`${id}_gender`} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                                <option value={"M"}>M</option>
+                                <option value={"Mrs"}>Mrs</option>
+                                <option value={"Mme"}>Mme</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Nom
+                        </label>
+                        <input name={`${id}_name`} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" />
+                    </div>
+                    <div className="w-full md:w-2/6 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Prénom
+                        </label>
+                        <input name={`${id}_lastname`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Doe" />
+                    </div>
+                    <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                        <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Date de naissance</label>
+                            <input name={`${id}_birthdate`} type="date" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+
+
+    //Final component to render
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8" id="myForm">
@@ -260,6 +342,13 @@ const FormClient = () => {
                         <label className="tracking-wide text-gray-700 text-sm font-bold  mb-3">Veuillez valider toutes les informations</label>
                         <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id ? "Modifier" : "Ajouter"}</button>
                     </div>
+                </div>
+                {passengerDiv.map((div) => div)}
+                <small className="text-sm text-orange-400 mb-2">** Vous pouvez ajouter plusieurs clients à la même adresse</small>
+                <div className="mt-2">
+                    <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>
+                    <button className="ml-2" onClick={() => handleClick("add")}><AiOutlinePlusCircle size={28} color={"green"} /></button>
+
                 </div>
             </form>
         </>

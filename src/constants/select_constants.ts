@@ -1020,7 +1020,7 @@ export const ORIGINE = [
 ];
 
 export const PRODUCT_TYPE = [
-    { label: 'Aucun', value: 'Aucun', taxe: '0', tps: '0', tvq: '0', rabais: '0', opc: '0  ' },
+    { label: 'Aucun', value: 'Aucun', taxe: '0', tps: '0', tvq: '0', rabais: '0', opc: '0' },
     { label: 'Air Canada /Vol', value: 'Air Canada /Vol', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Alio', value: 'Alio', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Amerik Aventure ', value: 'Amerik Aventure ', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },

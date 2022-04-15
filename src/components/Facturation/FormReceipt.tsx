@@ -21,6 +21,7 @@ const FormReceipt = () => {
     const [opcAmount, setOpcAmount] = useState<number>(0);
     const [grandTotal, setGrandTotal] = useState<number>(0);
     const [response, setResponse] = useState<string>("");
+    const [noDossier, setNoDossier] = useState<number>(0);
 
     /**
     * This function help get all receipt info
@@ -86,10 +87,10 @@ const FormReceipt = () => {
 
                 {response && (<span className="text-green-500 font-bold">{response}</span>)}
                 <fieldset disabled={url.searchParams.get("action") !== "view" ? false : true}>
-                    <Receipt utilisateur={utilisateur} data={data.facturation} />
+                    <Receipt utilisateur={utilisateur} data={data.facturation} setNoDossier={setNoDossier} />
                     <Passagers data={data.passagers} />
                     <Itinerary data={data.itinerary} />
-                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal} />
+                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal} no_dossier={noDossier} />
                     <OpcRemark data={data.opc} opcAmount={opcAmount} grandTotal={grandTotal} />
                     <PayementsSummary data={data.summary} />
                     <GeneralSummary data={data.others} />

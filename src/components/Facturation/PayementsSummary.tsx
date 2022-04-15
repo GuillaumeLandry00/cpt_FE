@@ -21,13 +21,14 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Montant</label>
                 <input type="text" name={`Stotal_paiements_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].total_paiements : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
+
+            <div className="w-full md:w-2/4 px-3 mb-6 md:mb-0">
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro de carte</label>
+                <input type="number" name={`Snumero_carte_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].numero_carte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+            </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Mode</label>
                 <Select options={MODE} name={`Smode_${id}`} defaultValue={data && data.length - 1 >= id ? { label: data[id].mode, value: data[id].mode } : ""} />
-            </div>
-            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro de carte</label>
-                <input type="number" name={`Snumero_carte_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].numero_carte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Détenteur</label>
@@ -41,10 +42,10 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Expiration</label>
                 <input type="text" name={`Sexp_${id}`} id={`exp_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].exp : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
-            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+            {/* <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No. Dossier</label>
                 <input type="text" name={`Ssommaire_no_dossier_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].sommaire_no_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-            </div>
+            </div> */}
         </div>);
     }
 

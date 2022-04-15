@@ -1,6 +1,6 @@
 import axios from "axios"
 import { BASE_URL, SITE_URL } from "../constants/constantes"
-import { IResponse } from "../interface/interfaces";
+import { IGenericObject, IResponse } from "../interface/interfaces";
 import { authToken } from "./authentification";
 
 export const getAllClient = async (limit = 25): Promise<any> => {
@@ -152,7 +152,7 @@ export const updateClient = async (client: any): Promise<any> => {
 /**
  * This make the api request and add the client into the DB
  */
-export const addClient = async (client: any): Promise<any> => {
+export const addClient = async (client: any, clients_array = [{}]): Promise<any> => {
     try {
         let utilisateur: any = JSON.parse(localStorage.getItem("utilisateur") as string);
         let d = new Date();
@@ -173,7 +173,7 @@ export const addClient = async (client: any): Promise<any> => {
         formData.append("agent", utilisateur.nom);
         formData.append("note", client.note);
         formData.append("passport_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + d.getHours() + "_" + client.file.name) : "No passport");
-
+        formData.append("extra_passenger", JSON.stringify(clients_array));
 
 
         const response: any = await axios({
@@ -190,7 +190,27 @@ export const addClient = async (client: any): Promise<any> => {
 }
 
 /**
- * 
+ * This function will 
+ * @param mixed,  
+ * @returns array, with the values assembled
+ */
+export const buildClientArray = (mixedData: IGenericObject) => {
+
+    //First off, we calculate the lenght of the array
+    let clients_array = new Array<IGenericObject>((Object.keys(mixedData).length - 1) / 4).fill({});
+    console.log(clients_array);
+
+
+    for (const [key, value] of Object.entries(mixedData)) {
+        if (key !== "notes") clients_array[parseInt(key.charAt(0))][key.substring(2)] = value;
+    }
+
+    return clients_array;
+
+}
+
+/**
+ *This function will capitalize name that we send in parameter 
  * @param string, string to capitalize 
  * @returns 
  */

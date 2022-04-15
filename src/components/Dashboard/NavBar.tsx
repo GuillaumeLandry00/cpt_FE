@@ -7,8 +7,8 @@ const NavBar = () => {
     return (
         <div>
             <nav className="bg-gray-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
+                <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16 pl-10">
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
                                 <Link to={"/dashboard"}>
@@ -27,6 +27,9 @@ const NavBar = () => {
                                     <Link to={'/dashboard/facturation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Facturation
                                     </ Link>
+                                    <a href="https://www.voyagesgabymsh.ca/backend/login.php" target="_blank" className="hover:bg-gray-700 ml-auto text-white px-3 py-2 rounded-md text-sm font-medium w-56">
+                                        Ancien système de facturation
+                                    </a>
                                 </div>
                             </div>
                         </div>

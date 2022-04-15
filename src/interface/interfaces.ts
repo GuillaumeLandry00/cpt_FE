@@ -65,9 +65,10 @@ interface IReceipt {
 interface ISingleProps {
     data: Array<any> | any,
     opcAmount?: number,
-    grandTotal?:number,
+    grandTotal?: number,
+
     setOpcAmount?: Dispatch<SetStateAction<number>>,
-    setGrandTotal?:Dispatch<SetStateAction<number>>
+    setGrandTotal?: Dispatch<SetStateAction<number>>
 }
 
 interface IGenericObject {

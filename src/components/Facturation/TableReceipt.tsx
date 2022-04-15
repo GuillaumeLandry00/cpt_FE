@@ -81,7 +81,7 @@ const TableReceipt = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
                             <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
                                 {receipt.dossier_no.charAt(0) == "|" ? (
-                                    <span>Vous ne pouvez pas modifier cette facture</span>
+                                    <a href="https://www.voyagesgabymsh.ca/backend/login.php" className="underline font-bold" target={"_blank"}>(Voir autre système)</a>
                                 ) : (
                                     <>
                                         <Link to={`form/?action=view&id=${receipt.facturationID}`}>
