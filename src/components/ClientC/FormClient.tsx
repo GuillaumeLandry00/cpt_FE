@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { validateClient, addClient, getClient, updateClient, buildClientArray } from "../../functions/clients";
+import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/clients";
 import NavBar from "../Dashboard/NavBar";
 
 const FormClient = () => {
@@ -28,6 +28,7 @@ const FormClient = () => {
     //Var for adding/removing passanger
     const [compteur, setCompteur] = useState<number>(0);
     const [passengerDiv, setPassengerDiv] = useState<Array<any>>([]);
+    let affectedClients: number = 0;
 
     /**
      * This function help get all client info
@@ -70,11 +71,13 @@ const FormClient = () => {
             setErrors(checkClient);
         } else {
             let clientDb;
+            let changes: boolean = false;
 
             //Ok no error, we send the request
             if (id) {
                 //we update
-                clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, id: id, })
+                clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, id: id, })
+                if (clientDb.affectedRows > 0) changes = true;
             } else {
                 //We get all the form data
                 var myForm = document.getElementById('myForm') as HTMLFormElement;
@@ -84,13 +87,20 @@ const FormClient = () => {
                 //we build the array 
                 let clients_array = buildClientArray(values);
                 clientDb = await addClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, }, clients_array)
+
+                //We calculate the number of client added.
+                affectedClients = calcAddedClients(clientDb);
+                if (affectedClients > 0) changes = true;
             }
+
             //We confirm the changes
-            if (clientDb.affectedRows > 0) {
+            if (changes) {
                 setConfirmation(clientDb);
                 let myForm = document.getElementById("myForm") as HTMLFormElement;
                 myForm.reset();
                 if (clientDb !== "") setErrors([]);
+            } else {
+                alert("Erreur");
             }
         }
     }
@@ -170,13 +180,13 @@ const FormClient = () => {
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8" id="myForm">
-                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Client {id ? "Modifié" : "Ajouté"}</strong>}</h1>
+                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Client {id ? "Modifié" : `ajouté (${affectedClients})`}</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Nom
                         </label>
-                        <input value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" />
+                        <input value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Jane" />
                         {errors.indexOf("client_name") > -1 && (<p className="text-red-500 text-xs italic">Veuillez entrer un nom valide</p>)}
 
                     </div>
@@ -335,20 +345,22 @@ const FormClient = () => {
                         <small className="tracking-wide text-blue-600 text-xs font-bold mb-4">Veuillez bien le renommer avant</small>
 
                         <input onChange={(e) => setFile(e.target.files![0])} type="file" accept="application/pdf" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-                        {linkFile && (<p className="text-orange-400">**Attention Vous avez déjà ajouté un passeport, modifier le passeport va supprimer l'ancien</p>)}
+                        {(linkFile !== "No passport" && linkFile !== "") && (<p className="text-orange-400">**Attention Vous avez déjà ajouté un passeport, modifier le passeport va supprimer l'ancien</p>)}
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-3">
                         <label className="tracking-wide text-gray-700 text-sm font-bold  mb-3">Veuillez valider toutes les informations</label>
                         <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id ? "Modifier" : "Ajouter"}</button>
                     </div>
                 </div>
-                {passengerDiv.map((div) => div)}
-                <small className="text-sm text-orange-400 mb-2">** Vous pouvez ajouter plusieurs clients à la même adresse</small>
-                <div className="mt-2">
-                    <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>
-                    <button className="ml-2" onClick={() => handleClick("add")}><AiOutlinePlusCircle size={28} color={"green"} /></button>
+                {url.searchParams.get("action") !== "edit" && (<>
+                    {passengerDiv.map((div) => div)}
+                    <small className="text-sm text-orange-400 mb-2">** Vous pouvez ajouter plusieurs clients à la même adresse</small>
+                    <div className="mt-2">
+                        <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>
+                        <button className="ml-2" onClick={() => handleClick("add")}><AiOutlinePlusCircle size={28} color={"green"} /></button>
 
-                </div>
+                    </div>
+                </>)}
             </form>
         </>
     );

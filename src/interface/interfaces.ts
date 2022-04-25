@@ -49,6 +49,7 @@ interface IUtilisateur {
     nomComplet: string,
     typeUtilisateur: number,
     agences: string
+    id?: string
 }
 
 

@@ -1,7 +1,10 @@
 import axios from "axios"
 import { BASE_URL, SITE_URL } from "../constants/constantes"
-import { IGenericObject, IResponse } from "../interface/interfaces";
+import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces";
 import { authToken } from "./authentification";
+import { Buffer } from "buffer";
+
+const d = new Date();
 
 export const getAllClient = async (limit = 25): Promise<any> => {
     try {
@@ -121,28 +124,34 @@ export const updateClient = async (client: any): Promise<any> => {
     try {
 
         //We create formData for the request
-        const params: URLSearchParams = new URLSearchParams();
-        params.append("genre", client.genre);
-        params.append("nom", client.nom);
-        params.append("prenom", client.prenom);
-        params.append("naissance", client.naissance);
-        params.append("adresse", client.adresse);
-        params.append("ville", client.ville);
-        params.append("province", client.province);
-        params.append("zip", client.zip);
-        params.append("phone1", client.phone1);
-        params.append("courriel", client.courriel);
-        params.append("langue", client.langue);
-        params.append("note", client.note);
-        params.append("ID", client.id);
+        const formData: FormData = new FormData();
+        formData.append("genre", client.genre);
+        formData.append("nom", client.nom);
+        formData.append("prenom", client.prenom);
+        formData.append("naissance", client.naissance);
+        formData.append("adresse", client.adresse);
+        formData.append("ville", client.ville);
+        formData.append("province", client.province);
+        formData.append("zip", client.zip);
+        formData.append("phone1", client.phone1);
+        formData.append("courriel", client.courriel);
+        formData.append("langue", client.langue);
+        formData.append("note", client.note ? client.note : "");
+        formData.append("passport_pdf", client.file);
+        formData.append("link_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + client.file.name) : "No passport")
+        formData.append("ID", client.id);
+
+        console.log("Ici file:", client.file);
+
 
         const response: any = await axios({
             method: "post",
             url: BASE_URL + "client/update",
-            data: params,
-            headers: { "Content-Type": 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data", "x-access-token": localStorage.getItem('token') as string },
         });
         authToken(response.data);
+        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -156,7 +165,7 @@ export const updateClient = async (client: any): Promise<any> => {
 export const addClient = async (client: any, clients_array = [{}]): Promise<any> => {
     try {
         let utilisateur: any = JSON.parse(localStorage.getItem("utilisateur") as string);
-        let d = new Date();
+
 
         console.log(clients_array);
 
@@ -175,8 +184,9 @@ export const addClient = async (client: any, clients_array = [{}]): Promise<any>
         formData.append("courriel", client.courriel);
         formData.append("langue", client.langue);
         formData.append("agent", utilisateur.nom);
-        formData.append("note", client.note);
-        formData.append("passport_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + d.getHours() + "_" + client.file.name) : "No passport");
+        formData.append("note", client.note ? client.note : "");
+        formData.append("passport_pdf", client.file);
+        formData.append("link_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + client.file.name) : "No passport")
         formData.append("extra_passenger", JSON.stringify(clients_array));
 
 
@@ -187,6 +197,7 @@ export const addClient = async (client: any, clients_array = [{}]): Promise<any>
             headers: { "Content-Type": "multipart/form-data", "x-access-token": localStorage.getItem('token') as string },
         });
         authToken(response.data);
+
         return response.data;
     } catch (error) {
         console.log(error);
@@ -227,4 +238,58 @@ export const capitalizeString = (string: string): string => {
     }
 
     return capitalizedString;
-}   
+}
+
+
+/**
+ * This function will calculate the number of client added through the request
+ */
+export const calcAddedClients = (responses: IGenericObject): number => {
+    let compteur = 0;
+
+    responses.map((response: IGenericObject) => {
+        if (response.affectedRows > 0) {
+            compteur++;
+        }
+    });
+
+    return compteur;
+}
+
+/**
+ * This function will download the passport of the client
+ * @param password, string 
+ */
+export const downloadPassport = async (password: string, link: string): Promise<string> => {
+
+    let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string)
+
+    if (password !== "" && link && utilisateur.id) {
+
+        let encrypted_password = Buffer.from(password).toString('base64');
+
+        const params: URLSearchParams = new URLSearchParams();
+        params.append("password", encrypted_password);
+        params.append("link", link);
+        params.append("id", utilisateur.id);
+
+
+        const response: any = await axios({
+            method: "post",
+            url: BASE_URL + `client/download/passport`,
+            data: params,
+        });
+        console.log(response);
+
+        if (response.data.token) {
+            console.log("We are currently downloading...");
+            window.open(BASE_URL + `client/download/passport/${utilisateur.id}?token=${response.data.token}`);
+            return "Le passeport a été téléchargé";
+        } else {
+            //Error
+            return response.data.message;
+        }
+    }
+    return "";
+
+};
