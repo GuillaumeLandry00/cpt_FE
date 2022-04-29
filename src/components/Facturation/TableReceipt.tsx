@@ -55,54 +55,55 @@ const TableReceipt = () => {
                 </button>
             </div>
             <FilterReceipt setOrder={setOrder} setBy={setBy} getData={getData} />
-
-            <table className="w-full h-full shadow-2xl mt-8">
-                <thead className="bg-gray-800 border-b">
-                    <tr>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-1/6">
-                            #
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
-                            Date de création
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
-                            Nom  client
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left w-2/6">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((receipt, index) =>
-                        <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
-                            <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{receipt.dossier_no}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
-                            <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                {receipt.dossier_no.charAt(0) == "|" ? (
-                                    <a href="https://www.voyagesgabymsh.ca/backend/login.php" className="underline font-bold" target={"_blank"}>(Voir autre système)</a>
-                                ) : (
-                                    <>
-                                        <Link to={`form/?action=view&id=${receipt.facturationID}`}>
-                                            <GrFormView size={22} />
-                                        </Link>
-                                        <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
-                                            <FcEditImage size={22} className="ml-4" />
-                                        </Link>
-                                        <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
-                                            <GrDocumentPdf size={20} color="grey" />
-                                        </a>
-                                        <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
-                                            <AiOutlineMail size={22} className="ml-4" />
-                                        </Link>
-                                    </>
-                                )}
-                            </td>
+            {data.length == 0 ? (<span className="text-center font-bold text-lg">Vous n'avez pas de facture</span>) : (
+                <table className="w-full h-full shadow-2xl mt-8">
+                    <thead className="bg-gray-800 border-b">
+                        <tr>
+                            <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-1/6">
+                                #
+                            </th>
+                            <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
+                                Date de création
+                            </th>
+                            <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
+                                Nom  client
+                            </th>
+                            <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left w-2/6">
+                                Actions
+                            </th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {data.map((receipt, index) =>
+                            <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                                <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{receipt.dossier_no}</td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
+                                <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
+                                    {receipt.dossier_no.charAt(0) == "|" ? (
+                                        <a href="https://www.voyagesgabymsh.ca/backend/login.php" className="underline font-bold" target={"_blank"}>(Voir autre système)</a>
+                                    ) : (
+                                        <>
+                                            <Link to={`form/?action=view&id=${receipt.facturationID}`}>
+                                                <GrFormView size={22} />
+                                            </Link>
+                                            <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
+                                                <FcEditImage size={22} className="ml-4" />
+                                            </Link>
+                                            <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
+                                                <GrDocumentPdf size={20} color="grey" />
+                                            </a>
+                                            <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
+                                                <AiOutlineMail size={22} className="ml-4" />
+                                            </Link>
+                                        </>
+                                    )}
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            )}
         </div >
     </>);
 }

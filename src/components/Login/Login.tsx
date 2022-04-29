@@ -26,8 +26,6 @@ const Login = () => {
             console.log(data);
 
             if (data.code === 200) {
-
-
                 //We register the token
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("utilisateur", JSON.stringify(data.utilisateur));
@@ -79,12 +77,14 @@ const Login = () => {
                             e.preventDefault();
                             !lostPassword ?
                                 (setData(await checkLoginStatus(email, password)))
-                                : sendPasswordResetToken(email)
+                                : (await sendPasswordResetToken(email)) ? setErr("Un courriel vous a été envoyé") : setErr("Erreur, veuillez ressayer")
                         }} value={lostPassword ? "Envoyer le lien de réinitialisation" : "Me connecter"} />
                     </div>
                 </>) : (<ChangePassword />)}
             </form>
-            {/* */}
+            {/* 
+            
+            */}
         </div>
 
     );

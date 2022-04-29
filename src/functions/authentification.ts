@@ -16,6 +16,8 @@ export const checkLoginStatus = async (email: string, password: string): Promise
  */
 export const sendPasswordResetToken = async (email: string) => {
     try {
+        console.log("CLick icic");
+
         const response = await axios.post(BASE_URL + "auth/lostpassword", { email: email });
         return response.data;
     } catch (error: unknown) {

@@ -85,55 +85,57 @@ const Table = () => {
                             </div>
                         </div>
                     ) : ""}
-
-                    <table className="w-full h-full shadow-2xl mt-8">
-                        <thead className="bg-gray-800 border-b">
-                            <tr>
-                                <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
-                                    #
-                                </th>
-                                <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
-                                    Nom
-                                </th>
-                                <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
-                                    Prenom
-                                </th>
-                                <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
-                                    Adresse
-                                </th>
-                                <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((client, index) =>
-                                <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
-                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{client.ID}</td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Nom)}</td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Prenom)}</td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Adresse}</td>
-                                    <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                        <Link to={`view/?id=${client.ID}`}>
-                                            <GrFormView size={22} color="grey" />
-                                        </Link>
-                                        <Link to={`form/?action=edit&id=${client.ID}`}>
-                                            <FcEditImage size={22} className="ml-3" />
-                                        </Link>
-                                        <button onClick={() => {
-                                            setShowModal(true); setClientId(client.ID)
-                                        }}>
-                                            <MdOutlineDeleteForever size={22} color="#fa1e3c" className="ml-3" />
-                                        </button>
-
-                                    </td>
+                    {data.length == 0 ? (<span className="text-center font-bold text-lg">Vous n'avez pas de clients</span>) : (<>
+                        <table className="w-full h-full shadow-2xl mt-8">
+                            <thead className="bg-gray-800 border-b">
+                                <tr>
+                                    <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                                        #
+                                    </th>
+                                    <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                                        Nom
+                                    </th>
+                                    <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                                        Prenom
+                                    </th>
+                                    <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
+                                        Adresse
+                                    </th>
+                                    <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left">
+                                        Actions
+                                    </th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    {isEnable && (
-                        <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { setIsLoading(true); getData(1000); setIsEnable(false) }}>Voir tous mes clients</button>
-                    )}
+                            </thead>
+                            <tbody>
+                                {data.map((client, index) =>
+                                    <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{client.ID}</td>
+                                        <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Nom)}</td>
+                                        <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(client.Prenom)}</td>
+                                        <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{client.Adresse}</td>
+                                        <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
+                                            <Link to={`view/?id=${client.ID}`}>
+                                                <GrFormView size={22} color="grey" />
+                                            </Link>
+                                            <Link to={`form/?action=edit&id=${client.ID}`}>
+                                                <FcEditImage size={22} className="ml-3" />
+                                            </Link>
+                                            <button onClick={() => {
+                                                setShowModal(true); setClientId(client.ID)
+                                            }}>
+                                                <MdOutlineDeleteForever size={22} color="#fa1e3c" className="ml-3" />
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+
+                        {isEnable && (
+                            <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { setIsLoading(true); getData(1000); setIsEnable(false) }}>Voir tous mes clients</button>
+                        )}
+                    </>)}
 
                 </div>
             </>)}
