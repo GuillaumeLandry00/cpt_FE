@@ -1,6 +1,6 @@
 //URL to make request
-export const BASE_URL: string = "http://localhost:8080/";
-export const SITE_URL: string = "http://localhost:3000/";
+export const BASE_URL: string = "https://www.voyagesgabymsh.ca/comptabilite/backend/";
+export const SITE_URL: string = "https://www.voyagesgabymsh.ca/comptabilite/";
 
 export const EMAIL: string = "no-reply@voyagesgabymsh.ca"
 
