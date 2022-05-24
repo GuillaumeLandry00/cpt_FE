@@ -9,6 +9,7 @@ import TableReceipt from './components/Facturation/TableReceipt';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Dashboard/NavBar";
 import EmailEditor from './components/Email/EmailEditor';
+import Calendar from './components/Calendar/Calendar';
 import { SITE_URL } from './constants/constantes';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/dashboard/facturation/form" element={<FormReceipt />} />
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
+          <Route path="/dashboard/reservation" element={<Calendar />} />
         </Routes>
       </Router>
     </div>
