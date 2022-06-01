@@ -28,7 +28,7 @@ const NavBar = () => {
                                         Facturation
                                     </ Link>
                                     <Link to={'/dashboard/reservation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Réservation
+                                        Call center
                                     </ Link>
                                     <a href="https://www.voyagesgabymsh.ca/backend/login.php" target="_blank" className="hover:bg-gray-700 ml-auto text-white px-3 py-2 rounded-md text-sm font-medium w-56">
                                         Ancien système de facturation

@@ -28,6 +28,18 @@ const Dashboard = () => {
                     <li className="font-bold">- Imprimer une facture</li>
                 </ul>
 
+                <h3 className="text-xl">Courriel</h3>
+                <ul className="ml-4">
+                    <li className="font-bold">- Envoyer des courriels</li>
+                    <li className="font-bold">- Programmer envoie de courriel</li>
+                </ul>
+
+                <h3 className="text-xl">Call center</h3>
+                <ul className="ml-4">
+                    <li className="font-bold">- Réservation</li>
+                    <li className="font-bold">- Visualisation de l'horaire</li>
+                </ul>
+
                 <p className="mt-11">Pour tout problème technique veuillez me contacter directement par courriel: <a className="underline decoration-solid" href="mailto:landry.guillaume00@hotmail.com">landry.guillaume00@hotmail.com</a></p>
 
             </div>

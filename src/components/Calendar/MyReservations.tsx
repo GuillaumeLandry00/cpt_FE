@@ -34,6 +34,8 @@ const MyReservations = ({ fetchEvents, update }: Props) => {
     }, [update])
 
 
+    console.log(myEvents);
+
     return (
         <div className="w-full mb-32">
             <h1 className="text-xl font-bold">Mes Réservations <span className="text-green-600 text-sm">{response && response}</span></h1>

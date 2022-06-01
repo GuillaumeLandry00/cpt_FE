@@ -30,6 +30,9 @@ const Calendar = () => {
     const [events, setEvents] = useState<IGenericObject>();
     const [update, setUpdate] = useState<number>(0);
 
+    if (events) console.log(countAvaibality(events, selectedDate, 2, (selectedDate.getDay() == 5 || selectedDate.getDay() == 6 || selectedDate.getDay() == 0) ? 1 : 2));
+
+
 
     return (
         <>
@@ -57,14 +60,14 @@ const Calendar = () => {
                                     return "complete"
                                 }
                             }
-                            console.log("We enter here", events);
+                            console.log();
 
                             return ""
 
                         }} />
                     </div>
                     <div className='ml-10'>
-                        {selectedDate && events ? (
+                        {selectedDate && typeof events !== "undefined" ? (
                             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev) => { ev.preventDefault(); }}>
                                 <p className='text-l font-bold mb-3'>Date: {formatDate(selectedDate, "/")}  </p>
                                 <span className="text-sm font-bold" id="response">{response && response}</span>
@@ -86,7 +89,7 @@ const Calendar = () => {
                                         <div className="form-check mb-3 bg-slate-100 p-3 rounded-lg	">
                                             <input className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="timeSlots" value={2} />
                                             <label className="form-check-label inline-block text-gray-800">
-                                                18PM-23PM {countAvaibality(events, selectedDate, 2, selectedDate.getDate() == 5 ? 1 : 2)} Places disponibles
+                                                18PM-23PM {countAvaibality(events, selectedDate, 2, (selectedDate.getDay() == 5 || selectedDate.getDay() == 6 || selectedDate.getDay() == 0) ? 1 : 2)} Places disponibles
                                             </label>
                                         </div>
                                     </div>
@@ -99,6 +102,7 @@ const Calendar = () => {
 
                                         //We  need to check if the user is already registed for the day
                                         if (selector && resText) {
+
 
                                             if (checkIfUserRegistred(events, selectedDate)) {
 

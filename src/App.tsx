@@ -11,6 +11,7 @@ import NavBar from "./components/Dashboard/NavBar";
 import EmailEditor from './components/Email/EmailEditor';
 import Calendar from './components/Calendar/Calendar';
 import { SITE_URL } from './constants/constantes';
+import Admin from './components/Admin/Admin';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
           <Route path="/dashboard/reservation" element={<Calendar />} />
+          <Route path="/admin/" element={<Admin />} />
         </Routes>
       </Router>
     </div>

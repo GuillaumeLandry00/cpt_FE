@@ -48,7 +48,10 @@ interface IUtilisateur {
     nom: string,
     nomComplet: string,
     typeUtilisateur: number,
-    agences: string
+    user_type: number,
+    agences: string,
+    last_login: string,
+    comm: number,
     id?: string
 }
 
