@@ -3,7 +3,7 @@ import { FcEditImage } from "react-icons/fc";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteAgent, getAllAgent } from "../../../functions/admin/agent";
-import { capitalizeString } from "../../../functions/clients";
+import { capitalizeString } from "../../../functions/agent/clients";
 import { IUtilisateur } from "../../../interface/interfaces";
 
 interface Props {
@@ -21,6 +21,7 @@ const AgentList = ({ switchViews }: Props) => {
         setIsLoading(true);
         fetchAgents();
     }, []);
+
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [agents, setAgents] = useState<IUtilisateur[]>([]);
@@ -51,7 +52,7 @@ const AgentList = ({ switchViews }: Props) => {
             ) : (
                 <div>
                     {showModal ? (
-                        <div className="fade fixed top-100  w-full  outline-none">
+                        <div className="fade mt-5 w-full  outline-none">
                             <div className="w-4/5 ml-auto mr-auto">
                                 <div className="modal-dialog relative w-auto">
                                     <div className="modal-content shadow-lg relative flex flex-col w-full bg-slate-200 bg-clip-padding rounded-md outline-none text-current">

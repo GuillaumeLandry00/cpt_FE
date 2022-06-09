@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/clients";
+import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/agent/clients";
 import NavBar from "../Dashboard/NavBar";
 
 const FormClient = () => {

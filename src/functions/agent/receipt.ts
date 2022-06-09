@@ -1,6 +1,6 @@
 import axios from "axios"
-import { BASE_URL } from "../constants/constantes"
-import { IGenericObject, IResponse, IUtilisateur } from "../interface/interfaces";
+import { BASE_URL } from "../../constants/constantes"
+import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
 import { authToken } from "./authentification";
 
 export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {

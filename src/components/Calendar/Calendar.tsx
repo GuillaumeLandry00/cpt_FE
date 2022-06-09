@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { countAvaibality, formatDate, getEvents, addEventsDB, checkIfUserRegistred, getWhoWork } from '../../functions/calendar';
+import { countAvaibality, formatDate, getEvents, addEventsDB, checkIfUserRegistred, getWhoWork } from '../../functions/agent/calendar';
 import '../../assets/css/calendar.css';
 import { IGenericObject, IUtilisateur } from '../../interface/interfaces';
 import MyReservations from './MyReservations';

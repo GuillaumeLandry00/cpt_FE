@@ -12,6 +12,7 @@ import EmailEditor from './components/Email/EmailEditor';
 import Calendar from './components/Calendar/Calendar';
 import { SITE_URL } from './constants/constantes';
 import Admin from './components/Admin/Admin';
+import Accounting from './components/Accounting/Accounting';
 
 function App() {
 
@@ -30,7 +31,10 @@ function App() {
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
           <Route path="/dashboard/reservation" element={<Calendar />} />
+
+          {/* Those are private routes */}
           <Route path="/admin/" element={<Admin />} />
+          <Route path="/comptabilite/" element={<Accounting />} />
         </Routes>
       </Router>
     </div>

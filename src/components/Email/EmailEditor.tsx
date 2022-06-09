@@ -4,7 +4,7 @@ import Select from "react-select";
 import { OBJET } from "../../constants/select_constants";
 import 'react-quill/dist/quill.snow.css';
 import * as constants from "../../constants/email_template";
-import { addCronTask, sendMails } from "../../functions/email";
+import { addCronTask, sendMails } from "../../functions/agent/email";
 
 const EmailEditor: React.FC = () => {
 

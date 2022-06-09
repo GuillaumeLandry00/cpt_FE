@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { formatDate, getWhoWork } from "../../functions/calendar";
+import { formatDate, getWhoWork } from "../../functions/agent/calendar";
 import { IGenericObject } from "../../interface/interfaces";
 
 type Props = {

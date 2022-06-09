@@ -1,7 +1,7 @@
 import axios, { Axios } from "axios";
 import { IconContext } from "react-icons/lib";
-import { BASE_URL, EMAIL } from "../constants/constantes";
-import { IGenericObject } from "../interface/interfaces";
+import { BASE_URL, EMAIL } from "../../constants/constantes";
+import { IGenericObject } from "../../interface/interfaces";
 
 export const sendMails = async (from: string, to: string, object: string, msg: string): Promise<boolean> => {
 

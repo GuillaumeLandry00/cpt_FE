@@ -1,8 +1,8 @@
 import axios from "axios";
 import { BASE_URL } from "../../constants/constantes";
 import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
-import { authToken } from "../authentification";
-import { capitalizeString } from "../clients";
+import { authToken } from "../agent/authentification";
+import { capitalizeString } from "../agent/clients";
 
 /**
  * This function will ge tall the agents from the database

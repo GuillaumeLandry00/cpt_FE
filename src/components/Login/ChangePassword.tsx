@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SITE_URL } from "../../constants/constantes";
-import { changePassword } from "../../functions/authentification";
+import { changePassword } from "../../functions/agent/authentification";
 
 const ChangePassword = () => {
 

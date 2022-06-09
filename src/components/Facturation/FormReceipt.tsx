@@ -7,7 +7,7 @@ import OpcRemark from "./OpcRemark";
 import PayementsSummary from "./PayementsSummary";
 import GeneralSummary from "./GeneralSummary";
 import Terms from "./Terms";
-import { buildReceipt, getReceipt } from "../../functions/receipt";
+import { buildReceipt, getReceipt } from "../../functions/agent/receipt";
 import { IUtilisateur, IGenericObject } from "../../interface/interfaces";
 import { Buffer } from "buffer";
 

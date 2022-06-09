@@ -1,7 +1,7 @@
 import axios from "axios";
 import { time } from "console";
-import { BASE_URL, EMAIL } from "../constants/constantes";
-import { IGenericObject, IUtilisateur } from "../interface/interfaces";
+import { BASE_URL, EMAIL } from "../../constants/constantes";
+import { IGenericObject, IUtilisateur } from "../../interface/interfaces";
 import { authToken } from "./authentification";
 
 /**

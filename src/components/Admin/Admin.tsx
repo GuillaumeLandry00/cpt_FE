@@ -40,7 +40,6 @@ const Admin = () => {
         <div className="w-full">
             <AdminTopBar switchViews={switchViews} />
             <div className="shadow-xl mt-2 bg-slate-100 p-8 ml-10 mr-10">
-
                 {views}
             </div>
         </div >

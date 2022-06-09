@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from "react";
-import { capitalizeString, deleteClient, getAllClient, getClientSearch } from "../../functions/clients";
+import { capitalizeString, deleteClient, getAllClient, getClientSearch } from "../../functions/agent/clients";
 import { Link } from "react-router-dom";
 
 //The icons

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { convertNumberToTime, deleteEvent, getEvents } from "../../functions/calendar";
+import { convertNumberToTime, deleteEvent, getEvents } from "../../functions/agent/calendar";
 import { IGenericObject, IUtilisateur } from "../../interface/interfaces";
 
 

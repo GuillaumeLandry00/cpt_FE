@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteCronTask, getCronTask, ICronTask } from "../../functions/email";
+import { deleteCronTask, getCronTask, ICronTask } from "../../functions/agent/email";
 import { MdOutlineDeleteForever } from 'react-icons/md';
 
 const CronTable = ({ utilisateur }: any) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from "react";
-import { getReceipts } from "../../functions/receipt";
+import { getReceipts } from "../../functions/agent/receipt";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../constants/constantes";
 
@@ -10,7 +10,7 @@ import { GrDocumentPdf } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
 import { GrFormView } from 'react-icons/gr';
 import { IReceipt } from "../../interface/interfaces";
-import { capitalizeString } from "../../functions/clients";
+import { capitalizeString } from "../../functions/agent/clients";
 import FilterReceipt from "./FilterReceipt";
 
 const TableReceipt = () => {

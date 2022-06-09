@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { checkLoginStatus, sendPasswordResetToken } from "../../functions/authentification";
+import { checkLoginStatus, sendPasswordResetToken } from "../../functions/agent/authentification";
 import { Link, useNavigate } from "react-router-dom"
 import ChangePassword from "./ChangePassword";
 import { SITE_URL } from "../../constants/constantes";

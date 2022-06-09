@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
+import { IUtilisateur } from "../../interface/interfaces";
 
 const NavBar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+
+    let user: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
+
+
     return (
         <div>
             <nav className="bg-gray-800">
@@ -21,6 +26,17 @@ const NavBar = () => {
                             </div>
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
+
+                                    {user && user.typeUtilisateur == 1 && (
+                                        <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                            Admin
+                                        </ Link>
+                                    )}
+                                    {user && (user.typeUtilisateur == 1 || user.typeUtilisateur == 2) && (
+                                        <Link to={'/comptabilite'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                            Comptabilité
+                                        </ Link>
+                                    )}
                                     <Link to={'/dashboard/client'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Client
                                     </ Link>

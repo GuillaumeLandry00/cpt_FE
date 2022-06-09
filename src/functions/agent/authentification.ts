@@ -1,6 +1,6 @@
 import axios from "axios"
 import { resolve } from "path";
-import { BASE_URL, SITE_URL } from "../constants/constantes"
+import { BASE_URL, SITE_URL } from "../../constants/constantes"
 
 export const checkLoginStatus = async (email: string, password: string): Promise<any> => {
     try {

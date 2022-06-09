@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { capitalizeString, getAllClient } from "../../functions/clients";
+import { capitalizeString, getAllClient } from "../../functions/agent/clients";
 import { IClient, IGenericObject, ISelect, ISingleProps, IUtilisateur } from "../../interface/interfaces";
 import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { deleteClient, downloadPassport, getClient } from "../../functions/clients";
+import { deleteClient, downloadPassport, getClient } from "../../functions/agent/clients";
 import { Link } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
