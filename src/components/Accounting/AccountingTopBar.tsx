@@ -18,6 +18,9 @@ const AccountingTopBar = ({ switchViews }: Props) => {
                     <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("achats-administratifs")}>
                         Achats administatifs
                     </ button>
+                    <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("achats-emis")}>
+                        Paiements Émis
+                    </ button>
 
                 </div>
             </div>

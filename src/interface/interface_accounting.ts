@@ -10,3 +10,29 @@ export interface IPurchases {
     montant: number,
     solde: number
 }
+
+export interface IPurchasingIssues {
+    id: number,
+    cheque: string,
+    succ: number,
+    banque: string,
+    date: string,
+    fournisseur: string,
+    payer_a: string,
+    etat: string,
+    type: string,
+    montant: string,
+    date_echeance: string
+}
+
+export interface ICompensation {
+    id: number,
+    date_du: string,
+    date_au: string,
+    succ: string,
+    devise: string,
+    ventes: number,
+    opc: number,
+    frais: number,
+    solde: number
+}

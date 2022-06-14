@@ -4,6 +4,7 @@ import { IUtilisateur } from "../../interface/interfaces";
 import AccountingTopBar from "./AccountingTopBar";
 import PurchasesList from "./Administrative Purchases/PurchasesList";
 import DefaultAccounting from "./DefaultAccounting";
+import PurchasingList from "./Purchasing Issues/PurchasingList";
 
 const Accounting = () => {
 
@@ -21,6 +22,9 @@ const Accounting = () => {
         switch (views) {
             case "achats-administratifs":
                 setViews(<PurchasesList switchViews={switchViews} />);
+                break;
+            case "achats-emis":
+                setViews(<PurchasingList switchViews={switchViews} />);
                 break;
             default:
                 setViews(<DefaultAccounting />)
