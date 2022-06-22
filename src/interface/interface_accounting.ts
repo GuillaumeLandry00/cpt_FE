@@ -36,3 +36,14 @@ export interface ICompensation {
     frais: number,
     solde: number
 }
+
+export interface ITaxes {
+    id: number,
+    date_du: string,
+    date_au: string,
+    date_paiement: string,
+    type: string,
+    cheque: string,
+    ecriture: string,
+    montant: string
+}

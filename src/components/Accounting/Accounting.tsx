@@ -5,6 +5,8 @@ import AccountingTopBar from "./AccountingTopBar";
 import PurchasesList from "./Administrative Purchases/PurchasesList";
 import DefaultAccounting from "./DefaultAccounting";
 import PurchasingList from "./Purchasing Issues/PurchasingList";
+import CompensationFundsList from "./Compensation Funds/CompensationFundList";
+import TaxesList from "./Taxes/TaxesList";
 
 const Accounting = () => {
 
@@ -25,6 +27,12 @@ const Accounting = () => {
                 break;
             case "achats-emis":
                 setViews(<PurchasingList switchViews={switchViews} />);
+                break;
+            case "fonds-indemnisation":
+                setViews(<CompensationFundsList switchViews={switchViews} />);
+                break;
+            case "paiements-taxe":
+                setViews(<TaxesList switchViews={switchViews} />);
                 break;
             default:
                 setViews(<DefaultAccounting />)
