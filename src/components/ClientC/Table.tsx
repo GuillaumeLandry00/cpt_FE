@@ -9,6 +9,7 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import { GrFormView } from 'react-icons/gr';
 
 import { IClient } from "../../interface/interfaces";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 
 const Table = () => {
@@ -19,13 +20,15 @@ const Table = () => {
     const [clientId, setClientId] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isEnable, setIsEnable] = useState<boolean>(true);
+    const [offset, setOffset] = useState<number>(0);
     const url = new URL(window.location.href);
 
 
     //Make the api request
-    const getData = async (limit = 25) => {
+    const getData = async (limit = 25, offsetData = 0) => {
         if (search == "") {
-            setData([...await getAllClient(limit)]);
+            setData([...await getAllClient(limit, offsetData)]);
+
         } else {
             setData([...await getClientSearch(search)]);
         }
@@ -131,6 +134,10 @@ const Table = () => {
                                 )}
                             </tbody>
                         </table>
+                        <div className="w-full flex justify-content">
+                            {offset > 0 ? <button className="ml-auto mr-auto mt-10 font-semibold underline text-l" onClick={() => { setOffset(offset - 25); setIsLoading(true); getData(25, offset - 25); }}>&#x21DA; Page précédente</button> : ""}
+                            {data.length > 0 ? <button className="ml-auto mr-auto mt-10 font-semibold underline text-l " onClick={() => { setOffset(offset + 25); setIsLoading(true); getData(25, offset + 25); }}>Page suivante &#x21DB;</button> : ""}
+                        </div>
 
                         {isEnable && (
                             <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { setIsLoading(true); getData(1000); setIsEnable(false) }}>Voir tous mes clients</button>

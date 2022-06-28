@@ -116,7 +116,7 @@ const AgentList = ({ switchViews }: Props) => {
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{agent.user_type == 1 ? "Admin" : "Agent"}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{agent.comm}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{agent.agences}</td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{agent.last_login ? agent.last_login : "Ne s'est jamais connecté"}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{agent.last_login ? agent.last_login.substring(0, 10) : "Ne s'est jamais connecté"}</td>
                                     <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
                                         <button onClick={() => switchViews("edit-agent", agent.id as string)}>
                                             <FcEditImage size={22} className="ml-3" />
