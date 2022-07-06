@@ -5,7 +5,7 @@ import AccountingTopBar from "./AccountingTopBar";
 import PurchasesList from "./Administrative Purchases/PurchasesList";
 import DefaultAccounting from "./DefaultAccounting";
 import PurchasingList from "./Purchasing Issues/PurchasingList";
-import CompensationFundsList from "./Compensation Funds/CompensationFundList";
+import AcountingReceiving from "./AccountingReceiving/AcountingReceiving";
 import TaxesList from "./Taxes/TaxesList";
 
 const Accounting = () => {
@@ -22,17 +22,11 @@ const Accounting = () => {
         console.log("views: ", views);
 
         switch (views) {
-            case "achats-administratifs":
-                setViews(<PurchasesList switchViews={switchViews} />);
+            case "comptes-payables":
+                setViews(<AcountingReceiving />);
                 break;
             case "achats-emis":
                 setViews(<PurchasingList switchViews={switchViews} />);
-                break;
-            case "fonds-indemnisation":
-                setViews(<CompensationFundsList switchViews={switchViews} />);
-                break;
-            case "paiements-taxe":
-                setViews(<TaxesList switchViews={switchViews} />);
                 break;
             default:
                 setViews(<DefaultAccounting />)
@@ -43,7 +37,7 @@ const Accounting = () => {
     return (
         <div className="w-full">
             <AccountingTopBar switchViews={switchViews} />
-            <div className="shadow-xl mt-2 bg-slate-100 p-8 ml-10 mr-10">
+            <div>
                 {views}
             </div>
         </div >

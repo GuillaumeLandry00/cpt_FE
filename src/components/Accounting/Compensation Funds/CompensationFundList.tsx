@@ -87,7 +87,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                         </thead>
                         <tbody>
                             {funds && funds.map((fund: ICompensation, index) =>
-                                <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                                <tr className={`${index % 2 ? " bg-white" : "bg-gray-200"} border-b transition duration-300 ease-in-out hover:bg-gray-100`} key={index}>
                                     <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{fund.date_du.substring(0, 10)}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{fund.date_au.substring(0, 10)}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{fund.succ}</td>

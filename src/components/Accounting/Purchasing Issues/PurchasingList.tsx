@@ -93,7 +93,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                         </thead>
                         <tbody>
                             {purchases && purchases.map((purchase: IPurchasingIssues, index) =>
-                                <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                                <tr className={`${index % 2 ? " bg-white" : "bg-gray-200"} border-b transition duration-300 ease-in-out hover:bg-gray-100`} key={index}>
                                     <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.cheque}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{purchase.succ}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{purchase.banque}</td>

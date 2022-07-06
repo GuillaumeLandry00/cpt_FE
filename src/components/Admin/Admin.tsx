@@ -6,6 +6,7 @@ import AddAgent from "./Agent/AddAgent";
 import AgentList from "./Agent/AgentList";
 import EditAgent from "./Agent/EditAgent";
 import DefaultAdmin from "./DefaultAdmin";
+import SupplierList from "./Supplier/SupplierList";
 
 const Admin = () => {
 
@@ -19,16 +20,19 @@ const Admin = () => {
     const switchViews = (views: string, id = ""): void => {
         switch (views) {
             case "agents":
-                console.log("In  agents");
+
                 setViews(<AgentList switchViews={switchViews} />)
                 break;
             case "edit-agent":
-                console.log("In edit agent");
+
                 setViews(<EditAgent id={id} switchViews={switchViews} />);
                 break;
             case "add-agent":
-                console.log("In add agent");
+
                 setViews(<AddAgent switchViews={switchViews} />);
+                break;
+            case "fournisseurs":
+                setViews(<SupplierList switchViews={switchViews} />)
                 break;
             default:
                 setViews(<DefaultAdmin />)

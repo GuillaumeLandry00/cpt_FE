@@ -18,6 +18,9 @@ const AdminTopBar = ({ switchViews }: Props) => {
                     <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("agents")}>
                         Agents
                     </ button>
+                    <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("fournisseurs")}>
+                        Fournisseurs
+                    </ button>
 
                 </div>
             </div>
