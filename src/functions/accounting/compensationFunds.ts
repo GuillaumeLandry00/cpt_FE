@@ -8,10 +8,10 @@ import { capitalizeString } from "../agent/clients";
 /**
  * This function will fetch all the purchases from the database
  */
-export const getCompensationFunds = async (): Promise<unknown> => {
+export const getCompensationFunds = async (search = "", limit = 25, offset = 0): Promise<unknown> => {
     try {
         //We make the request
-        const response = await axios.get<ICompensation[]>(BASE_URL + "accounting/compensationFunds/", { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        const response = await axios.get<ICompensation[]>(BASE_URL + `accounting/compensationFunds?search=${search}&limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         return response.data;
     } catch (error) {

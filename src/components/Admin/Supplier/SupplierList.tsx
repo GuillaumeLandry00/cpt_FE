@@ -16,11 +16,9 @@ interface Props {
 
 const SupplierList = ({ switchViews }: Props) => {
 
-    const fetch = async (limit: number = 25, offset: number = 0): Promise<void> => {
+    const fetch = async (limit: number = 25, offset: number = 0, type = "admin"): Promise<void> => {
         setIsLoading(true);
-        setData(await getSuppliers(search, limit, offset) as ISupplier[]);
-        console.log(await getSuppliers(search, limit, offset));
-
+        setData(await getSuppliers(search, limit, offset, type) as ISupplier[]);
         setIsLoading(false);
     }
 
@@ -37,13 +35,23 @@ const SupplierList = ({ switchViews }: Props) => {
     const [response, setResponse] = useState<string>("");
     const [search, setSearch] = useState<string>("");
     const [offset, setOffset] = useState<number>(0);
-    const [type, setType] = useState<string>("");
 
 
     return (
         <div className="w-full">
             <div className="w-full flex justify-between border-b-2">
-                <h1 className="text-2xl  ">Fournisseurs {response && (<span className="text-green-500 text-xl">{response && response}</span>)}</h1>
+                <h1 className="text-2xl  ">Fournisseurs {response && (<span className="text-green-500 text-xl">{response && response}</span>)} </h1>
+                <div className="w-25 px-3 mb-6 md:mb-0">
+                    <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
+                        <select name="inactif" onChange={e => { fetch(25, 0, e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                            <option value={"admin"} selected>Administratif</option>
+                            <option value={"voyage"} >Voyage</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg className="fill-current h-10 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                        </div>
+                    </div>
+                </div>
                 {showModal ? (<button onClick={() => { setShowModal(false); setResponse("") }}><AiOutlineCloseCircle size={22} /></button>) : (<button onClick={() => { setShowModal(true); setSubViews(<AddSupplier setResponse={setResponse} fetchData={fetch} />) }} className="w-1/12 ml-auto bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white  px-4 border border-green-500 hover:border-transparent rounded mb-2">Ajouter un fournisseur</button>)}
             </div>
 
@@ -63,6 +71,7 @@ const SupplierList = ({ switchViews }: Props) => {
                         <button type="submit" className="absolute right-0 top-0 mt-4 mr-4" onClick={() => fetch()}>
                             <FcSearch size={28} />
                         </button>
+
                     </div>
                     <table className="w-full h-full shadow-2xl mt-8">
                         <thead className="bg-gray-800 border-b">

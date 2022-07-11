@@ -7,6 +7,8 @@ import AddTaxes from "./AddTaxes";
 import UpdateTaxes from "./UpdateTaxes";
 import DeletingTaxes from "./DeletingTaxes";
 import { getTaxes } from "../../../functions/accounting/taxes";
+import SearchBar from "../../Others/SearchBar";
+import BottomBarList from "../../Others/BottomBarList";
 
 interface Props {
     switchViews: (views: string, id?: string) => void,
@@ -14,9 +16,9 @@ interface Props {
 
 const TaxesList = ({ switchViews }: Props) => {
 
-    const fetchPurchases = async (): Promise<void> => {
+    const fetchPurchases = async (position = 25, offset = 0): Promise<void> => {
         setIsLoading(true);
-        setFunds(await getTaxes() as ITaxes[]);
+        setFunds(await getTaxes(search, position, offset) as ITaxes[]);
         console.log("My list ", await getTaxes() as ITaxes[]);
 
         setIsLoading(false);
@@ -33,6 +35,8 @@ const TaxesList = ({ switchViews }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [subViews, setSubViews] = useState<any>();
     const [response, setResponse] = useState<string>("");
+    const [search, setSearch] = useState<string>("");
+    const [offset, setOffset] = useState<number>(0);
 
     return (
         <div className="w-full">
@@ -52,6 +56,7 @@ const TaxesList = ({ switchViews }: Props) => {
                         <div>
                             {subViews}
                         </div>)}
+                    <SearchBar search={search} setSearch={setSearch} fetch={fetchPurchases} />
                     <table className="w-full h-full shadow-2xl mt-8">
                         <thead className="bg-gray-800 border-b">
                             <tr>
@@ -83,7 +88,7 @@ const TaxesList = ({ switchViews }: Props) => {
                         </thead>
                         <tbody>
                             {funds && funds.map((fund: ITaxes, index) =>
-                                <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
+                                <tr className={`${index % 2 ? " bg-white" : "bg-gray-200"} border-b transition duration-300 ease-in-out hover:bg-gray-100`} key={index}>
                                     <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{fund.date_du ? fund.date_du.substring(0, 10) : "-------------------"}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{fund.date_au.substring(0, 10)}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{fund.date_paiement.substring(0, 10)}</td>
@@ -104,6 +109,7 @@ const TaxesList = ({ switchViews }: Props) => {
                             )}
                         </tbody>
                     </table>
+                    <BottomBarList getData={fetchPurchases} offset={offset} setOffset={setOffset} setIsLoading={setIsLoading} data={funds} />
                 </div>
             )}
 

@@ -7,6 +7,8 @@ import { IPurchases, IPurchasingIssues } from "../../../interface/interface_acco
 import AddPurchases from "./AddPurchasing";
 import UpdatePurchases from "./UpdatePurchasing";
 import DeletingPurchases from "./DeletingPurchasing";
+import SearchBar from "../../Others/SearchBar";
+import BottomBarList from "../../Others/BottomBarList";
 
 interface Props {
     switchViews: (views: string, id?: string) => void,
@@ -15,9 +17,9 @@ interface Props {
 
 const PurchasesList = ({ switchViews }: Props) => {
 
-    const fetchPurchases = async (): Promise<void> => {
+    const fetchPurchases = async (position = 25, offset = 0): Promise<void> => {
         setIsLoading(true);
-        setPurchases(await getPurchasingIssues() as IPurchasingIssues[]);
+        setPurchases(await getPurchasingIssues(search, position, offset) as IPurchasingIssues[]);
         console.log(await getPurchasingIssues() as IPurchasingIssues[]);
 
         setIsLoading(false);
@@ -34,6 +36,8 @@ const PurchasesList = ({ switchViews }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [subViews, setSubViews] = useState<any>();
     const [response, setResponse] = useState<string>("");
+    const [search, setSearch] = useState<string>("");
+    const [offset, setOffset] = useState<number>(0);
 
     return (
         <div className="w-full">
@@ -53,6 +57,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                         <div>
                             {subViews}
                         </div>)}
+                    <SearchBar search={search} setSearch={setSearch} fetch={fetchPurchases} />
                     <table className="w-full h-full shadow-2xl mt-8">
                         <thead className="bg-gray-800 border-b">
                             <tr>
@@ -117,6 +122,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                             )}
                         </tbody>
                     </table>
+                    <BottomBarList getData={fetchPurchases} offset={offset} setOffset={setOffset} setIsLoading={setIsLoading} data={purchases} />
                 </div>
             )}
 

@@ -8,11 +8,11 @@ import { capitalizeString } from "../agent/clients";
 /**
  * This function will fetch all the sup from the database
  */
-export const getSuppliers = async (search = "", limit = 25, offset = 0): Promise<unknown> => {
+export const getSuppliers = async (search = "", limit = 25, offset = 0, type = "admin"): Promise<unknown> => {
     try {
 
         //We make the request
-        const response = await axios.get<ISupplier[]>(BASE_URL + `admin/supplier?search=${search}&limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        const response = await axios.get<ISupplier[]>(BASE_URL + `admin/supplier?search=${search}&limit=${limit}&offset=${offset}&type=${type}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         console.log(localStorage.getItem('token') as string);
 
         authToken(response.data);

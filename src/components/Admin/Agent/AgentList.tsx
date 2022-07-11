@@ -5,6 +5,7 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteAgent, getAllAgent } from "../../../functions/admin/agent";
 import { capitalizeString } from "../../../functions/agent/clients";
 import { IUtilisateur } from "../../../interface/interfaces";
+import BottomBarList from "../../Others/BottomBarList";
 
 interface Props {
     switchViews: (views: string, id?: string) => void,
@@ -130,6 +131,7 @@ const AgentList = ({ switchViews }: Props) => {
                             )}
                         </tbody>
                     </table>
+
                 </div>
             )}
         </div>

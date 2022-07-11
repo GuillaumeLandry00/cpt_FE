@@ -7,11 +7,11 @@ import { authToken } from "../agent/authentification";
 /**
  * This function will fetch all the purchases from the database
  */
-export const getPurchases = async (): Promise<unknown> => {
+export const getPurchases = async (search = "", limit = 25, offset = 0): Promise<unknown> => {
     try {
 
         //We make the request
-        const response = await axios.get<IPurchases[]>(BASE_URL + "accounting/purchases/", { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        const response = await axios.get<IPurchases[]>(BASE_URL + `accounting/purchases?search=${search}&limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         return response.data;
     } catch (error) {

@@ -8,11 +8,11 @@ import { capitalizeString } from "../agent/clients";
 /**
  * This function will fetch all the Taxes from the database
  */
-export const getTaxes = async (): Promise<unknown> => {
+export const getTaxes = async (search = "", limit = 25, offset = 0): Promise<unknown> => {
     try {
 
         //We make the request
-        const response = await axios.get<ITaxes[]>(BASE_URL + "accounting/taxes/", { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        const response = await axios.get<ITaxes[]>(BASE_URL + `accounting/taxes?search=${search}&limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         return response.data;
     } catch (error) {

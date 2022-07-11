@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { deletePurchasingIssues } from "../../../functions/accounting/purchasingIssues";
-import { IPurchases } from "../../../interface/interface_accounting";
+import { deleteSupplier } from "../../../functions/admin/supplier";
 
 type Props = {
     fetchData: () => Promise<void>,
@@ -9,12 +7,12 @@ type Props = {
     setResponse: (response: string) => void
 }
 
-const DeletingPurchases = ({ fetchData, id, setShowModal, setResponse }: Props) => {
+const DeletingSupplier = ({ fetchData, id, setShowModal, setResponse }: Props) => {
 
 
-    const deletePurchases = async () => {
-        if ((await deletePurchasingIssues(id)).affectedRows > 0) {
-            setResponse("Achat supprimé !");
+    const deleteSupp = async () => {
+        if ((await deleteSupplier(id)).affectedRows > 0) {
+            setResponse("Fournisseur supprimé !");
             setShowModal(false);
             fetchData();
         } else {
@@ -32,7 +30,7 @@ const DeletingPurchases = ({ fetchData, id, setShowModal, setResponse }: Props) 
                         <div
                             className="modal-header flex items-center justify-between p-4 rounded-t-md">
                             <h5 className="text-xl font-medium leading-normal text-gray-800 text-center ml-auto mr-auto" >
-                                Désirez-vous supprimer cet achat ?
+                                Désirez-vous supprimer ce fournisseur ?
                             </h5>
 
                         </div>
@@ -43,7 +41,7 @@ const DeletingPurchases = ({ fetchData, id, setShowModal, setResponse }: Props) 
                                     className=" px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out"
                                 >Non, revenir en arrière
                                 </button>
-                                <button onClick={() => { deletePurchases(); }} className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Oui, je confirme</button>
+                                <button onClick={() => { deleteSupp(); }} className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Oui, je confirme</button>
                             </div>
                         </div>
                     </div>
@@ -53,4 +51,4 @@ const DeletingPurchases = ({ fetchData, id, setShowModal, setResponse }: Props) 
     </>);
 }
 
-export default DeletingPurchases;
+export default DeletingSupplier;

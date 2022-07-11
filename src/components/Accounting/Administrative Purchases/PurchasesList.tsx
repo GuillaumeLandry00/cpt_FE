@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FcEditImage } from "react-icons/fc";
+import { FcEditImage, FcSearch } from "react-icons/fc";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { getPurchases } from "../../../functions/accounting/purchase";
@@ -7,6 +7,8 @@ import { IPurchases } from "../../../interface/interface_accounting";
 import AddPurchases from "./AddPurchases";
 import UpdatePurchases from "./UpdatePurchases";
 import DeletingPurchases from "./DeletingPurchases";
+import BottomBarList from "../../Others/BottomBarList";
+import SearchBar from "../../Others/SearchBar";
 
 interface Props {
     switchViews: (views: string, id?: string) => void,
@@ -15,9 +17,9 @@ interface Props {
 
 const PurchasesList = ({ switchViews }: Props) => {
 
-    const fetchPurchases = async (): Promise<void> => {
+    const fetchPurchases = async (position = 25, offset = 0): Promise<void> => {
         setIsLoading(true);
-        setPruchases(await getPurchases() as IPurchases[]);
+        setPruchases(await getPurchases(search, position, offset) as IPurchases[]);
         setIsLoading(false);
     }
 
@@ -32,11 +34,14 @@ const PurchasesList = ({ switchViews }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [subViews, setSubViews] = useState<any>();
     const [response, setResponse] = useState<string>("");
+    const [offset, setOffset] = useState<number>(0);
+    const [search, setSearch] = useState<string>("");
 
     return (
         <div className="w-full">
             <div className="w-full flex justify-between border-b-2">
                 <h1 className="text-2xl  ">ACHATS ADMINISTRATIFS {response && (<span className="text-green-500 text-xl">{response && response}</span>)}</h1>
+
                 {showModal ? (<button onClick={() => setShowModal(false)}><AiOutlineCloseCircle size={22} /></button>) : (<button onClick={() => { setShowModal(true); setSubViews(<AddPurchases setResponse={setResponse} fetchPurchases={fetchPurchases} />) }} className="w-1/12 ml-auto bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white  px-4 border border-green-500 hover:border-transparent rounded mb-2">Ajouter un achat</button>)}
             </div>
 
@@ -51,6 +56,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                         <div>
                             {subViews}
                         </div>)}
+                    <SearchBar search={search} setSearch={setSearch} fetch={fetchPurchases} />
                     <table className="w-full h-full shadow-2xl mt-8">
                         <thead className="bg-gray-800 border-b">
                             <tr>
@@ -115,6 +121,7 @@ const PurchasesList = ({ switchViews }: Props) => {
                             )}
                         </tbody>
                     </table>
+                    <BottomBarList getData={fetchPurchases} offset={offset} setOffset={setOffset} setIsLoading={setIsLoading} data={purchases} />
                 </div>
             )}
 
