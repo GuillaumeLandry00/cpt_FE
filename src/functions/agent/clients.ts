@@ -22,7 +22,7 @@ export const getAllClient = async (limit = 25, offset = 0): Promise<any> => {
 }
 
 
-export const getClient = async (id: string): Promise<any> => {
+export const getClient = async (id: string | number): Promise<any> => {
 
     try {
         const response: IResponse = await axios.get(BASE_URL + "client/view/" + id, {

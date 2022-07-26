@@ -66,6 +66,29 @@ interface IReceipt {
     courriel: string
 
 }
+
+interface IFacture {
+    id: number,
+    dossier: number,
+    date: string,
+    nomComplet: string,
+    NOM: string,
+    general: string
+}
+
+type IFactureDB = {
+    agence: string
+    date: string
+    dossier: number
+    general: string
+    itinerary: string
+    paiements: string
+    passagers: string
+    products: string
+    remarks: string
+}
+
+
 interface ISingleProps {
     data: Array<any> | any,
     opcAmount?: number,
@@ -83,4 +106,6 @@ interface ISelect {
     value: string | number,
     label: string
 }
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps, ISelect }
+
+
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps, ISelect, IFacture, IFactureDB }

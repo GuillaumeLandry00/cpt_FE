@@ -19,8 +19,6 @@ const TaxesList = ({ switchViews }: Props) => {
     const fetchPurchases = async (position = 25, offset = 0): Promise<void> => {
         setIsLoading(true);
         setFunds(await getTaxes(search, position, offset) as ITaxes[]);
-        console.log("My list ", await getTaxes() as ITaxes[]);
-
         setIsLoading(false);
     }
 

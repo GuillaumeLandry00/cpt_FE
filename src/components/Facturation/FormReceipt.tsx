@@ -8,7 +8,7 @@ import PayementsSummary from "./PayementsSummary";
 import GeneralSummary from "./GeneralSummary";
 import Terms from "./Terms";
 import { buildReceipt, getReceipt } from "../../functions/agent/receipt";
-import { IUtilisateur, IGenericObject } from "../../interface/interfaces";
+import { IUtilisateur, IFactureDB } from "../../interface/interfaces";
 import { Buffer } from "buffer";
 
 const FormReceipt = () => {
@@ -17,7 +17,7 @@ const FormReceipt = () => {
     const utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
     const url: URL = new URL(window.location.href);
     const [id, setId] = useState<string>();
-    const [data, setData] = useState<IGenericObject>([]);
+    const [data, setData] = useState<IFactureDB>();
     const [opcAmount, setOpcAmount] = useState<number>(0);
     const [grandTotal, setGrandTotal] = useState<number>(0);
     const [response, setResponse] = useState<string>("");
@@ -27,12 +27,8 @@ const FormReceipt = () => {
     * This function help get all receipt info
     */
     const getData = async () => {
-        const receipt = await getReceipt(url.searchParams.get("id") as string);
-
-        //We decode the base 64 json
-        let buff = Buffer.from(receipt[0].f_data, 'base64');
-        let text = buff.toString('utf8');
-        setData(JSON.parse(text));
+        const receipt = (await getReceipt(url.searchParams.get("id") as string) as IFactureDB[])[0];
+        setData(receipt)
     }
 
     //this is how we know if we update the client or add a new one
@@ -78,6 +74,8 @@ const FormReceipt = () => {
         }
     }
 
+    console.log("ALL DATA", data);
+
 
     return (
         <>
@@ -87,14 +85,14 @@ const FormReceipt = () => {
 
                 {response && (<span className="text-green-500 font-bold">{response}</span>)}
                 <fieldset disabled={url.searchParams.get("action") !== "view" ? false : true}>
-                    <Receipt utilisateur={utilisateur} data={data.facturation} setNoDossier={setNoDossier} />
-                    <Passagers data={data.passagers} />
-                    <Itinerary data={data.itinerary} />
-                    <TravelProducts data={data.product} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal} no_dossier={noDossier} />
-                    <OpcRemark data={data.opc} opcAmount={opcAmount} grandTotal={grandTotal} />
-                    <PayementsSummary data={data.summary} />
-                    <GeneralSummary data={data.others} />
-                    <Terms data={data.others} />
+                    <Receipt utilisateur={utilisateur} data={data ? JSON.parse(data.general) : {}} dossier={data ? data.dossier : ""} agence={data ? data.agence : ""} date={data ? data.date : ""} />
+                    <Passagers data={data ? JSON.parse(data.passagers) : {}} />
+                    <Itinerary data={data ? JSON.parse(data.itinerary) : {}} />
+                    <TravelProducts data={data ? JSON.parse(data.products) : {}} setOpcAmount={setOpcAmount} setGrandTotal={setGrandTotal} no_dossier={noDossier} />
+                    <OpcRemark data={data ? JSON.parse(data.remarks) : {}} opcAmount={opcAmount} grandTotal={grandTotal} />
+                    <PayementsSummary data={data ? JSON.parse(data.paiements) : {}} />
+                    <GeneralSummary data={data ? JSON.parse(data.general) : {}} />
+                    <Terms data={data ? JSON.parse(data.general) : {}} />
                 </fieldset>
                 {response && (<span className="text-green-500 font-bold">{response}</span>)}
                 {(url.searchParams.get("action") !== "view") && (<button onClick={() => { handleBtn() }} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full mt-8">Enregistrer la facture</button>)}

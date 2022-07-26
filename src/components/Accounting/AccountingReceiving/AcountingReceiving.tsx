@@ -7,6 +7,7 @@ import DefaultAccounting from "../DefaultAccounting";
 import PurchasingList from "../Purchasing Issues/PurchasingList";
 import CompensationFundsList from "../Compensation Funds/CompensationFundList";
 import TaxesList from "../Taxes/TaxesList";
+import AdminExpenses from "../AdminExpense/AdminExpenses";
 
 const AccountingReceiving = () => {
 
@@ -19,7 +20,6 @@ const AccountingReceiving = () => {
     const [views, setViews] = useState(<DefaultAccounting />);
 
     const switchViews = (views: string, id = ""): void => {
-        console.log("views: ", views);
 
         switch (views) {
             case "achats-administratifs":
@@ -33,6 +33,9 @@ const AccountingReceiving = () => {
                 break;
             case "paiements-taxe":
                 setViews(<TaxesList switchViews={switchViews} />);
+                break;
+            case "debourses-admin":
+                setViews(<AdminExpenses />);
                 break;
             default:
                 setViews(<DefaultAccounting />)

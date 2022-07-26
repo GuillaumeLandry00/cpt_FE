@@ -20,8 +20,6 @@ const PurchasesList = ({ switchViews }: Props) => {
     const fetchPurchases = async (position = 25, offset = 0): Promise<void> => {
         setIsLoading(true);
         setPurchases(await getPurchasingIssues(search, position, offset) as IPurchasingIssues[]);
-        console.log(await getPurchasingIssues() as IPurchasingIssues[]);
-
         setIsLoading(false);
     }
 
@@ -42,7 +40,7 @@ const PurchasesList = ({ switchViews }: Props) => {
     return (
         <div className="w-full">
             <div className="w-full flex justify-between border-b-2">
-                <h1 className="text-2xl  ">ACHATS ÉMIS {response && (<span className="text-green-500 text-xl">{response && response}</span>)}</h1>
+                <h1 className="text-2xl">ACHATS ÉMIS {response && (<span className="text-green-500 text-xl">{response && response}</span>)}</h1>
                 {showModal ? (<button onClick={() => { setShowModal(false); setResponse("") }}><AiOutlineCloseCircle size={22} /></button>) : (<button onClick={() => { setShowModal(true); setSubViews(<AddPurchases setResponse={setResponse} fetchPurchases={fetchPurchases} />) }} className="w-1/12 ml-auto bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white  px-4 border border-green-500 hover:border-transparent rounded mb-2">Ajouter un achat</button>)}
             </div>
 

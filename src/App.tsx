@@ -26,7 +26,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/client" element={<Client />} />
           <Route path="/dashboard/client/view/" element={<ViewClient />} />
-          <Route path="/dashboard/client/form/" element={<FormClient />} />
+          <Route path="/dashboard/client/form/" element={<FormClient idDefault={0} />} />
           <Route path="/dashboard/facturation/form" element={<FormReceipt />} />
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />

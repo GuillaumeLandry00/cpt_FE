@@ -9,13 +9,13 @@ import { FcSearch } from 'react-icons/fc';
 import { GrDocumentPdf } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
 import { GrFormView } from 'react-icons/gr';
-import { IReceipt } from "../../interface/interfaces";
+import { IFacture, IReceipt } from "../../interface/interfaces";
 import { capitalizeString } from "../../functions/agent/clients";
 import FilterReceipt from "./FilterReceipt";
 
 const TableReceipt = () => {
 
-    const [data, setData] = useState<IReceipt[]>([]);
+    const [data, setData] = useState<IFacture[]>([]);
     const [search, setSearch] = useState<string>("");
 
     //Filter useState
@@ -35,7 +35,6 @@ const TableReceipt = () => {
     useEffect(() => {
         getData();
     }, [])
-
 
     return (<>
         <div className="w-4/5 mb-28 overscroll-auto  ml-auto mr-auto ">
@@ -76,24 +75,24 @@ const TableReceipt = () => {
                     <tbody>
                         {data.map((receipt, index) =>
                             <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" key={index}>
-                                <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{receipt.dossier_no}</td>
+                                <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{receipt.dossier}</td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{receipt.date.substring(0, 10)}</td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.nom)}</td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{capitalizeString(receipt.NOM)}</td>
                                 <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
-                                    {receipt.dossier_no.charAt(0) == "|" ? (
+                                    {String(receipt.dossier).charAt(0) == "|" ? (
                                         <a href="https://www.voyagesgabymsh.ca/backend/login.php" className="underline font-bold" target={"_blank"}>(Voir autre système)</a>
                                     ) : (
                                         <>
-                                            <Link to={`form/?action=view&id=${receipt.facturationID}`}>
+                                            <Link to={`form/?action=view&id=${receipt.id}`}>
                                                 <GrFormView size={22} />
                                             </Link>
-                                            <Link to={`form/?action=edit&id=${receipt.facturationID}`}>
+                                            <Link to={`form/?action=edit&id=${receipt.id}`}>
                                                 <FcEditImage size={22} className="ml-4" />
                                             </Link>
-                                            <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.facturationID}`} >
+                                            <a className="ml-4" href={`${BASE_URL}receipt/generate/${receipt.id}`} >
                                                 <GrDocumentPdf size={20} color="grey" />
                                             </a>
-                                            <Link to={`mail?to=${receipt.courriel}&receipt=${receipt.facturationID}`}>
+                                            <Link to={`mail?to=${JSON.parse(receipt.general).courriel}&receipt=${receipt.id}`}>
                                                 <AiOutlineMail size={22} className="ml-4" />
                                             </Link>
                                         </>

@@ -14,10 +14,8 @@ type ProductProps = {
 };
 
 
-const TravelProducts = ({ data, setOpcAmount, setGrandTotal, no_dossier }: ProductProps) => {
+const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) => {
 
-    const [noDossier, setNoDossier] = useState<number>(no_dossier);
-    // let noDossier = no_dossier;
 
     const divProducts = (id: number,) => {
         return (<div className="flex flex-wrap -mx-3 mt-2" key={id}>
@@ -27,10 +25,6 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, no_dossier }: Produ
                     {PRODUCT_TYPE.map((item, index) => (<option key={index} value={index} >{item.label}</option>))}
                 </select>
             </div>
-            {/* <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No dossier</label>
-                <input name={`Tno_dossier_${id}`} type="number" required min={0} defaultValue={data && data.length - 1 >= id ? data[id].no_dossier : ""} value={noDossier} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
-            </div> */}
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Quantité</label>
                 <input name={`Tqty_${id}`} type="number" id={`qty${id}`} min={0} defaultValue={data && data.length - 1 >= id ? data[id].qty : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
@@ -67,43 +61,47 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, no_dossier }: Produ
     }
 
     const [productsDiv, setProductsDiv] = useState<Array<any>>([]);
-    const [counter, setCounter] = useState<number>(0);
-    let compteur = 1;
+    const [counter, setCounter] = useState(0);
+
 
     //Here we deal with react-select async problem
     useEffect(() => {
         const url: URL = new URL(window.location.href);
         if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
             setProductsDiv([divProducts(0)])
-            compteur = 1;
         }
     }, [])
 
     //This will help us deal with the default values
     useEffect(() => {
-        if (data != undefined) {
+        if (data && data.length > 0) {
             setCounter(data.length);
-            compteur = data.length;
+            let newArr = new Array(data.length);
             for (let i = 0; i < data.length; i++) {
-                productsDiv[i] = divProducts(i);
-            }
 
+                newArr[i] = divProducts(i);
+            }
+            setProductsDiv([...newArr])
         }
     }, [data])
 
+    // useEffect(() => {
+    //     setCounter(counter);
+    // }, [counter])
+
+
     //This handle our click by removing/adding inputs
     const handleClick = (action: string): void => {
-        console.log(compteur);
+
         if (action === "add") {
             if (counter < 12) {
+
                 setCounter(counter + 1);
-                compteur++;
-                setProductsDiv([...productsDiv, divProducts(compteur - 1)]);
+                setProductsDiv([...productsDiv, divProducts(counter)]);
             }
         } else {
-            if (counter > 0) {
+            if (counter > 1) {
                 setCounter(counter - 1);
-                compteur--;
                 let newArray: Array<any> = productsDiv;
                 newArray.pop();
                 setProductsDiv([...newArray]);
@@ -114,7 +112,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, no_dossier }: Produ
     //This we calculate the total amount of OPC
     const opcCalculator = (): void => {
         let sum = 0
-        for (let i = 0; i < compteur; i++) {
+        for (let i = 0; i < counter; i++) {
             let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
             if (PRODUCT_TYPE[index].opc !== '0') {
                 let qty: number = parseInt((document.getElementById(`qty${i}`) as HTMLInputElement).value);
@@ -130,7 +128,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, no_dossier }: Produ
 
     const taxesCalculator = async (): Promise<void> => {
 
-        for (let i = 0; i < compteur; i++) {
+        for (let i = 0; i < counter; i++) {
             let qty: string = (document.getElementById(`qty${i}`) as HTMLInputElement).value;
             let price: string = (document.getElementById(`prix${i}`) as HTMLInputElement).value;
 

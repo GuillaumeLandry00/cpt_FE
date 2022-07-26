@@ -1,7 +1,8 @@
 import axios from "axios";
+import { Exception } from "sass";
 import { BASE_URL } from "../../constants/constantes";
 import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
-import { IPurchases } from "../../interface/interface_accounting";
+import { IExpensesForm, IPurchases } from "../../interface/interface_accounting";
 import { authToken } from "../agent/authentification";
 
 /**
@@ -101,7 +102,40 @@ export const addPurchases = async (data: IPurchases) => {
         });
         authToken(response.data);
         return response.data;
-    } catch (error) {
-
+    } catch (error: unknown) {
+        console.error(error);
     }
+}
+
+export const generateExpenses = async (values: IExpensesForm, pdf = false) => {
+    try {
+        const params = new URLSearchParams();
+        params.append("succ", String(values.succ));
+        params.append("date_du", String(values.date_du));
+        params.append("suppliers", String(values.suppliers));
+        params.append("currency", String(values.currency));
+
+        let url: string = ""
+        if (!pdf) {
+            console.log(`accounting/expenses/`);
+            url = BASE_URL + `accounting/expenses/`
+        } else {
+            url = BASE_URL + `accounting/expenses/pdf/`
+        }
+
+
+        //We make the request
+        const response: IResponse = await axios({
+            method: "post",
+            url: url,
+            data: params,
+            headers: { 'content-type': 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
+        });
+
+        authToken(response.data);
+        return response.data;
+    } catch (error: unknown) {
+        console.error(error);
+    }
+
 }

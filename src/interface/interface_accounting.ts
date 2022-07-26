@@ -47,3 +47,10 @@ export interface ITaxes {
     ecriture: string,
     montant: string
 }
+
+export interface IExpensesForm {
+    succ: string,
+    date_du: string,
+    suppliers: string,
+    currency: string
+}

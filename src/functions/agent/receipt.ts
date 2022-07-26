@@ -58,6 +58,8 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 
     //we check if the receipt is valid
     if (!validateReceipt(receipt)) {
+        console.log(receipt);
+
         let response: IGenericObject;
 
         if (action == "add") {
@@ -88,7 +90,9 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 export const getReceipts = async (order: string, by: string, search: string = "", id: string = ""): Promise<any> => {
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        let request: string = `${BASE_URL}receipt/${utilisateur.nom}?search=${search}`;
+        let request: string = `${BASE_URL}receipt/${utilisateur.id}?search=${search}`;
+        console.log(request);
+
         request += `&order=${order}`;
         request += `&by=${by}`
         if (id) request += `&id=${id}`;
@@ -111,6 +115,7 @@ export const getReceipt = async (id: string): Promise<any> => {
         const response: IResponse = await axios.get(request, {
             headers: { "x-access-token": localStorage.getItem('token') as string }
         });
+        console.log(response.data);
 
         authToken(response.data);
         return response.data;

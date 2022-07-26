@@ -19,7 +19,6 @@ const Accounting = () => {
     const [views, setViews] = useState(<DefaultAccounting />);
 
     const switchViews = (views: string, id = ""): void => {
-        console.log("views: ", views);
 
         switch (views) {
             case "comptes-payables":

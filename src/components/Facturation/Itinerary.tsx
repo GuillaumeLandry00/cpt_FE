@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ORIGINE } from "../../constants/select_constants";
+import { ORIGINE, TRAVEL_SUPPLIER } from "../../constants/select_constants";
 import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
@@ -9,7 +9,7 @@ import { IGenericObject } from "../../interface/interfaces";
 const Itinerary = ({ data }: IGenericObject) => {
 
     //Samll inner component
-    const divItineraries = (id: number,) => {
+    const divItineraries = (id: number) => {
         return (
             <div key={id} >
 
@@ -24,7 +24,7 @@ const Itinerary = ({ data }: IGenericObject) => {
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cie</label>
-                        <input name={`Icie_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].cie : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Icie_${id}`} options={TRAVEL_SUPPLIER} defaultValue={data && data.length - 1 >= id ? { label: data[id].cie, value: data[id].cie } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Vol no</label>
@@ -82,7 +82,7 @@ const Itinerary = ({ data }: IGenericObject) => {
     }
 
     const [itinerariesDiv, setItinerariesDiv] = useState<Array<any>>([]);
-    const [counter, setCounter] = useState<number>(0);
+    const [counter, setCounter] = useState<number>(1);
 
     //Here we deal with react-select async problem
     useEffect(() => {
@@ -97,13 +97,14 @@ const Itinerary = ({ data }: IGenericObject) => {
 
     //This help deal with default values
     useEffect(() => {
-        if (data != undefined) {
+        if (data && data.length > 0) {
             setCounter(data.length);
             let newArr = new Array(data.length);
-
             for (let i = 0; i < data.length; i++) {
+
                 newArr[i] = divItineraries(i);
             }
+            console.log(newArr);
 
             setItinerariesDiv([...newArr])
         }
@@ -118,7 +119,7 @@ const Itinerary = ({ data }: IGenericObject) => {
                 setItinerariesDiv([...itinerariesDiv, divItineraries(counter)]);
             }
         } else {
-            if (counter > 0) {
+            if (counter > 1) {
                 setCounter(counter - 1);
                 let newArray: Array<any> = itinerariesDiv;
                 newArray.pop();
@@ -126,7 +127,6 @@ const Itinerary = ({ data }: IGenericObject) => {
             }
         }
     }
-
 
     return (
         <>

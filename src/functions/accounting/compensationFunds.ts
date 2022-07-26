@@ -108,6 +108,7 @@ export const addCompensationFunds = async (data: ICompensation) => {
     }
 }
 
+
 export const validateCompensation = (data: ICompensation): boolean => {
 
 

@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { capitalizeString, getAllClient } from "../../functions/agent/clients";
 import { IClient, IGenericObject, ISelect, ISingleProps, IUtilisateur } from "../../interface/interfaces";
 import Select from 'react-select';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { AiOutlineMinusCircle } from 'react-icons/ai';
-
+import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineInfoCircle } from 'react-icons/ai';
+import ModalClient from "../ClientC/ModalClient";
 
 
 const Passagers = ({ data }: any) => {
 
-    const [counter, setCounter] = useState<number>(0);
+    const [counter, setCounter] = useState<number>(1);
     const [clients, setClients] = useState<any>([]);
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [id, setId] = useState<string>();
 
     //First off, we go fetch all the clients from the DB
     useEffect(() => {
@@ -34,7 +35,7 @@ const Passagers = ({ data }: any) => {
     //If we update or view an existing receipt, we put all the values as default
     useEffect(() => {
         if (clients.length > 0) {
-            if (data != undefined) {
+            if (data && data.length) {
                 setCounter(data.length);
                 for (let i = 0; i < data.length; i++) {
                     clientsDiv[i] = divClient(i);
@@ -47,7 +48,7 @@ const Passagers = ({ data }: any) => {
         let clientsDirty = await getAllClient(250);
         let clientClean: Array<ISelect> = [];
         clientsDirty.map((item: IClient) => {
-            clientClean.push({ value: item.ID, label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
+            clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
         });
         setClients(clientClean);
     }
@@ -58,13 +59,15 @@ const Passagers = ({ data }: any) => {
      * This function help addin a client to the form
      */
     const handleAddClient = (action: string): void => {
+
         if (action === "add") {
             if (counter < 13) {
+
                 setCounter(counter + 1);
                 setClientsDiv([...clientsDiv, divClient(counter)]);
             }
         } else {
-            if (counter > 2) {
+            if (counter > 1) {
                 setCounter(counter - 1);
                 let newArray: Array<any> = clientsDiv;
                 newArray.pop();
@@ -81,13 +84,25 @@ const Passagers = ({ data }: any) => {
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
                 {/* We set up a default value if needed it */}
-                <Select name={"Cpassager_" + id} options={clients} defaultValue={data && data[id].label ? { label: capitalizeString(data[id].label), value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <div className="flex row">
+                    <Select name={"Cpassager_" + id} options={clients} onChange={(e) => {
+                        if (typeof e !== "string" && e) setId(e.value)
+                    }} defaultValue={data.length > 10 && data[id].label ? { label: capitalizeString(data[id].label), value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <button onClick={() => {
+                        setShowModal(true);
+                    }}>
+                        <AiOutlineInfoCircle size={22} color={"rgb(31 41 55)"} />
+                    </button>
+
+                </div>
+
             </div>
         );
     }
 
     return (
         <>
+            {(showModal && id) && <ModalClient setShowModal={setShowModal} json={id} />}
             <h1 className="text-2xl  text-center border-b-2 ">Passagers</h1>
 
             <div className="flex flex-wrap -mx-3 mt-2">

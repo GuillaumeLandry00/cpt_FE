@@ -25,7 +25,7 @@ const FilterReceipt = (props: FilterReceipt) => {
             <div className="relative w-40 ml-10">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Par: </label>
                 <select onChange={(e) => props.setBy(e.target.value)} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                    <option value={"dossier_no"}>No dossier</option>
+                    <option value={"dossier"}>No dossier</option>
                     <option value={"date"}>Date de création</option>
                 </select>
                 <div className="pointer-events-none top-10 absolute  right-0 flex items-center px-2 text-gray-700">

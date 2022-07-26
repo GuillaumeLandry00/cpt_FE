@@ -3,7 +3,11 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/agent/clients";
 import NavBar from "../Dashboard/NavBar";
 
-const FormClient = () => {
+type props = {
+    idDefault: number
+}
+
+const FormClient = ({ idDefault }: props) => {
 
     const [name, setName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
@@ -34,8 +38,16 @@ const FormClient = () => {
      * This function help get all client info
      */
     const request = async () => {
+        let client: any = null;
+        console.log("we here", idDefault);
 
-        const client = await getClient(url.searchParams.get("id") as string);
+        if (idDefault == 0) {
+            client = await getClient(url.searchParams.get("id") as string);
+        } else {
+
+            client = await getClient(idDefault);
+        }
+
         //we update the form
         setAddress(client[0].Adresse);
         setEmail(client[0].Courriel);
@@ -55,10 +67,10 @@ const FormClient = () => {
     //this is how we know if we update the client or add a new one
     useEffect(() => {
 
-        if (url.searchParams.get("action") == "edit") {
+        if (url.searchParams.get("action") == "edit" || idDefault !== 0) {
             setId(url.searchParams.get("id"));
             //We search all the client info 
-            if (url.searchParams.get("id")) {
+            if (url.searchParams.get("id") || idDefault !== 0) {
                 request();
             }
         }
@@ -74,9 +86,9 @@ const FormClient = () => {
             let changes: boolean = false;
 
             //Ok no error, we send the request
-            if (id) {
+            if (id || idDefault) {
                 //we update
-                clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, id: id, })
+                clientDb = await updateClient({ nom: name, prenom: lastName, genre: gender, naissance: birthdate, pays: country, ville: city, adresse: address, province: province, zip: zip, phone1: phone, courriel: email, langue: language, note: note, file: file, id: idDefault ? idDefault : id, })
                 if (clientDb.affectedRows > 0) changes = true;
             } else {
                 //We get all the form data
@@ -352,7 +364,7 @@ const FormClient = () => {
                         <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id ? "Modifier" : "Ajouter"}</button>
                     </div>
                 </div>
-                {url.searchParams.get("action") !== "edit" && (<>
+                {(url.searchParams.get("action") !== "edit" && idDefault == 0) && (<>
                     {passengerDiv.map((div) => div)}
                     <small className="text-sm text-orange-400 mb-2">** Vous pouvez ajouter plusieurs clients à la même adresse</small>
                     <div className="mt-2">

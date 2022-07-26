@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { SUCC } from "../../../constants/select_constants";
 import { addPurchases, getPurchase, updatePurchases } from "../../../functions/accounting/purchase";
 import { validatePurchase } from "../../../functions/accounting/purchasingIssues";
 import { IPurchases } from "../../../interface/interface_accounting";
+import ModalAdminPurchase from "../others/ModalAdminPurchase";
 
 type Props = {
     fetchPurchases: () => Promise<void>,
@@ -11,10 +13,15 @@ type Props = {
 
 const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
 
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [supplier, setSupplier] = useState<string>("");
+    const [data, setData] = useState<IPurchases>();
+
+
     const fetchPurchase = async () => {
         setIsLoading(true)
-
         let dataS = await getPurchase(id) as IPurchases
+        setData(dataS);
         setReload(components(dataS));
         setIsLoading(false);
 
@@ -25,10 +32,14 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
     }, []);
 
     useEffect(() => {
-        setReload("Reloading...")
         fetchPurchase()
-        console.log("ComponentReloaded wiht id ", id);
     }, [id]);
+
+    useEffect(() => {
+        if (data) setReload(components(data, supplier));
+
+    }, [supplier]);
+
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [reload, setReload] = useState<any>();
@@ -49,8 +60,8 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
         }
     }
 
-    const components = (purchase: IPurchases) => {
-        console.log("My pruchase" + purchase);
+
+    const components = (purchase: IPurchases, supplierValue = "") => {
 
         return (
             <>
@@ -62,6 +73,7 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
                 ) : (
                     <div className="">
                         <h1 className="text-xl"> - Modifier un achat</h1>
+
                         <form className="w-full  ml-auto mr-auto mt-10 p-8 " id="myForm">
                             <div className="flex flex-wrap -mx-3 mb-2">
 
@@ -70,8 +82,9 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
                                         <input type="text"
                                             name="fournisseur"
+                                            value={supplierValue !== "" ? supplierValue : purchase.fournisseur}
                                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            placeholder="Fournisseur" defaultValue={purchase?.fournisseur} />
+                                            placeholder="Fournisseur" onClick={() => { setShowModal(true); console.log("Click", showModal); }} readOnly />
 
                                     </div>
                                 </div>
@@ -93,7 +106,10 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
                                     </label>
                                     <div className="relative">
                                         <select name="succ" defaultValue={purchase?.succ} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                                            <option value={"003"}>Msh</option>
+                                            {SUCC.map((item) =>
+                                                <option value={item.code}>{item.nom}</option>
+                                            )}
+
                                         </select>
                                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -186,7 +202,7 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
 
 
 
-    return (<>{reload}</>);
+    return (<>{showModal && <ModalAdminPurchase setSupplier={setSupplier} setShowModal={setShowModal} multiSelect={false}/>}{reload}</>);
 }
 
 export default UpdatePurchases;

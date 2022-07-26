@@ -14,7 +14,6 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
         setIsLoading(true)
 
         let dataS = await getTaxe(id) as ITaxes;
-        console.log(dataS);
 
         setReload(components(dataS));
         setIsLoading(false);
@@ -28,7 +27,6 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
     useEffect(() => {
         setReload("Reloading...")
         fetchPurchase()
-        console.log("ComponentReloaded wiht id ", id);
     }, [id]);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
