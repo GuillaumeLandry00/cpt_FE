@@ -74,9 +74,6 @@ const FormReceipt = () => {
         }
     }
 
-    console.log("ALL DATA", data);
-
-
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev: any) => {

@@ -36,6 +36,7 @@ const Passagers = ({ data }: any) => {
     useEffect(() => {
         if (clients.length > 0) {
             if (data && data.length) {
+
                 setCounter(data.length);
                 for (let i = 0; i < data.length; i++) {
                     clientsDiv[i] = divClient(i);
@@ -80,6 +81,13 @@ const Passagers = ({ data }: any) => {
 
     //Component
     const divClient = (id: number) => {
+        let currentData = { nom: "", id: "0" };
+        if (data[id]) {
+            currentData = JSON.parse(data[id]);
+        }
+
+
+
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
@@ -87,8 +95,11 @@ const Passagers = ({ data }: any) => {
                 <div className="flex row">
                     <Select name={"Cpassager_" + id} options={clients} onChange={(e) => {
                         if (typeof e !== "string" && e) setId(e.value)
-                    }} defaultValue={data.length > 10 && data[id].label ? { label: capitalizeString(data[id].label), value: data[id].value } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    }} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: currentData.id } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <button onClick={() => {
+                        // console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
+
+                        // setId(
                         setShowModal(true);
                     }}>
                         <AiOutlineInfoCircle size={22} color={"rgb(31 41 55)"} />

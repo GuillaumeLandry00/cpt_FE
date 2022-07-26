@@ -21,7 +21,7 @@ const GeneralSummary = ({ data }: ISingleProps) => {
                     <input type="number" name="balance" step="0.1" defaultValue={data ? data.balance : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">*Balance à recevoir</label>
+                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">*Date à recevoir</label>
                     <input type="date"
                         name="general_date"
                         defaultValue={data ? data.general_date : ""}

@@ -18,7 +18,6 @@ const ModalClient = ({ setShowModal, json }: props) => {
     //We fetch data for administrative purchases
     const fetch = async (): Promise<void> => {
         setIsLoading(true);
-        console.log((await getClient(JSON.parse(json).id) as IClient[])[0]);
         setClient((await getClient(JSON.parse(json).id) as IClient[])[0]);
 
 

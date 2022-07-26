@@ -42,7 +42,6 @@ const Itinerary = ({ data }: IGenericObject) => {
                         <input type="date"
                             name={`Idate_depart_${id}`}
                             defaultValue={data && data.length - 1 >= id ? data[id].date_depart : ""}
-                            required
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             placeholder="Select a date" data-mdb-toggle="datepicker" />
                     </div>
@@ -104,7 +103,7 @@ const Itinerary = ({ data }: IGenericObject) => {
 
                 newArr[i] = divItineraries(i);
             }
-            console.log(newArr);
+
 
             setItinerariesDiv([...newArr])
         }

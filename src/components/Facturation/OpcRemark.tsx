@@ -35,14 +35,13 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
     const divOpc = (id: number) => {
         return (
             <div key={id} className="flex flex-wrap -mx-3 mt-2 w-full">
-
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Remarque 1</label>
-                    <Select name="Oopc_remarque1" options={REMARKS} defaultValue={data ? { label: data.opc_remarque1, value: data.opc_remarque1 } : ""} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name="Oopc_remarque1" placeholder={"Aucune"} options={REMARKS} defaultValue={data.opc_remarque1 ? { value: data.opc_remarque1, label: data.opc_remarque1 } : ""} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Remarque 2</label>
-                    <Select name="Oopc_remarque_2" options={REMARKS} defaultValue={data ? { label: data.opc_remarque_2, value: data.opc_remarque_2 } : ""} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name="Oopc_remarque_2" options={REMARKS} placeholder={"Aucune"} defaultValue={data.opc_remarque_2 ? { value: data.opc_remarque_2, label: data.opc_remarque_2, } : ""} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
             </div>
         )

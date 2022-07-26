@@ -192,7 +192,7 @@ const FormClient = ({ idDefault }: props) => {
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8" id="myForm">
-                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Client {id ? "Modifié" : `ajouté (${affectedClients})`}</strong>}</h1>
+                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Client {id || idDefault !== 0 ? "Modifié" : `ajouté (${affectedClients})`}</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -361,7 +361,7 @@ const FormClient = ({ idDefault }: props) => {
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-3">
                         <label className="tracking-wide text-gray-700 text-sm font-bold  mb-3">Veuillez valider toutes les informations</label>
-                        <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id ? "Modifier" : "Ajouter"}</button>
+                        <button onClick={() => handleSubmit()} type="button" className=" mt-4 appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{id || idDefault !== 0 ? "Modifier" : "Ajouter"}</button>
                     </div>
                 </div>
                 {(url.searchParams.get("action") !== "edit" && idDefault == 0) && (<>
