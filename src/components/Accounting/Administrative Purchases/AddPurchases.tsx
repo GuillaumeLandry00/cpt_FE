@@ -3,7 +3,8 @@ import { SUCC } from "../../../constants/select_constants";
 import { addPurchases } from "../../../functions/accounting/purchase";
 import { validatePurchase } from "../../../functions/accounting/purchasingIssues";
 import { IPurchases } from "../../../interface/interface_accounting";
-import ModalAdminPurchase from "../others/ModalAdminPurchase";
+import ModalSuppliers from "../others/ModalSuppliers";
+import ModalAdminPurchase from "../others/ModalSuppliers";
 
 type Props = {
     fetchPurchases: () => Promise<void>,
@@ -36,7 +37,7 @@ const AddPurchases = ({ fetchPurchases, setResponse }: Props) => {
     return (
         <div className="">
             <h1 className="text-xl"> - Ajouter un achat</h1>
-            {showModal && <ModalAdminPurchase setSupplier={setSupplier} setShowModal={setShowModal} multiSelect={false} />}
+            {showModal && <ModalSuppliers type={"admin"} setSupplier={setSupplier} setShowModal={setShowModal} multiSelect={false} />}
             <form className="w-full  ml-auto mr-auto mt-10 p-8 " id="myForm">
                 <div className="flex flex-wrap -mx-3 mb-2">
 

@@ -54,3 +54,73 @@ export interface IExpensesForm {
     suppliers: string,
     currency: string
 }
+
+export interface IReceiptDB {
+    id: number,
+    dossier: number,
+    date: string,
+    fk_id_agent: string,
+    agence: string,
+    passagers: string,
+    itinerary: string,
+    products: string,
+    remarks: string,
+    paiements: string,
+    general: string,
+    comm: number
+}
+
+export interface IOpc {
+    opc: number,
+    grand_total: number,
+    opc_notes: string,
+    opc_remarque1: string,
+    opc_remarque_2: string
+}
+
+export interface IGeneral {
+    courriel: string,
+    tot_paiement: string,
+    balance: string,
+    general_date: string,
+    assurance: string,
+    signature: string,
+    notes_final: string
+}
+
+export interface IPaiements {
+    paiement_date: string,
+    total_paiements: number,
+    numero_carte: string,
+    mode: string,
+    detenteur: string,
+    cvv: string,
+    exp: string
+}
+
+export interface IProducts {
+    type_produit: string,
+    produit_note: string,
+    produit_tvq: number,
+    produit_tps: number,
+    escompte: number,
+    total: number,
+    taxe: number,
+    prix: number,
+    qty: number
+}
+
+export interface Iitinerary {
+    origin: string,
+    destination: string,
+    cie: string,
+    vol_no: string,
+    classe: string,
+    date_depart: string,
+    depart_hh: number,
+    depart_mm: number,
+    arrive: string,
+    arrive_hh: number,
+    arrive_mm: number,
+    itineraire_note: string
+}

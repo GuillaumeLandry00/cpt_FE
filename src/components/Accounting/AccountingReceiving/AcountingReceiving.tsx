@@ -7,7 +7,8 @@ import DefaultAccounting from "../DefaultAccounting";
 import PurchasingList from "../Purchasing Issues/PurchasingList";
 import CompensationFundsList from "../Compensation Funds/CompensationFundList";
 import TaxesList from "../Taxes/TaxesList";
-import AdminExpenses from "../AdminExpense/AdminExpenses";
+import AdminExpenses from "../Expenses/AdminExpenses";
+import TravelExpenses from "../Expenses/TravelExpenses";
 
 const AccountingReceiving = () => {
 
@@ -37,6 +38,9 @@ const AccountingReceiving = () => {
             case "debourses-admin":
                 setViews(<AdminExpenses />);
                 break;
+            case "debourses-voyages":
+                setViews(<TravelExpenses />);
+                break;
             default:
                 setViews(<DefaultAccounting />)
                 break;
@@ -46,7 +50,7 @@ const AccountingReceiving = () => {
     return (
         <div className="w-full">
             <AccountingReceivingTopBar switchViews={switchViews} />
-            <div className="shadow-xl mt-2 bg-slate-100 p-8 ml-10 mr-10">
+            <div className="shadow-xl  bg-slate-100 p-8 ">
                 {views}
             </div>
         </div >

@@ -3,7 +3,8 @@ import { SUCC } from "../../../constants/select_constants";
 import { addPurchases, getPurchase, updatePurchases } from "../../../functions/accounting/purchase";
 import { validatePurchase } from "../../../functions/accounting/purchasingIssues";
 import { IPurchases } from "../../../interface/interface_accounting";
-import ModalAdminPurchase from "../others/ModalAdminPurchase";
+import ModalSuppliers from "../others/ModalSuppliers";
+import ModalAdminPurchase from "../others/ModalSuppliers";
 
 type Props = {
     fetchPurchases: () => Promise<void>,
@@ -202,7 +203,7 @@ const UpdatePurchases = ({ fetchPurchases, id, setResponse }: Props) => {
 
 
 
-    return (<>{showModal && <ModalAdminPurchase setSupplier={setSupplier} setShowModal={setShowModal} multiSelect={false}/>}{reload}</>);
+    return (<>{showModal && <ModalSuppliers type="admin" setSupplier={setSupplier} setShowModal={setShowModal} multiSelect={false} />}{reload}</>);
 }
 
 export default UpdatePurchases;

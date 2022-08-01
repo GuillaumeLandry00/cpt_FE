@@ -5,9 +5,10 @@ import { validatePurchase } from "../../../functions/accounting/purchasingIssues
 import { Utility } from "../../../functions/util/Utility";
 import { IExpensesForm, IPurchases } from "../../../interface/interface_accounting";
 import Loading from "../../Others/Loading";
-import ModalAdminPurchase from "../others/ModalAdminPurchase";
+import ModalAdminPurchase from "../others/ModalSuppliers";
 import { GrDocumentPdf } from 'react-icons/gr';
 import { BASE_URL } from "../../../constants/constantes";
+import ModalSuppliers from "../others/ModalSuppliers";
 
 const AdminExpenses = () => {
 
@@ -44,7 +45,7 @@ const AdminExpenses = () => {
     return (
         <div className="">
             <h1 className="text-2xl  border-b-2">Déboursés admin</h1>
-            {showModal && <ModalAdminPurchase setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} />}
+            {showModal && <ModalSuppliers type="admin" setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} />}
 
             <form className="w-full  ml-auto mr-auto mt-10 p-8 " id="myForm">
                 <div className="flex flex-wrap -mx-3 mb-2">

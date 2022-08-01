@@ -7,16 +7,17 @@ import SearchBar from "../../Others/SearchBar";
 type props = {
     setShowModal: (showModal: boolean) => void,
     setSupplier: (supplier: string) => void,
-    multiSelect: boolean
+    multiSelect: boolean,
+    type: string
 }
-const ModalAdminPurchase = ({ setShowModal, setSupplier, multiSelect }: props) => {
+const ModalSuppliers = ({ setShowModal, setSupplier, multiSelect, type }: props) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<ISupplier[]>([]);
     const [search, setSearch] = useState<string>("");
 
     //We fetch data for administrative purchases
-    const fetch = async (limit: number = 15, offset: number = 0, type = "admin"): Promise<void> => {
+    const fetch = async (limit: number = 15, offset: number = 0): Promise<void> => {
         setIsLoading(true);
         setData(await getSuppliers(search, limit, offset, type) as ISupplier[]);
         setIsLoading(false);
@@ -38,7 +39,7 @@ const ModalAdminPurchase = ({ setShowModal, setSupplier, multiSelect }: props) =
                         {/*header*/}
                         <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                             <h3 className="text-3xl font-semibold">
-                                Fournisseur administratif
+                                Fournisseur {type == "admin" ? "Administratif" : "Voyage"}
                             </h3>
                             <button
                                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -73,4 +74,4 @@ const ModalAdminPurchase = ({ setShowModal, setSupplier, multiSelect }: props) =
     );
 }
 
-export default ModalAdminPurchase;
+export default ModalSuppliers;

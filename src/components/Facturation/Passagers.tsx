@@ -94,12 +94,12 @@ const Passagers = ({ data }: any) => {
                 {/* We set up a default value if needed it */}
                 <div className="flex row">
                     <Select name={"Cpassager_" + id} options={clients} onChange={(e) => {
-                        if (typeof e !== "string" && e) setId(e.value)
+                        // if (typeof e !== "string" && e) setId(e.value)
                     }} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: currentData.id } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <button onClick={() => {
-                        // console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
+                        // console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value));
 
-                        // setId(
+                        setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value));
                         setShowModal(true);
                     }}>
                         <AiOutlineInfoCircle size={22} color={"rgb(31 41 55)"} />

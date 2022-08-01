@@ -107,7 +107,7 @@ export const addPurchases = async (data: IPurchases) => {
     }
 }
 
-export const generateExpenses = async (values: IExpensesForm, pdf = false) => {
+export const generateExpenses = async (values: IExpensesForm, pdf = false, travel = false) => {
     try {
         const params = new URLSearchParams();
         params.append("succ", String(values.succ));
@@ -117,10 +117,9 @@ export const generateExpenses = async (values: IExpensesForm, pdf = false) => {
 
         let url: string = ""
         if (!pdf) {
-            console.log(`accounting/expenses/`);
-            url = BASE_URL + `accounting/expenses/`
+            url = BASE_URL + `accounting/expenses/${travel ? "travel/" : ""}`
         } else {
-            url = BASE_URL + `accounting/expenses/pdf/`
+            url = BASE_URL + `accounting/expenses/${travel ? "travel/" : ""}/pdf/`
         }
 
 
@@ -133,7 +132,9 @@ export const generateExpenses = async (values: IExpensesForm, pdf = false) => {
         });
 
         authToken(response.data);
-        return response.data;
+        console.log(response.data);
+
+        return response.data
     } catch (error: unknown) {
         console.error(error);
     }

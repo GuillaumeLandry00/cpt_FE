@@ -78,6 +78,8 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
                 headers: { "x-access-token": localStorage.getItem('token') as string },
             });
         }
+        console.log(response.data, action);
+
         authToken(response.data);
         return response.data;
     } else {
@@ -121,6 +123,20 @@ export const getReceipt = async (id: string): Promise<any> => {
         return response.data;
     } catch (error: unknown) {
         console.log(error);
+    }
+}
+
+export const deleteReceipt = async (id: string | number) => {
+    try {
+        const response: IResponse = await axios.delete(`${BASE_URL}receipt/${id}`, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        });
+
+        authToken(response.data);
+        return response.data;
+    } catch (error: unknown) {
+        console.log(error);
+
     }
 }
 

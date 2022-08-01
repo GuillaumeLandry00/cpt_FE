@@ -27,6 +27,9 @@ const AccountingTopBar = ({ switchViews }: Props) => {
                     <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("debourses-admin")}>
                         • Déboursés admin
                     </ button>
+                    <button className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium" onClick={() => switchViews("debourses-voyages")}>
+                        • Déboursés voyages
+                    </ button>
 
                 </div>
             </div>
