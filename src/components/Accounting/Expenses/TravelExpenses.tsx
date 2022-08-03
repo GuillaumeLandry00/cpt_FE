@@ -7,17 +7,25 @@ import { IExpensesForm, IGeneral, Iitinerary, IOpc, IPaiements, IProducts, IPurc
 import Loading from "../../Others/Loading";
 import ModalAdminPurchase from "../others/ModalSuppliers";
 import { GrDocumentPdf } from 'react-icons/gr';
-import { BASE_URL } from "../../../constants/constantes";
+import { BASE_URL, SITE_URL } from "../../../constants/constantes";
 import ModalSuppliers from "../others/ModalSuppliers";
 import { capitalizeString } from "../../../functions/agent/clients";
+import { FcEditImage } from "react-icons/fc";
+import { Link } from "react-router-dom";
+import ModalExpenses from "./ModalExpenses";
+import { MdOutlineAttachMoney } from "react-icons/md";
 
 const TravelExpenses = () => {
 
     const [suppliers, setSuppliers] = useState<string>("Tout");
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [modalType, setModalType] = useState<string>("supplier");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [response, setResponse] = useState<string>("Veuillez appuyer sur générer");
     const [data, setData] = useState<IReceiptDB[]>([]);
+
+    console.log(showModal);
+
 
     const handleBtn = async (pdf = false) => {
         let myForm = document.getElementById('myForm') as HTMLFormElement;
@@ -35,6 +43,8 @@ const TravelExpenses = () => {
                     if (api_request.length > 0) {
                         //Now we list...
                         setData(api_request)
+                        console.log(api_request);
+
                     } else {
                         setResponse("Aucun résultat trouvé");
                     }
@@ -46,7 +56,7 @@ const TravelExpenses = () => {
     return (
         <div className="">
             <h1 className="text-2xl border-b-2">Déboursés Voyages</h1>
-            {showModal && <ModalSuppliers type="voyage" setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} />}
+            {showModal ? (modalType == "supplier" ? <ModalSuppliers type="voyage" setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} /> : <ModalExpenses setShowModal={setShowModal} />) : ""}
 
             <form className="w-full  ml-auto mr-auto mt-10 p-8 " id="myForm">
                 <div className="flex flex-wrap -mx-3 mb-2">
@@ -89,7 +99,7 @@ const TravelExpenses = () => {
                                 required
                                 readOnly
                                 value={suppliers}
-                                onClick={() => { setShowModal(true) }}
+                                onClick={() => { setModalType("supplier"); setShowModal(true) }}
                             />
                         </div>
                     </div>
@@ -186,36 +196,44 @@ const TravelExpenses = () => {
                                         {data && data.map((purchase: IReceiptDB, index) => {
 
                                             let general: IGeneral = JSON.parse(purchase.general);
-                                            let paiments: IPaiements = JSON.parse(purchase.paiements);
-                                            let passagers: { id: number, nom: string } = JSON.parse(JSON.parse(purchase.passagers)[0]);
-                                            let opc: IOpc = JSON.parse(purchase.remarks);
+                                            let paiments: IPaiements = JSON.parse(purchase.paiements); let opc: IOpc = JSON.parse(purchase.remarks);
                                             let products: IProducts[] = JSON.parse(purchase.products);
                                             let itinerary: Iitinerary[] = JSON.parse(purchase.itinerary);
-                                            console.log(passagers);
+                                            if (itinerary[0] && itinerary[0].cie) {
 
 
-                                            return (
-                                                <tr className={`${index % 2 ? " bg-white" : "bg-gray-200"} border-b transition duration-300 ease-in-out hover:bg-gray-100`} key={index}>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">Action</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{itinerary[0].cie}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">Ref</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.dossier}-1</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{opc.grand_total}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-emerald-600">{general.tot_paiement}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-red-600">{general.balance}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-blue-800">0.00</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">fonds</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{general.general_date}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{itinerary[0].date_depart}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.date.substring(0, 10)}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{opc.opc_remarque1}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{Math.round(((opc.grand_total * (purchase.comm / 100)) + Number.EPSILON) * 100) / 100}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{products[0].produit_tps}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{products[0].produit_tvq}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.comm}%</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.dossier}</td>
-                                                    <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{passagers.nom}</td>
-                                                </tr>)
+                                                return (
+                                                    <tr className={`${index % 2 ? " bg-white" : "bg-gray-200"} border-b transition duration-300 ease-in-out hover:bg-gray-100`} key={index}>
+                                                        <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 flex flex-row">
+
+                                                            <a href={`${SITE_URL}dashboard/facturation/form/?action=edit&id=${purchase.id}`}>
+                                                                <FcEditImage size={22} className="ml-4" />
+                                                            </a>
+                                                            <button onClick={() => { setModalType("expense"); setShowModal(true) }}>
+                                                                <MdOutlineAttachMoney size={22} className="ml-4" />
+                                                            </button>
+
+                                                        </td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{itinerary[0].cie}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">Ref</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.dossier}-1</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{opc.grand_total ? opc.grand_total : products[0].total}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-emerald-600">{general.tot_paiement ? general.tot_paiement : general.total_paiements}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-red-600">{general.balance}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-blue-800">0.00</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{Utility.roundNumber(parseFloat(general.tot_paiement ? general.tot_paiement : general.total_paiements) - (opc.grand_total ? opc.grand_total : products[0].total))}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{general.general_date}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{itinerary[0].date_depart}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.date.substring(0, 10)}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{opc.opc_remarque1 ? opc.opc_remarque1 : products[0].type_produit}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{Utility.roundNumber((opc.grand_total * (purchase.comm / 100)))}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{products[0].produit_tps}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{products[0].produit_tvq}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.comm}%</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.dossier}</td>
+                                                        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{purchase.nom_passager}</td>
+                                                    </tr>)
+                                            }
                                         }
 
 

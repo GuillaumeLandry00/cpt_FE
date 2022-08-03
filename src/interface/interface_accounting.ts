@@ -67,7 +67,8 @@ export interface IReceiptDB {
     remarks: string,
     paiements: string,
     general: string,
-    comm: number
+    comm: number,
+    nom_passager: string
 }
 
 export interface IOpc {
@@ -81,6 +82,7 @@ export interface IOpc {
 export interface IGeneral {
     courriel: string,
     tot_paiement: string,
+    total_paiements: string,
     balance: string,
     general_date: string,
     assurance: string,

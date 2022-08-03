@@ -4,6 +4,7 @@ import { IClient, IGenericObject, ISelect, ISingleProps, IUtilisateur } from "..
 import Select from 'react-select';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import ModalClient from "../ClientC/ModalClient";
+import { Utility } from "../../functions/util/Utility";
 
 
 const Passagers = ({ data }: any) => {
@@ -83,7 +84,12 @@ const Passagers = ({ data }: any) => {
     const divClient = (id: number) => {
         let currentData = { nom: "", id: "0" };
         if (data[id]) {
-            currentData = JSON.parse(data[id]);
+            if (Utility.isJsonString(data[id])) {
+                currentData = JSON.parse(data[id]);
+            } else {
+                currentData = data[id];
+            }
+
         }
 
 
