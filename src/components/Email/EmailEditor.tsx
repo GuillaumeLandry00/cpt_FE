@@ -83,7 +83,7 @@ const EmailEditor: React.FC = () => {
             //we make the api request
 
             //we check if we need to send the mail right now...
-            if (sendingDate) {
+            if (sendingDate != new Date().toISOString().slice(0, 10)) {
 
                 //we add it to the db
                 if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {

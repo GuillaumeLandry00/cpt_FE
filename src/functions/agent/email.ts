@@ -5,6 +5,8 @@ import { IGenericObject } from "../../interface/interfaces";
 
 export const sendMails = async (from: string, to: string, object: string, msg: string): Promise<boolean> => {
 
+
+
     //We build the body of the request
     let formData = new FormData();
     formData.append("from", EMAIL);
