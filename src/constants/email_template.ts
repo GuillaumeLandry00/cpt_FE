@@ -118,6 +118,6 @@ export const SIGNATURE_BSP: string = `<p style="color: blue;">Test</p><br><div>1
 	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/03/bsp.jpg" width="300" border="1" style="margin:3px;">`
 
 export const SIGNATURE_CWT: string = `<br><div>200 Curé-Labelle, local 103 B</div><div>Ste-Thérèse&nbsp;</div><div>J7E 2X5</div><br>
-	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/03/cwt.jpg" width="300" border="1" style="margin:3px;">`
+	<img id="tLogo" src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/08/new-logo.png" width="300" border="1" style="margin:3px;">`
 
 

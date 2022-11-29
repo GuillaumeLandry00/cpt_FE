@@ -9,7 +9,7 @@ import GeneralSummary from "./GeneralSummary";
 import Terms from "./Terms";
 import { buildReceipt, getReceipt } from "../../functions/agent/receipt";
 import { IUtilisateur, IFactureDB } from "../../interface/interfaces";
-import { Buffer } from "buffer";
+
 
 const FormReceipt = () => {
 
@@ -49,20 +49,27 @@ const FormReceipt = () => {
             const formData: FormData = new FormData(myForm);
             const values = Object.fromEntries(formData.entries())
             if (url.searchParams.get("id") && url.searchParams.get("action") == "edit") {
-                //we update
+
+                //we update                
                 const response = buildReceipt(values, utilisateur, "update", url.searchParams.get("id") as string);
                 response.then((result) => {
+
                     if (result.affectedRows > 0) {
                         setResponse("La facture à été mise à jour")
+                        // window.location.href = `${SITE_URL}dashboard/facturation/form/?action=view&id=${result.id}`;
                     }
                 });
             } else {
+
+
                 //we add a new one
                 const response = buildReceipt(values, utilisateur, "add");
                 response.then((result) => {
+
                     if (result.affectedRows > 0) {
                         //We reload the current page
                         setResponse("La facture a bien été ajoutée");
+
 
                         let form = document.getElementById("myForm") as HTMLFormElement;
                         form.reset();

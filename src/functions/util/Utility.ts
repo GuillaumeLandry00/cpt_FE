@@ -22,4 +22,19 @@ export class Utility {
         }
         return true;
     }
+
+    public static calcComm(type: string, comm: number, total: number): number {
+
+        let amount = 0;
+
+        if (type == "%") {
+            amount = (comm / 100) * total;
+        } else if (type == "net") {
+            amount = total + comm;
+        } else {
+            amount = total + comm;
+        }
+
+        return this.roundNumber(amount);
+    }
 }

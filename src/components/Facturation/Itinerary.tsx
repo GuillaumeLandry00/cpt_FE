@@ -55,7 +55,7 @@ const Itinerary = ({ data }: IGenericObject) => {
                         </div>
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
-                        <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Arrivé</label>
+                        <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Arrivée</label>
                         <input type="date"
                             name={`Iarrive_${id}`}
                             defaultValue={data && data.length - 1 >= id ? data[id].arrive : ""}
@@ -129,7 +129,7 @@ const Itinerary = ({ data }: IGenericObject) => {
 
     return (
         <>
-            <h1 className="text-2xl border-b-2 text-center">Itineraire du voyage</h1>
+            <h1 className="text-2xl border-b-2 text-center">Itinéraire du voyage</h1>
             {itinerariesDiv.length == 0 ? (<p className="font-bold">Veuillez ajouter une itinéraire en appuyant sur le +</p>) : ""}
             {itinerariesDiv.map((item) => { return item })}
             <div className="mt-2">

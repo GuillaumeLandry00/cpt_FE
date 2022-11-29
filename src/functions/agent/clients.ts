@@ -1,16 +1,17 @@
 import axios from "axios"
 import { BASE_URL, SITE_URL } from "../../constants/constantes";
 import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
-import { authToken } from "./authentification";
+import { authToken, checkToken } from "./authentification";
 import { Buffer } from "buffer";
 
 const d = new Date();
 
 export const getAllClient = async (limit = 25, offset = 0): Promise<any> => {
     try {
+        checkToken();
         //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        let who: string = utilisateur.typeUtilisateur == 1 ? "all" : utilisateur.nom;
+        let who: string = /*utilisateur.typeUtilisateur == 1 ? "all" :*/ utilisateur.nom;
         const response: IResponse = await axios.get(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         console.log(response);
@@ -214,7 +215,7 @@ export const addClient = async (client: any, clients_array = [{}]): Promise<any>
 export const buildClientArray = (mixedData: IGenericObject) => {
 
     //First off, we initialize the array with default values.
-    let arrClients = new Array<any>((Object.keys(mixedData).length - 1) / 4);
+    let arrClients = new Array<any>((Object.keys(mixedData).length - 1) / 6);
     for (let i = 0; i < arrClients.length; i++) { arrClients[i] = {}; }
 
     for (const [key, value] of Object.entries(mixedData)) {

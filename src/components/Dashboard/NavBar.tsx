@@ -19,7 +19,7 @@ const NavBar = () => {
                                 <Link to={"/dashboard"}>
                                     <img
                                         className="h-10 w-22"
-                                        src="https://www.voyagesgabymsh.ca/wp-content/uploads/2021/07/CWT-2.png"
+                                        src="https://www.voyagesgabymsh.ca/wp-content/uploads/2022/08/new-logo.png"
                                         alt="logo"
                                     />
                                 </Link>
@@ -27,7 +27,7 @@ const NavBar = () => {
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
 
-                                    {user && user.typeUtilisateur == 1 && (
+                                    {/* {user && user.typeUtilisateur == 1 && (
                                         <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Admin
                                         </ Link>
@@ -36,7 +36,7 @@ const NavBar = () => {
                                         <Link to={'/comptabilite'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Comptabilité
                                         </ Link>
-                                    )}
+                                    )} */}
                                     <Link to={'/dashboard/client'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Client
                                     </ Link>

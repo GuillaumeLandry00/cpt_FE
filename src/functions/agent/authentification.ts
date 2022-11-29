@@ -16,7 +16,6 @@ export const checkLoginStatus = async (email: string, password: string): Promise
  */
 export const sendPasswordResetToken = async (email: string) => {
     try {
-        console.log("CLick icic");
 
         const response = await axios.post(BASE_URL + "auth/lostpassword", { email: email });
         return response.data;
@@ -59,7 +58,14 @@ export const checkAuth = async (): Promise<any> => {
     }
 }
 
+export const checkToken = () => {
+    if (!localStorage.getItem("utilisateur") || !localStorage.getItem("token")) {
+        window.location.href = SITE_URL;
+    }
+}
+
 export const authToken = (response: any) => {
+
     //Token failed so we delete the old one
     if (response.code && response.code == 500) {
         localStorage.setItem("token", "");

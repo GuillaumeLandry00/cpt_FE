@@ -4,8 +4,12 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
-
+let COUNTER = 0;
 const PayementsSummary = ({ data }: ISingleProps) => {
+
+
+    const [counter, setCounter] = useState<number>(0);
+    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
 
     const divPayementsDiv = (id: number) => {
         return (<div key={id} className="flex flex-wrap -mx-3 mt-2">
@@ -19,12 +23,12 @@ const PayementsSummary = ({ data }: ISingleProps) => {
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Montant</label>
-                <input type="text" name={`Stotal_paiements_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].total_paiements : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <input type="text" name={`Stotal_paiements_${id}`} id={`tot_paiement${id}`} defaultValue={data && data.length - 1 >= id ? data[id].total_paiements : ""} onChange={() => calcPaiement()} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
 
             <div className="w-full md:w-2/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro de carte</label>
-                <input type="number" name={`Snumero_carte_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].numero_carte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <input type="text" name={`Snumero_carte_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].numero_carte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Mode</label>
@@ -50,8 +54,17 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }
 
 
-    const [counter, setCounter] = useState<number>(0);
-    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
+    const calcPaiement = () => {
+        let sum = 0;
+
+        for (let i = 0; i < COUNTER; i++) {
+            sum += parseInt((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
+        }
+        (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
+        (document.getElementById("balance") as HTMLFormElement).value = parseInt((document.getElementById("grand_total") as HTMLFormElement).value) - sum;
+    }
+
+
 
     //Here we deal with react-select async problem
     useEffect(() => {
@@ -62,10 +75,12 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }, [])
 
     useEffect(() => {
+        console.log(data.length);
 
-        if (data != undefined) {
+        if (data) {
+            console.log("We set up the counter at " + data.length);
+            COUNTER = data.length;
             setCounter(data.length);
-
             for (let i = 0; i < data.length; i++) {
                 payementsDiv[i] = divPayementsDiv(i);
             }
@@ -78,6 +93,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
         if (action === "add") {
             if (counter < 12) {
                 setCounter(counter + 1);
+                COUNTER++
                 setPayementsDiv([...payementsDiv, divPayementsDiv(counter)]);
             }
         } else {
@@ -85,6 +101,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
 
             if (counter >= 1) {
                 setCounter(counter - 1);
+                COUNTER--;
                 let newArray: Array<any> = payementsDiv;
                 newArray.pop();
                 setPayementsDiv([...newArray]);
@@ -96,7 +113,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
 
     return (
         <>
-            <h1 className="text-2xl  text-center border-b-2 mt-8">Sommaire des paiements recus</h1>
+            <h1 className="text-2xl  text-center border-b-2 mt-8">Sommaire des paiements reçus</h1>
             {payementsDiv.map((item) => item)}
             <div className="mt-2">
                 <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>

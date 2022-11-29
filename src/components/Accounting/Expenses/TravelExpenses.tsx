@@ -22,9 +22,12 @@ const TravelExpenses = () => {
     const [modalType, setModalType] = useState<string>("supplier");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [response, setResponse] = useState<string>("Veuillez appuyer sur générer");
+    const [products, setProducts] = useState<IProducts[]>([]);
+    const [opc, setOpc] = useState<IOpc | null>(null);
+
     const [data, setData] = useState<IReceiptDB[]>([]);
 
-    console.log(showModal);
+
 
 
     const handleBtn = async (pdf = false) => {
@@ -43,7 +46,7 @@ const TravelExpenses = () => {
                     if (api_request.length > 0) {
                         //Now we list...
                         setData(api_request)
-                        console.log(api_request);
+
 
                     } else {
                         setResponse("Aucun résultat trouvé");
@@ -56,7 +59,7 @@ const TravelExpenses = () => {
     return (
         <div className="">
             <h1 className="text-2xl border-b-2">Déboursés Voyages</h1>
-            {showModal ? (modalType == "supplier" ? <ModalSuppliers type="voyage" setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} /> : <ModalExpenses setShowModal={setShowModal} />) : ""}
+            {showModal ? (modalType == "supplier" ? <ModalSuppliers type="voyage" setSupplier={setSuppliers} setShowModal={setShowModal} multiSelect={true} /> : <ModalExpenses setShowModal={setShowModal} products={products} opc={opc} />) : ""}
 
             <form className="w-full  ml-auto mr-auto mt-10 p-8 " id="myForm">
                 <div className="flex flex-wrap -mx-3 mb-2">
@@ -130,7 +133,7 @@ const TravelExpenses = () => {
                         {data.length > 0 ? (
                             <>
 
-                                <table className="max-w-full h-full block shadow-2xl mt-2 overflow-x-auto">
+                                <table className=" h-full block  mt-2 overflow-x-auto min-w-min	mr-auto ml-auto">
                                     <thead className="bg-gray-800 border-b">
                                         <tr>
                                             <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left">
@@ -199,6 +202,13 @@ const TravelExpenses = () => {
                                             let paiments: IPaiements = JSON.parse(purchase.paiements); let opc: IOpc = JSON.parse(purchase.remarks);
                                             let products: IProducts[] = JSON.parse(purchase.products);
                                             let itinerary: Iitinerary[] = JSON.parse(purchase.itinerary);
+                                            // if (index == 0) {
+                                            //     console.log(general);
+                                            //     console.log(paiments);
+                                            //     console.log(products);
+                                            //     console.log(itinerary);
+                                            // }
+
                                             if (itinerary[0] && itinerary[0].cie) {
 
 
@@ -209,7 +219,7 @@ const TravelExpenses = () => {
                                                             <a href={`${SITE_URL}dashboard/facturation/form/?action=edit&id=${purchase.id}`}>
                                                                 <FcEditImage size={22} className="ml-4" />
                                                             </a>
-                                                            <button onClick={() => { setModalType("expense"); setShowModal(true) }}>
+                                                            <button onClick={() => { setProducts(products); setOpc(opc); setModalType("expense"); setShowModal(true) }}>
                                                                 <MdOutlineAttachMoney size={22} className="ml-4" />
                                                             </button>
 

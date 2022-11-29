@@ -1228,7 +1228,9 @@ export const REMARKS = [
     { label: `République Dominicaine Sunwing:Taxe de sortie payable sur place de $20 US et $10 US pour Carte Touristique`, value: `République Dominicaine Sunwing:Taxe de sortie payable sur place de $20 US et $10 US pour Carte Touristique` },
     { label: `San Andrès: Taxe de sortie payable sur place de $24 US`, value: `San Andrès: Taxe de sortie payable sur place de $24 US` },
     { label: `Transat / Frais  de 25 $ sur  le premier bagage enregistré sur tous  les vols en direction des Etats Unis `, value: `Transat / Frais  de 25 $ sur  le premier bagage enregistré sur tous  les vols en direction des Etats Unis ` },
-    { label: `Vérifier la validité des passeports de vos clients `, value: `Vérifier la validité des passeports de vos clients ` },
+    { label: `Sunwing : bagage de cabine payant : 25$`, value: `Vérifier la validité des passeports de vos clients ` },
+    { label: `Vérifier la validité des passeports de vos clients`, value: `Sunwing : bagage de cabine payant : 25$` },
+    { label: `Sunwing : repas / snacks / boissons payants à bord (eau et café gratuit)`, value: `Sunwing : repas / snacks / boissons payants à bord (eau et café gratuit)` },
 ]
 
 export const MODE = [

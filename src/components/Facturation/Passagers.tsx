@@ -47,7 +47,7 @@ const Passagers = ({ data }: any) => {
     }, [data, clients])
 
     const getClients = async () => {
-        let clientsDirty = await getAllClient(250);
+        let clientsDirty = await getAllClient(10000000000000);
         let clientClean: Array<ISelect> = [];
         clientsDirty.map((item: IClient) => {
             clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
@@ -96,16 +96,15 @@ const Passagers = ({ data }: any) => {
 
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Clients {id + 1}</label>
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Client {id + 1}</label>
                 {/* We set up a default value if needed it */}
                 <div className="flex row">
                     <Select name={"Cpassager_" + id} options={clients} onChange={(e) => {
                         // if (typeof e !== "string" && e) setId(e.value)
                     }} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: currentData.id } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <button onClick={() => {
-                        // console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value));
 
-                        setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value));
+                        setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
                         setShowModal(true);
                     }}>
                         <AiOutlineInfoCircle size={22} color={"rgb(31 41 55)"} />
@@ -119,14 +118,14 @@ const Passagers = ({ data }: any) => {
 
     return (
         <>
-            {(showModal && id) && <ModalClient setShowModal={setShowModal} json={id} />}
+            {(showModal && id) && <ModalClient setShowModal={setShowModal} id={id} />}
             <h1 className="text-2xl  text-center border-b-2 ">Passagers</h1>
 
             <div className="flex flex-wrap -mx-3 mt-2">
                 {clientsDiv.map((item: any) => { return item })}
             </div>
             <div className="mt-2">
-                <button onClick={() => { ; handleAddClient("remove") }}><AiOutlineMinusCircle size={28} color={"red"} /></button>
+                <button onClick={() => { ; handleAddClient("rem ove") }}><AiOutlineMinusCircle size={28} color={"red"} /></button>
                 <button className="ml-2" onClick={() => { handleAddClient("add") }}><AiOutlinePlusCircle size={28} color={"green"} /></button>
             </div>
 

@@ -59,7 +59,7 @@ const TableReceipt = () => {
                     <thead className="bg-gray-800 border-b">
                         <tr>
                             <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-1/6">
-                                #
+                                No dossier
                             </th>
                             <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
                                 Date de création

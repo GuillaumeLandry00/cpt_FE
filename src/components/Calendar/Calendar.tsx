@@ -15,8 +15,6 @@ const Calendar = () => {
         setIsLoading(false);
 
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string)
-        console.log("User event" + await getEvents(utilisateur.id));
-
         setEvents(evt);
     }
 
@@ -60,7 +58,6 @@ const Calendar = () => {
                                     return "complete"
                                 }
                             }
-                            console.log();
 
                             return ""
 
@@ -111,7 +108,6 @@ const Calendar = () => {
                                             } else {
 
                                                 const response = await addEventsDB(selectedDate, parseInt((selector as HTMLFormElement).value));
-                                                console.log(response);
 
                                                 //We make the rquest
                                                 if (response.affectedRows) {

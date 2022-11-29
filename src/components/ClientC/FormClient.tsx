@@ -39,7 +39,7 @@ const FormClient = ({ idDefault }: props) => {
      */
     const request = async () => {
         let client: any = null;
-        console.log("we here", idDefault);
+
 
         if (idDefault == 0) {
             client = await getClient(url.searchParams.get("id") as string);
@@ -47,6 +47,9 @@ const FormClient = ({ idDefault }: props) => {
 
             client = await getClient(idDefault);
         }
+
+
+
 
         //we update the form
         setAddress(client[0].Adresse);
@@ -60,7 +63,7 @@ const FormClient = ({ idDefault }: props) => {
         setCity(client[0].Ville);
         setZip(client[0].Zip);
         setGender(client[0].gender);
-        setNote(client[0].Note);
+        setNote(client[0].note);
         setLinkFile(client[0].Passeport)
     }
 
@@ -123,10 +126,7 @@ const FormClient = ({ idDefault }: props) => {
     const handleClick = (action: string): void => {
         if (action === "add") {
             if (compteur < 12) {
-
                 setCompteur(compteur + 1);
-                console.log(compteur);
-
                 setPassengerDiv([...passengerDiv, divPassanger(compteur)]);
             }
         } else {
@@ -153,8 +153,8 @@ const FormClient = ({ idDefault }: props) => {
                             Genre
                         </label>
                         <div className="relative">
-                            <select name={`${id}_genre`} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                                <option value={"M"}>M</option>
+                            <select name={`${id}_genre`} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value={"M"} selected>M</option>
                                 <option value={"Mrs"}>Mrs</option>
                                 <option value={"Mme"}>Mme</option>
                             </select>
@@ -163,17 +163,17 @@ const FormClient = ({ idDefault }: props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Nom
                         </label>
-                        <input name={`${id}_nom`} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" />
+                        <input name={`${id}_nom`} className="appearance-none block w-full bg-gray-200 text-gray-700 borde rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Nom" />
                     </div>
-                    <div className="w-full md:w-2/6 px-3">
+                    <div className="w-full md:w-1/6 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Prénom
                         </label>
-                        <input name={`${id}_prenom`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Doe" />
+                        <input name={`${id}_prenom`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Prénom" />
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
@@ -181,6 +181,19 @@ const FormClient = ({ idDefault }: props) => {
                             <input name={`${id}_naissance`} type="date" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" />
                         </div>
                     </div>
+                    <div className="w-full md:w-1/6 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Téléphone
+                        </label>
+                        <input name={`${id}_phone1`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Téléphone" />
+                    </div>
+                    <div className="w-full md:w-1/6 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Courriel
+                        </label>
+                        <input name={`${id}_courriel`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Courriel" />
+                    </div>
+
                 </div>
             </div>
         );

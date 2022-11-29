@@ -109,7 +109,9 @@ export interface IProducts {
     total: number,
     taxe: number,
     prix: number,
-    qty: number
+    qty: number,
+    comm: number,
+    type_comm: string
 }
 
 export interface Iitinerary {

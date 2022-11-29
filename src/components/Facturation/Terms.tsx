@@ -1,10 +1,19 @@
+import { stringify } from "querystring";
 import React, { useEffect, useState } from "react";
 import Select from 'react-select';
 import { CHOICES } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
 
 const Terms = ({ data }: ISingleProps) => {
+    console.log("Terms", data.assurance);
 
+    const [assurance, setAssurance] = useState<{ label: string, value: string }>();
+
+    useEffect(() => {
+        if (data.assurance) {
+            setAssurance({ label: data.assurance, value: data.assurance });
+        }
+    }, [data])
 
     return (
         <>
@@ -13,7 +22,7 @@ const Terms = ({ data }: ISingleProps) => {
             <div className="flex flex-wrap -mx-3 mt-2">
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Je refuse l'assurance</label>
-                    <Select options={CHOICES} name="assurance" />
+                    <Select options={CHOICES} id="assurance" name="assurance" value={assurance} onChange={(e) => setAssurance({ label: e?.label as string, value: e?.value as string })} />
                 </div>
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Veuillez signer votre nom</label>

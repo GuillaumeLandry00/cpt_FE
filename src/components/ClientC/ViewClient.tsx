@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { deleteClient, downloadPassport, getClient } from "../../functions/agent/clients";
 import { Link } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { HiArrowLeft } from "react-icons/hi";
+import { SITE_URL } from "../../constants/constantes";
 
 const ViewClient = ({ id }: any) => {
 
@@ -30,8 +32,6 @@ const ViewClient = ({ id }: any) => {
         }
     }
 
-    console.log(client);
-
     return (
         <>
             <div className="w-full max-w-screen-xl ml-auto mr-auto mt-10 shadow-2xl p-8">
@@ -46,6 +46,7 @@ const ViewClient = ({ id }: any) => {
                 )}
                 {client ?
                     (<>
+                        <a className="text-xl text-slate-600 mb-2 " href={`${SITE_URL}dashboard/client`}><HiArrowLeft size={28} color="grey" className="mb-6" /></a>
                         <h1 className="text-2xl border-b-2 text-slate-600">Détails client: <strong>{client.gender}, {client.Nom}, {client.Prenom}</strong></h1>
 
                         <div className="flex flex-wrap -mx-3 mb-6 mt-5">

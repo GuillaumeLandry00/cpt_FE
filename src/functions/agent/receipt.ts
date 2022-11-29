@@ -31,6 +31,9 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
                 if (receipt.product.length <= key.charAt(key.length - 1)) {
                     receipt.product.push({});
                 }
+                //Default
+                receipt.product[key.charAt(key.length - 1)]["type_comm"] = "%";
+                receipt.product[key.charAt(key.length - 1)]["comm"] = utilisateur.comm;
                 receipt.product[key.charAt(key.length - 1)][name] = value;
                 break;
             case "O":
@@ -50,6 +53,8 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
     //we add an ID if we update 
     if (id) receipt.id = id;
+    console.log(receipt);
+
     return await sendReceipt(receipt, action);
 }
 

@@ -14,7 +14,6 @@ const UpdateSupplier = ({ fetchData, id, setResponse }: Props) => {
         setIsLoading(true)
 
         let dataS = await getSupplier(id) as ISupplier
-        console.log(dataS);
 
         setReload(components(dataS));
         setIsLoading(false);
@@ -28,7 +27,6 @@ const UpdateSupplier = ({ fetchData, id, setResponse }: Props) => {
     useEffect(() => {
         setReload("Reloading...")
         fetchSupplier()
-        console.log("ComponentReloaded wiht id ", id);
     }, [id]);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
