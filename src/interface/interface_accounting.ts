@@ -105,6 +105,7 @@ export interface IProducts {
     produit_note: string,
     produit_tvq: number,
     produit_tps: number,
+    produit_dossier: string,
     escompte: number,
     total: number,
     taxe: number,

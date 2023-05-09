@@ -28,7 +28,7 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
                 </div>
                 <div className="w-full md:w-2/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro dossier: </label>
-                    <input type="number" name="Fno_dossier" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" readOnly defaultValue={(dossier !== "" && dossier > 0) ? dossier : ""} required />
+                    <input type="number" name="Fno_dossier" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" defaultValue={(dossier !== "" && dossier > 0) ? dossier : ""} required />
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Agent</label>

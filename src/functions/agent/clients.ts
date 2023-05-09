@@ -12,6 +12,8 @@ export const getAllClient = async (limit = 25, offset = 0): Promise<any> => {
         //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let who: string = /*utilisateur.typeUtilisateur == 1 ? "all" :*/ utilisateur.nom;
+        console.log(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`);
+
         const response: IResponse = await axios.get(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
         console.log(response);

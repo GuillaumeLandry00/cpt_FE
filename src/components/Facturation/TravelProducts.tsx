@@ -19,42 +19,51 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
     const divProducts = (id: number) => {
         return (<div className="flex flex-wrap -mx-3 mt-2" key={id}>
             <div className="w-full md:w-3/6 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Type de produit</label>
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
                 <select onChange={() => { taxesCalculator(id) }} name={`Ttype_produit_${id}`} id={`mySelectProduct${id}`} defaultValue={data && data.length - 1 >= id ? data[id].type_produit : ""} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                     {PRODUCT_TYPE.map((item, index) => (<option key={index} value={index} >{item.label}</option>))}
                 </select>
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Quantité</label>
-                <input name={`Tqty_${id}`} onChange={() => { taxesCalculator(id) }} type="number" id={`qty${id}`} min={0} defaultValue={data && data.length - 1 >= id ? data[id].qty : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Tqty_${id}`} onChange={() => { taxesCalculator(id) }} type="number" id={`qty${id}`} min={0} defaultValue={data && data.length - 1 >= id ? data[id].qty : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="1" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Prix</label>
-                <input name={`Tprix_${id}`} type="number" id={`prix${id}`} step=".01" defaultValue={data && data.length - 1 >= id ? data[id].prix : ""} onChange={() => { taxesCalculator(id) }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Tprix_${id}`} type="number" id={`prix${id}`} step=".01" min={0} defaultValue={data && data.length - 1 >= id ? data[id].prix : ""} onChange={() => { taxesCalculator(id) }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Taxes</label>
-                <input name={`Ttaxes${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].taxe : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Ttaxes${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].taxe : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Notes</label>
-                <input name={`Tproduit_note_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].produit_note : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No.dossier fournisseur</label>
+                <input name={`Tproduit_dossier_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].produit_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TPS</label>
-                <input name={`Tproduit_tps_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].produit_tps : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Tproduit_tps_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].produit_tps : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TVQ</label>
-                <input name={`Tproduit_tvq_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].produit_tvq : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Tproduit_tvq_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].produit_tvq : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Escompte</label>
-                <input name={`Tescompte_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].escompte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Tescompte_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].escompte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Total</label>
-                <input name={`Ttotal_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].total : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="123456" />
+                <input name={`Ttotal_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].total : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
+            </div>
+            <div className="w-full px-3 mb-6 md:mb-0" contentEditable>
+                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Type de produit</label>
+                <textarea
+                    name={`Tproduit_note_${id}`}
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 min-h-12"
+                    defaultValue={data && data.length - 1 >= id ? data[id].produit_note : ""}
+                >
+                </textarea>
             </div>
         </div>);
     }

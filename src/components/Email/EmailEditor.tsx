@@ -94,7 +94,7 @@ const EmailEditor: React.FC = () => {
                 if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
                     setResponse("Le courriel a été envoyé")
                 } else {
-                    setErr("Il y a eu une erreur lors de l'envoie du courriel veuillez ressayer")
+                    setErr("Il y a eu une erreur lors de l'envoi du courriel veuillez ressayer")
                 }
             }
             setIsLoading(false);
@@ -110,11 +110,11 @@ const EmailEditor: React.FC = () => {
     return (
         <>
             <div className="w-4/5 ml-auto mr-auto">
-                <h1 className="text-xl font-bold text-center mt-5">Envoie de courriel</h1>
+                <h1 className="text-xl font-bold text-center mt-5">Envoi de courriel</h1>
                 {(response) && (<span className="text-green-500 font-bold">Courriel envoyée</span>)}
                 {isLoading ? (
                     <div className="w-full mt-10">
-                        <h3 className="text-l font-bold text-center mt-5">Envoie de courriel</h3>
+                        <h3 className="text-l font-bold text-center mt-5">Envoi de courriel</h3>
                         <img className="ml-auto mr-auto" src="https://guillaumeartiste3d.ca/wp-content/uploads/loader.gif" width={100} height={100} alt="" />
                     </div>) :
                     (<>

@@ -4,7 +4,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
-let COUNTER = 0;
+//let COUNTER = 0;
 const PayementsSummary = ({ data }: ISingleProps) => {
 
 
@@ -57,7 +57,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     const calcPaiement = () => {
         let sum = 0;
 
-        for (let i = 0; i < COUNTER; i++) {
+        for (let i = 0; i < counter; i++) {
             sum += parseInt((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
         }
         (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
@@ -69,17 +69,14 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     //Here we deal with react-select async problem
     useEffect(() => {
         const url: URL = new URL(window.location.href);
+        setCounter(0)
         if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
             setPayementsDiv([divPayementsDiv(0)])
         }
     }, [])
 
     useEffect(() => {
-        console.log(data.length);
-
-        if (data) {
-            console.log("We set up the counter at " + data.length);
-            COUNTER = data.length;
+        if (data.length) {
             setCounter(data.length);
             for (let i = 0; i < data.length; i++) {
                 payementsDiv[i] = divPayementsDiv(i);
@@ -88,20 +85,21 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }, [data])
 
     const handleClick = (action: string): void => {
+        console.log("Hello somebody cxlicked me", counter);
 
 
         if (action === "add") {
             if (counter < 12) {
                 setCounter(counter + 1);
-                COUNTER++
+                // COUNTER++
                 setPayementsDiv([...payementsDiv, divPayementsDiv(counter)]);
             }
         } else {
 
 
-            if (counter >= 1) {
+            if (counter > 1) {
                 setCounter(counter - 1);
-                COUNTER--;
+                // COUNTER--;
                 let newArray: Array<any> = payementsDiv;
                 newArray.pop();
                 setPayementsDiv([...newArray]);

@@ -31,7 +31,7 @@ const Dashboard = () => {
                 <h3 className="text-xl">Courriel</h3>
                 <ul className="ml-4">
                     <li className="font-bold">- Envoyer des courriels</li>
-                    <li className="font-bold">- Programmer envoie de courriel</li>
+                    <li className="font-bold">- Programmer envoi de courriel</li>
                 </ul>
 
                 <h3 className="text-xl">Call center</h3>

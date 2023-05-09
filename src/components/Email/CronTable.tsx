@@ -26,7 +26,7 @@ const CronTable = ({ utilisateur }: any) => {
                         <thead className="bg-gray-800 border-b">
                             <tr>
                                 <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
-                                    Date d'envoie
+                                    Date d'envoi
                                 </th>
                                 <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
                                     Courriel client
