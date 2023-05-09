@@ -74,18 +74,18 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Notes</label>
                     <input type="text" name="Oopc_notes" defaultValue={data ? data.opc_not : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="w-full  px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Remarque 1</label>
-                    <Select name="Oopc_remarque1" placeholder="Aucune" options={REMARKS} value={remarks1} onChange={(e) => { setRemarks1({ value: e?.value as string, label: e?.label as string }) }} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name="Oopc_remarque1" placeholder="Aucune" options={REMARKS} value={remarks1} onChange={(e) => { setRemarks1({ value: e?.value as string, label: e?.label as string }) }} className="appearance-none w-full  text-gray-700 py-1 px-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="w-full md:w-full  px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Remarque 2</label>
 
-                    <Select name="Oopc_remarque_2" placeholder="Aucune" options={REMARKS} value={remarks2} onChange={(e) => { setRemarks2({ value: e?.value as string, label: e?.label as string }) }} className="appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name="Oopc_remarque_2" placeholder="Aucune" options={REMARKS} value={remarks2} onChange={(e) => { setRemarks2({ value: e?.value as string, label: e?.label as string }) }} className="appearance-none w-full  text-gray-700 py-1 px-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
 
                 </div>
                 <div className="w-full px-3 mb-6 md:mb-0">
-                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Remarque personelle</label>
+                    <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Autres Remarques</label>
                     <input type="text" name="Oopc_remarque" defaultValue={data ? data.opc_remarque : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                 </div>
                 {/* {opcDiv.map((item) => { return item })} */}

@@ -48,6 +48,14 @@ const FormReceipt = () => {
         if (myForm != null) {
             const formData: FormData = new FormData(myForm);
             const values = Object.fromEntries(formData.entries())
+
+            //Make sure that the user has entered en email
+            if (values.courriel == "") {
+                window.alert("Vous devez entrer un courriel dans sommaire général")
+                return
+            }
+
+
             if (url.searchParams.get("id") && url.searchParams.get("action") == "edit") {
 
                 //we update                
@@ -60,8 +68,6 @@ const FormReceipt = () => {
                     }
                 });
             } else {
-
-
                 //we add a new one
                 const response = buildReceipt(values, utilisateur, "add");
                 response.then((result) => {
@@ -86,7 +92,6 @@ const FormReceipt = () => {
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 mb-10 shadow-2xl p-8" id={"myForm"} onSubmit={(ev: any) => {
                 ev.preventDefault();
             }}>
-
                 {response && (<span className="text-green-500 font-bold">{response}</span>)}
                 <fieldset disabled={url.searchParams.get("action") !== "view" ? false : true}>
                     <Receipt utilisateur={utilisateur} data={data ? JSON.parse(data.general) : {}} dossier={data ? data.dossier : ""} agence={data ? data.agence : ""} date={data ? data.date : ""} />

@@ -14,23 +14,23 @@ const Itinerary = ({ data }: IGenericObject) => {
             <div key={id} >
 
                 <div className="flex flex-wrap -mx-3 mt-2">
-                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Origine</label>
                         <Select name={`Iorigin_${id}`} options={ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].origin, value: data[id].origin } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
-                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Destination</label>
-                        <Select name={`Idestination_${id}`} options={ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Idestination_${id}`} options={ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
-                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cie</label>
                         <Select name={`Icie_${id}`} options={TRAVEL_SUPPLIER} defaultValue={data && data.length - 1 >= id ? { label: data[id].cie, value: data[id].cie } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
-                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Vol no</label>
                         <input name={`Ivol_no_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].vol_no : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
-                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Classe</label>
                         <input name={`Iclasse_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].classe : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
