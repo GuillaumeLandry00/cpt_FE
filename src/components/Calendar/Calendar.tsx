@@ -28,10 +28,6 @@ const Calendar = () => {
     const [events, setEvents] = useState<IGenericObject>();
     const [update, setUpdate] = useState<number>(0);
 
-    if (events) console.log(countAvaibality(events, selectedDate, 2, (selectedDate.getDay() == 5 || selectedDate.getDay() == 6 || selectedDate.getDay() == 0) ? 1 : 2));
-
-
-
     return (
         <>
             <div className='ml-auto mr-auto w-2/3 flex mt-12 justify-between'>

@@ -85,8 +85,6 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }, [data])
 
     const handleClick = (action: string): void => {
-        console.log("Hello somebody cxlicked me", counter);
-
 
         if (action === "add") {
             if (counter < 12) {

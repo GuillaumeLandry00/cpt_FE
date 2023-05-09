@@ -85,7 +85,6 @@ export const setColorDate = (date: Date, events: Array<IGenericObject>): string 
 export const countAvaibality = (events: IGenericObject, date: Date, timeSlots: number, capacity: number): number => {
 
     let count = capacity;
-    console.log("The capacity is ", count);
 
     //We loop through the array 
     for (let i = 0; i < events.length; i++) {
@@ -95,7 +94,6 @@ export const countAvaibality = (events: IGenericObject, date: Date, timeSlots: n
         if (count < 1) break;
     }
 
-    console.log("After coding... ", count);
 
     return count;
 
@@ -162,6 +160,5 @@ export const getWhoWork = (list: IGenericObject, dateToCheck: Date): Array<Array
         }
     }
 
-    console.log(nameOfWorkers);
     return nameOfWorkers;
 }   

@@ -89,7 +89,6 @@ const EmailEditor: React.FC = () => {
                 if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {
                     setResponse("Tâche enregistré");
                 }
-                // console.log(await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate));
             } else {
                 if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
                     setResponse("Le courriel a été envoyé")

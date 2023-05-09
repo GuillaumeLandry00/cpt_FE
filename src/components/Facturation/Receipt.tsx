@@ -20,7 +20,6 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
     const generateUniqueNumber = () => {
         return new Date().getTime() + Math.floor(Math.random() + 1_000_000_000_000);
     }
-    console.log(dossier, (dossier !== "") ? dossier : generateUniqueNumber());
 
     useEffect(() => {
         if (dossier) {

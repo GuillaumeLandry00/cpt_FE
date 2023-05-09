@@ -26,8 +26,6 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
     //This help deal with default values
     useEffect(() => {
 
-        console.log(data);
-
         if (data != undefined) {
             setRemarks1({ value: data.opc_remarque1, label: data.opc_remarque1 })
             setRemarks2({ value: data.opc_remarque_2, label: data.opc_remarque_2 })

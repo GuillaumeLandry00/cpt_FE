@@ -132,7 +132,6 @@ export const generateExpenses = async (values: IExpensesForm, pdf = false, trave
         });
 
         authToken(response.data);
-        console.log(response.data);
 
         return response.data
     } catch (error: unknown) {

@@ -13,7 +13,6 @@ export const getSuppliers = async (search = "", limit = 25, offset = 0, type = "
 
         //We make the request
         const response = await axios.get<ISupplier[]>(BASE_URL + `admin/supplier?search=${search}&limit=${limit}&offset=${offset}&type=${type}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
-        console.log(localStorage.getItem('token') as string);
 
         authToken(response.data);
         return response.data;
@@ -82,8 +81,6 @@ export const updateSupplier = async (data: ISupplier, id: number) => {
 
 export const addSupplier = async (data: ISupplier) => {
     try {
-
-        console.log(data);
 
         const params = new URLSearchParams();
         params.append("type", String(data.type));

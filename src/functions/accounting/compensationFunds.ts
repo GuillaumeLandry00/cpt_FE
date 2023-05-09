@@ -82,8 +82,6 @@ export const updateCompensationFundss = async (data: ICompensation, id: number) 
 export const addCompensationFunds = async (data: ICompensation) => {
     try {
 
-        console.log(data);
-
         const params = new URLSearchParams();
         params.append("date_au", String(data.date_au));
         params.append("date_du", String(data.date_du));

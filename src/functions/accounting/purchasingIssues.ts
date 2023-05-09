@@ -83,8 +83,6 @@ export const updatePurchasingIssues = async (data: IPurchasingIssues, id: number
 export const addPurchasingIssues = async (data: IPurchasingIssues) => {
     try {
 
-        console.log(data);
-
         const params = new URLSearchParams();
         params.append("cheque", String(data.cheque));
         params.append("succ", String(data.succ));

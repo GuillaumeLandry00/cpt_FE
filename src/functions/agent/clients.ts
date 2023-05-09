@@ -12,11 +12,9 @@ export const getAllClient = async (limit = 25, offset = 0): Promise<any> => {
         //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let who: string = /*utilisateur.typeUtilisateur == 1 ? "all" :*/ utilisateur.nom;
-        console.log(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`);
 
         const response: IResponse = await axios.get(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
-        console.log(response);
 
         return response.data;
     } catch (error) {
@@ -146,9 +144,6 @@ export const updateClient = async (client: any): Promise<any> => {
         formData.append("link_pdf", client.file ? (d.getFullYear() + "_" + d.getMonth() + "_" + d.getDay() + "_" + client.file.name) : "No passport")
         formData.append("ID", client.id);
 
-        console.log("Ici file:", client.file);
-
-
         const response: any = await axios({
             method: "post",
             url: BASE_URL + "client/update",
@@ -156,7 +151,6 @@ export const updateClient = async (client: any): Promise<any> => {
             headers: { "Content-Type": "multipart/form-data", "x-access-token": localStorage.getItem('token') as string },
         });
         authToken(response.data);
-        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -170,10 +164,6 @@ export const updateClient = async (client: any): Promise<any> => {
 export const addClient = async (client: any, clients_array = [{}]): Promise<any> => {
     try {
         let utilisateur: any = JSON.parse(localStorage.getItem("utilisateur") as string);
-
-
-        console.log(clients_array);
-
 
         //We create formData for the request
         const formData: FormData = new FormData();
@@ -284,10 +274,8 @@ export const downloadPassport = async (password: string, link: string): Promise<
             url: BASE_URL + `client/download/passport`,
             data: params,
         });
-        console.log(response);
 
         if (response.data.token) {
-            console.log("We are currently downloading...");
             window.open(BASE_URL + `client/download/passport/${utilisateur.id}?token=${response.data.token}`);
             return "Le passeport a été téléchargé";
         } else {

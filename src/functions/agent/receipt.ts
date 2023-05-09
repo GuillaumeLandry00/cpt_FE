@@ -4,8 +4,6 @@ import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfa
 import { authToken } from "./authentification";
 
 export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
-    console.log(values);
-
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
@@ -53,7 +51,6 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
     //we add an ID if we update 
     if (id) receipt.id = id;
-    console.log(receipt);
 
     return await sendReceipt(receipt, action);
 }
@@ -63,7 +60,6 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 
     //we check if the receipt is valid
     if (!validateReceipt(receipt)) {
-        console.log(receipt);
 
         let response: IGenericObject;
 
@@ -83,7 +79,6 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
                 headers: { "x-access-token": localStorage.getItem('token') as string },
             });
         }
-        console.log(response.data, action);
 
         authToken(response.data);
         return response.data;
@@ -98,12 +93,10 @@ export const getReceipts = async (order: string, by: string, search: string = ""
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let request: string = `${BASE_URL}receipt/${utilisateur.id}?search=${search}`;
-        console.log(request);
 
         request += `&order=${order}`;
         request += `&by=${by}`
         if (id) request += `&id=${id}`;
-        console.log(request);
 
         const response: IResponse = await axios.get(request, {
             headers: { "x-access-token": localStorage.getItem('token') as string }
@@ -122,7 +115,6 @@ export const getReceipt = async (id: string): Promise<any> => {
         const response: IResponse = await axios.get(request, {
             headers: { "x-access-token": localStorage.getItem('token') as string }
         });
-        console.log(response.data);
 
         authToken(response.data);
         return response.data;
@@ -153,7 +145,6 @@ const validateReceipt = (receipt: IGenericObject) => {
     if (receipt.facturation.no_dossier == "") err = true;
     if (receipt.itinerary[0].date_depart == "") err = true;
     if (receipt.passagers.length <= 0) err = true;
-    console.log(receipt.facturation.no_dossier, err);
 
     return err;
 }

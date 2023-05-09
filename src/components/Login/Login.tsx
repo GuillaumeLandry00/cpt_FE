@@ -23,7 +23,6 @@ const Login = () => {
         }
 
         if (data) {
-            console.log(data);
 
             if (data.code === 200) {
                 //We register the token

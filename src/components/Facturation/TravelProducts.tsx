@@ -56,7 +56,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Total</label>
                 <input name={`Ttotal_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].total : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
-            <div className="w-full px-3 mb-6 md:mb-0" contentEditable>
+            <div className="w-full px-3 mb-6 md:mb-0" >
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Type de produit</label>
                 <textarea
                     name={`Tproduit_note_${id}`}
@@ -123,8 +123,6 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
     const opcCalculator = (id: string | number,): void => {
         let sum = 0;
         let bigSum = 0;
-
-        console.log("MY counter", COUNTER);
 
 
         for (let i = 0; i < COUNTER; i++) {

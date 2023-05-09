@@ -44,7 +44,7 @@ const EditAgent = ({ id, switchViews }: Props) => {
 
     return (
         <div className="w-full">
-            <button className="mb-10" onClick={() => { console.log("click"); switchViews("agents") }}>
+            <button className="mb-10" onClick={() => { switchViews("agents") }}>
                 <BiArrowBack size={34} />
             </button>
 
