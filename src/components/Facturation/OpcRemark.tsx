@@ -58,7 +58,7 @@ const OpcRemarks = ({ data, opcAmount, grandTotal }: ISingleProps) => {
 
     return (
         <>
-            <h1 className="text-2xl  text-center border-b-2 ">Sommaire *OPC / Remarques</h1>
+            <h1 className="text-2xl  text-center border-b-2 ">Sommaire OPC / Remarques</h1>
             <div className="flex flex-wrap -mx-3 mt-2">
                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Opc</label>

@@ -9,6 +9,7 @@ import GeneralSummary from "./GeneralSummary";
 import Terms from "./Terms";
 import { buildReceipt, getReceipt } from "../../functions/agent/receipt";
 import { IUtilisateur, IFactureDB } from "../../interface/interfaces";
+import { SITE_URL } from "../../constants/constantes";
 
 
 const FormReceipt = () => {
@@ -41,6 +42,11 @@ const FormReceipt = () => {
             }
         }
 
+        //We get the response
+        if (url.searchParams.get("isSuccess")) {
+            setResponse("La facture à été mise à jour")
+        }
+
     }, [])
 
     const handleBtn = (): void => {
@@ -64,7 +70,7 @@ const FormReceipt = () => {
 
                     if (result.affectedRows > 0) {
                         setResponse("La facture à été mise à jour")
-                        // window.location.href = `${SITE_URL}dashboard/facturation/form/?action=view&id=${result.id}`;
+                        window.location.href = `${SITE_URL}dashboard/facturation/form/?action=edit&id=${result.id}&isSuccess=true`;
                     }
                 });
             } else {

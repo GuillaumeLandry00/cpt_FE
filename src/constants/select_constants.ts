@@ -1208,7 +1208,9 @@ export const PRODUCT_TYPE = [
     { label: 'Viking Cruises', value: 'Viking Cruises', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Vol Divers', value: 'Vol Divers', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'VToursEtudiant', value: 'VToursEtudiant', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
-    { label: 'West Jet Forfait', value: 'West Jet Forfait', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' }
+    { label: 'West Jet Forfait', value: 'West Jet Forfait', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
+    { label: 'TEST (NE PAS UTILISER)', value: 'TEST (NE PAS UTILISER)', taxe: '1', tps: '1', tvq: '1', rabais: '1', opc: '1' }
+
 ]
 
 export const REMARKS = [

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { IUtilisateur } from "../../interface/interfaces";
 
 const NavBar = () => {
@@ -7,6 +7,12 @@ const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     let user: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
+    const location = useLocation()
+
+    if (location.pathname == "/") {
+        return null
+    }
+
 
 
     return (

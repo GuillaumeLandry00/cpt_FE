@@ -20,7 +20,7 @@ function App() {
     <div className="App">
 
       <Router >
-        {window.location.pathname !== "/" ? (<NavBar />) : ""}
+        <NavBar />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />

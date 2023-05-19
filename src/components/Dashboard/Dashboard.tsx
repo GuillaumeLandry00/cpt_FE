@@ -40,7 +40,7 @@ const Dashboard = () => {
                     <li className="font-bold">- Visualisation de l'horaire</li>
                 </ul>
 
-                <p className="mt-11">Pour tout problème technique veuillez me contacter directement par courriel: <a className="underline decoration-solid" href="mailto:landry.guillaume00@hotmail.com">landry.guillaume00@hotmail.com</a></p>
+                <p className="mt-11">Pour tout problème technique veuillez me contacter directement par courriel: <a className="underline decoration-solid to-blue-700" href="mailto:guillaume@voyagesgabymsh.ca">guillaume@voyagesgabymsh.ca</a></p>
 
             </div>
             <CronTable utilisateur={utilisateur} />

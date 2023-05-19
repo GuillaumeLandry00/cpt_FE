@@ -55,12 +55,12 @@ const Itinerary = ({ data }: IGenericObject) => {
                         </div>
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
-                        <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Arrivée</label>
-                        <input type="date"
+                        <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Arrivée +/-</label>
+                        <input type="number"
                             name={`Iarrive_${id}`}
                             defaultValue={data && data.length - 1 >= id ? data[id].arrive : ""}
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            placeholder="Select a date" data-mdb-toggle="datepicker" />
+                            placeholder="0" data-mdb-toggle="datepicker" step={1} />
                     </div>
                     <div className="flex flex-wrap  mt-6 md:mb-0 md: w-1/5 ">
                         <div className="w-full md:w-1/3">
