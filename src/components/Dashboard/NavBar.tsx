@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom"
 import { IUtilisateur } from "../../interface/interfaces";
+import { SITE_URL } from "../../constants/constantes";
 
 const NavBar = () => {
 
@@ -13,14 +14,22 @@ const NavBar = () => {
         return null
     }
 
+    const deleteSession = () => {
+        localStorage.removeItem("utilisateur");
+        localStorage.removeItem("debug");
+        localStorage.removeItem("token");
+        window.location.href = SITE_URL;
+    }
+
+
 
 
     return (
         <div>
             <nav className="bg-gray-800">
                 <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16 pl-10">
-                        <div className="flex items-center">
+                    <div className="flex items-center justify-between h-16 pl-10 w-full">
+                        <div className="flex items-center w-full">
                             <div className="flex-shrink-0">
                                 <Link to={"/dashboard"}>
                                     <img
@@ -30,8 +39,8 @@ const NavBar = () => {
                                     />
                                 </Link>
                             </div>
-                            <div className="hidden md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
+                            <div className="hidden md:block w-full">
+                                <div className="ml-10 flex items-baseline">
 
                                     {/* {user && user.typeUtilisateur == 1 && (
                                         <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
@@ -52,9 +61,10 @@ const NavBar = () => {
                                     <Link to={'/dashboard/reservation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Call center
                                     </ Link>
-                                    <a href="https://www.voyagesgabymsh.ca/backend/login.php" target="_blank" className="hover:bg-gray-700 ml-auto text-white px-3 py-2 rounded-md text-sm font-medium w-56">
+                                    <a href="https://www.voyagesgabymsh.ca/backend/login.php" target="_blank" className="hover:bg-gray-700  text-white px-3 py-2 rounded-md text-sm font-medium w-56">
                                         Ancien système de facturation
                                     </a>
+                                    <button className="ml-auto text-white mr-8" onClick={() => deleteSession()}>Déconnecter</button>
                                 </div>
                             </div>
                         </div>
