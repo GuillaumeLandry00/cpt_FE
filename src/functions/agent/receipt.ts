@@ -2,6 +2,7 @@ import axios from "axios"
 import { BASE_URL } from "../../constants/constantes"
 import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
 import { authToken } from "./authentification";
+import { log } from "console";
 
 export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
@@ -11,12 +12,13 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
         let name = key;
         name = name.substring(1, key.length - 2);
-
         switch (key.charAt(0)) {
             case "F":
                 receipt.facturation[key.substring(1, key.length)] = value;
                 break;
             case "C":
+                console.log("The value {",key,"} is, ", value);
+                
                 receipt.passagers.push(value)
                 break;
             case "I":
@@ -52,6 +54,9 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
     //we add an ID if we update 
     if (id) receipt.id = id;
 
+    console.log(receipt);
+    
+
     return await sendReceipt(receipt, action);
 }
 
@@ -72,6 +77,8 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
             });
 
         } else {
+            console.log("JUSTE BEFORE SENDINF ", receipt);
+            
             response = await axios({
                 method: "patch",
                 url: BASE_URL + "receipt/",

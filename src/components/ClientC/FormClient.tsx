@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/agent/clients";
 import NavBar from "../Dashboard/NavBar";
+import { log } from "console";
 
 type props = {
     idDefault: number
@@ -24,13 +25,13 @@ const FormClient = ({ idDefault }: props) => {
     const [note, setNote] = useState<string>("");
     const [file, setFile] = useState<any>();
     const [errors, setErrors] = useState<string[]>([]);
-    const [confirmation, setConfirmation] = useState<string>("");
+    const [confirmation, setConfirmation] = useState<[{affectedRows: number}] | null>(null);
     const [id, setId] = useState<any>();
     const [linkFile, setLinkFile] = useState<string>("");
     const url = new URL(window.location.href);
 
     //Var for adding/removing passanger
-    const [compteur, setCompteur] = useState<number>(0);
+    const [compteur, setCompteur] = useState<number>(1);
     const [passengerDiv, setPassengerDiv] = useState<Array<any>>([]);
     let affectedClients: number = 0;
 
@@ -105,6 +106,8 @@ const FormClient = ({ idDefault }: props) => {
 
                 //We calculate the number of client added.
                 affectedClients = calcAddedClients(clientDb);
+                console.log(affectedClients);
+                
                 if (affectedClients > 0) changes = true;
             }
 
@@ -130,7 +133,7 @@ const FormClient = ({ idDefault }: props) => {
                 setPassengerDiv([...passengerDiv, divPassanger(compteur)]);
             }
         } else {
-            if (compteur > 0) {
+            if (compteur > 1) {
 
                 setCompteur(compteur - 1);
                 let newArray: Array<any> = passengerDiv;
@@ -205,13 +208,13 @@ const FormClient = ({ idDefault }: props) => {
     return (
         <>
             <form className="w-full max-w-screen-lg ml-auto mr-auto mt-10 shadow-2xl p-8" id="myForm">
-                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== "" && <strong className="text-xl text-green-500">   Client {id || idDefault !== 0 ? "Modifié" : `ajouté (${affectedClients})`}</strong>}</h1>
+                <h1 className="text-2xl border-b-2">Formulaire client {id ? "Modification" : "Ajout"}{confirmation !== null && <strong className="text-xl text-green-500">   Client {id || idDefault !== 0 ? "Modifié" : `ajouté (${confirmation[0].affectedRows})`}</strong>}</h1>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Nom
                         </label>
-                        <input value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Jane" />
+                        <input value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Nom" />
                         {errors.indexOf("client_name") > -1 && (<p className="text-red-500 text-xs italic">Veuillez entrer un nom valide</p>)}
 
                     </div>
@@ -219,7 +222,7 @@ const FormClient = ({ idDefault }: props) => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Prénom
                         </label>
-                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Doe" />
+                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Prénom" />
                         {errors.indexOf("client_lastname") > -1 && (<p className="text-red-500 text-xs italic">Veuillez entrer un prénom valide</p>)}
                     </div>
                 </div>
@@ -318,7 +321,7 @@ const FormClient = ({ idDefault }: props) => {
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Ville
                         </label>
-                        <input value={city} onChange={(e) => setCity(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Montréal" />
+                        <input value={city} onChange={(e) => setCity(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Ville" />
                         {errors.indexOf("client_name") > -1 && (<p className="text-red-500 text-xs italic">Veuillez entrer une ville valide</p>)}
 
                     </div>
@@ -366,7 +369,7 @@ const FormClient = ({ idDefault }: props) => {
                         <textarea onChange={(e) => setNote(e.target.value)} value={note} name="notes" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"></textarea>
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold">Téléverser le passport </label>
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold">Téléverser le passeport </label>
                         <small className="tracking-wide text-blue-600 text-xs font-bold mb-4">Veuillez bien le renommer avant</small>
 
                         <input onChange={(e) => setFile(e.target.files![0])} type="file" accept="application/pdf" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />

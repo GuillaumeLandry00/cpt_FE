@@ -70,7 +70,7 @@ const FormReceipt = () => {
 
                     if (result.affectedRows > 0) {
                         setResponse("La facture à été mise à jour")
-                        window.location.href = `${SITE_URL}dashboard/facturation/form/?action=edit&id=${result.id}&isSuccess=true`;
+                        // window.location.href = `${SITE_URL}dashboard/facturation/form/?action=edit&id=${result.id}&isSuccess=true`;
                     }
                 });
             } else {

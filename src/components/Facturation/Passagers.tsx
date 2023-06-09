@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import ModalClient from "../ClientC/ModalClient";
 import { Utility } from "../../functions/util/Utility";
+import { log } from "console";
 
 
 const Passagers = ({ data }: any) => {
@@ -84,25 +85,29 @@ const Passagers = ({ data }: any) => {
         if (data[id]) {
             if (Utility.isJsonString(data[id])) {
                 currentData = JSON.parse(data[id]);
+                console.log("We set the complete JSON", data[id]);
+
             } else {
+                console.log("We set the data here only ID");
+                
                 currentData = data[id];
             }
 
         }
 
-
+       
 
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Client {id + 1}</label>
                 {/* We set up a default value if needed it */}
                 <div className="flex row">
-                    <Select name={"Cpassager_" + id} options={clients} onChange={(e) => {
-                        // if (typeof e !== "string" && e) setId(e.value)
-                    }} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: currentData.id } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                    <Select name={"Cpassager_" + id} options={clients} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: JSON.stringify(currentData).toString() } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <button onClick={() => {
                         if ((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value) {
-                            setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value));
+                            console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
+                            
+                            setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
                             setShowModal(true);
                         } else if (parseInt(currentData.id) > 0) {
                             setId(currentData.id);

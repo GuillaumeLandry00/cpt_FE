@@ -93,7 +93,7 @@ export const validateClient = (client: any): string[] => {
     }
 
     // Validate the address
-    regExp = new RegExp(/^([#.0-9a-zA-Z\s,']-?)+$/, "i");
+    regExp = new RegExp(/^([#.0-9a-zA-ZÀ-ÿ\s,']-?)+$/, "i");
 
     if (!regExp.test(client.adresse)) {
         errors.push("address");
