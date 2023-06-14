@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../../constants/constantes";
-import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
+import { IResponse } from "../../interface/interfaces";
 import { authToken } from "../agent/authentification";
 import { capitalizeString } from "../agent/clients";
 
@@ -75,24 +75,40 @@ export const updateAgent = async (agent: agentUpdate, id: number) => {
 export const addAgentDB = async (agent: agentAdd) => {
     try {
 
+        let errors:string[] = [];
         const params = new URLSearchParams();
         params.append("user_type", String(agent.user_type));
         params.append("comm", String(agent.comm));
         params.append("agences", agent.agences);
         params.append("email", agent.email);
-        params.append("nom", capitalizeString(agent.name.trim()));
+        params.append("nom", capitalizeString(agent.artist_name.trim()));
         params.append("nomComplet", capitalizeString(agent.name.trim()) + " " + capitalizeString(agent.last_name.trim()));
+        
+        if(agent.artist_name == ""){
+            errors.push("Nom d'artiste vide")
+        }
+        if(agent.email == ""){
+            errors.push("Email vide")
+        }
+        if(agent.name == "" || agent.last_name == ""){
+            errors.push("Prénom ou Nom vide")
+        }        
 
-        //We make the request
-        const response: IResponse = await axios({
-            method: "post",
-            url: BASE_URL + `agent/`,
-            data: params,
-            headers: { 'content-type': 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
-        });
-        authToken(response.data);
+        if(errors.length > 0){
+            return { errors : errors}
+        }else{
+            //We make the request
+            const response: IResponse = await axios({
+                method: "post",
+                url: BASE_URL + `agent/`,
+                data: params,
+                headers: { 'content-type': 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
+            });
+            authToken(response.data);
 
-        return response.data;
+            return response.data;
+        }
+        
     } catch (error) {
         console.log(error);
     }
@@ -123,7 +139,8 @@ export type agentAdd = {
     agences: string,
     email: string,
     last_name: string,
-    name: string
+    name: string,
+    artist_name: string,
 }
 
 type agentUpdate = {

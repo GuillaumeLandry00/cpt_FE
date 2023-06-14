@@ -42,11 +42,12 @@ const NavBar = () => {
                             <div className="hidden md:block w-full">
                                 <div className="ml-10 flex items-baseline">
 
-                                    {/* {user && user.typeUtilisateur == 1 && (
+                                     {user && user.typeUtilisateur == 1 && (
                                         <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Admin
                                         </ Link>
                                     )}
+                                    {/*
                                     {user && (user.typeUtilisateur == 1 || user.typeUtilisateur == 2) && (
                                         <Link to={'/comptabilite'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Comptabilité
@@ -58,9 +59,9 @@ const NavBar = () => {
                                     <Link to={'/dashboard/facturation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Facturation
                                     </ Link>
-                                    <Link to={'/dashboard/reservation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                    {/* <Link to={'/dashboard/reservation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Call center
-                                    </ Link>
+                                    </ Link> */}
                                     <a href="https://www.voyagesgabymsh.ca/backend/login.php" target="_blank" className="hover:bg-gray-700  text-white px-3 py-2 rounded-md text-sm font-medium w-56">
                                         Ancien système de facturation
                                     </a>
