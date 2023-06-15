@@ -1,5 +1,4 @@
 import axios, { Axios } from "axios";
-import { IconContext } from "react-icons/lib";
 import { BASE_URL, EMAIL } from "../../constants/constantes";
 import { IGenericObject } from "../../interface/interfaces";
 
@@ -7,18 +6,19 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
 
 
 
-    //We build the body of the request
-    let formData = new FormData();
-    formData.append("from", EMAIL);
-    formData.append("to", to);
-    formData.append("object", object);
-    //we add the custom signature 
-    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+    // //We build the body of the request
+    // let formData = new FormData();
+    // formData.append("from", EMAIL);
+    // formData.append("to", to);
+    // formData.append("object", object);
+    // //we add the custom signature 
+    // msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
 
-    formData.append("msg", msg);
+    // formData.append("msg", msg);
 
-    const response: boolean = await axios.post("https://www.voyagesgabymsh.ca/wp-json/mail/send", formData)
-    return response;
+    // const response: boolean = await axios.post("https://www.voyagesgabymsh.ca/wp-json/mail/send", formData)
+    alert("SENDING EMAIL FROM FRONT END ?? Should not happen")
+    return true;
 }
 
 export const addCronTask = async (from: string, to: string, object: string, msg: string, type: string, sendingDate: string): Promise<any> => {
