@@ -13,6 +13,8 @@ import Calendar from './components/Calendar/Calendar';
 import { SITE_URL } from './constants/constantes';
 import Admin from './components/Admin/Admin';
 import Accounting from './components/Accounting/Accounting';
+import Footer from './components/Others/Footer';
+import ReportBug from './components/Others/ReportBug';
 
 function App() {
 
@@ -24,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/report" element={<ReportBug />} />
           <Route path="/dashboard/client" element={<Client />} />
           <Route path="/dashboard/client/view/" element={<ViewClient />} />
           <Route path="/dashboard/client/form/" element={<FormClient idDefault={0} />} />
@@ -36,6 +39,7 @@ function App() {
           <Route path="/admin/" element={<Admin />} />
           <Route path="/comptabilite/" element={<Accounting />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );

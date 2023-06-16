@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom"
 import { IUtilisateur } from "../../interface/interfaces";
 import { SITE_URL } from "../../constants/constantes";
