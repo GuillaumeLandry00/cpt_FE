@@ -208,10 +208,10 @@ export const buildClientArray = (mixedData: IGenericObject) => {
 
     //First off, we initialize the array with default values.
     let arrClients = new Array<any>((Object.keys(mixedData).length - 1) / 6);
-    for (let i = 0; i < arrClients.length; i++) { arrClients[i] = {}; }
+    for (let i = 0; i < arrClients.length; i++) { arrClients[i] = {genre: "", nom: "", prenom: "", naissance: "", phone1: "", courriel: ""}; }
 
-    for (const [key, value] of Object.entries(mixedData)) {
-        if (key !== "notes") arrClients[parseInt(key.charAt(0))][key.substring(2)] = value;
+    for (const [key, value] of Object.entries(mixedData)) {        
+        if (key !== "notes") arrClients[parseInt(key.charAt(0))-1][key.substring(2)] = value;
     }
 
     return arrClients;

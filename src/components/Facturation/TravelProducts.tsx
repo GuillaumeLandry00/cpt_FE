@@ -4,7 +4,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { OPC_RATE, TAXE_RATE, TPS_RATE, TVQ_RATE } from "../../constants/constantes";
 import { PRODUCT_TYPE } from "../../constants/select_constants";
-import { IGenericObject, ISingleProps } from "../../interface/interfaces";
+import { IGenericObject } from "../../interface/interfaces";
 
 type ProductProps = {
     data: IGenericObject
@@ -106,10 +106,10 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             if (counter < 12) {
                 COUNTER++;
                 setCounter(counter + 1);
-                setProductsDiv([...productsDiv, divProducts(counter)]);
+                setProductsDiv([...productsDiv, divProducts(counter + 1)]);
             }
         } else {
-            if (counter > 1) {
+            if (counter >= 1) {
                 setCounter(counter - 1);
                 COUNTER--;
                 let newArray: Array<any> = productsDiv;
@@ -125,18 +125,21 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
         let bigSum = 0;
 
 
-        for (let i = 0; i < COUNTER; i++) {
-            let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
-            let qty: number = parseInt((document.getElementById(`qty${i}`) as HTMLInputElement).value);
-            let price: number = parseInt((document.getElementById(`prix${i}`) as HTMLInputElement).value);
+        for (let i = 0; i < COUNTER+1; i++) {
+            if(document.getElementById(`mySelectProduct${i}`)){
+                let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
 
-            //For opc
-            if (PRODUCT_TYPE[index].opc !== '0') {
-                sum += qty * price;
+                let qty: number = parseInt((document.getElementById(`qty${i}`) as HTMLInputElement).value);
+                let price: number = parseInt((document.getElementById(`prix${i}`) as HTMLInputElement).value);
+    
+                //For opc
+                if (PRODUCT_TYPE[index].opc !== '0') {
+                    sum += qty * price;
+                }
+    
+                //For grand total
+                bigSum += qty * price;
             }
-
-            //For grand total
-            bigSum += qty * price;
         }
 
         (document.getElementById("opc") as HTMLFormElement).value = Math.round((sum * OPC_RATE + Number.EPSILON) * 100) / 100;
@@ -153,16 +156,19 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
         //We check if the user has entered anything
         if (qty != '' && price != '') {
             let index: number = parseInt((document.getElementById(`mySelectProduct${id}`) as HTMLInputElement).value);
+            console.log("index", index);
+            
             let sum = parseInt(qty) * parseInt(price);
 
             //We add the correct sum at each field
             (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].taxe !== '0' ? String(Math.round((sum * TAXE_RATE + Number.EPSILON) * 100) / 100) : "0";
             (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].taxe !== '0' ? String(Math.round((sum * TAXE_RATE + Number.EPSILON) * 100) / 100) : "0";
             (document.getElementsByName(`Tproduit_tps_${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].tps !== '0' ? String(Math.round((sum * TPS_RATE + Number.EPSILON) * 100) / 100) : "0";
-            (document.getElementsByName(`Tproduit_tvq_${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].tvq !== '0' ? String(Math.round((sum * TVQ_RATE + Number.EPSILON) * 100) / 100) : "0";
-            opcCalculator(id);
+            (document.getElementsByName(`Tproduit_tvq_${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].tvq !== '0' ? String(Math.round((sum * TVQ_RATE + Number.EPSILON) * 100) / 100) : "0";      
             (document.getElementsByName(`Ttotal_${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].taxe !== '0' ? String(Math.round((sum + sum * TAXE_RATE + Number.EPSILON) * 100) / 100) : String(Math.round((sum + Number.EPSILON) * 100) / 100);
-        }
+            opcCalculator(id);  
+            // (document.getElementById("grand_total") as HTMLInputElement).value = PRODUCT_TYPE[index].taxe !== '0' ? String(Math.round((sum + sum * TAXE_RATE + Number.EPSILON) * 100) / 100) : String(Math.round((sum + Number.EPSILON) * 100) / 100);
+        }   
 
     }
 

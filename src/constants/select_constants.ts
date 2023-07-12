@@ -68,6 +68,7 @@ export const ORIGINE = [
     { label: `ASD - Andros International, Bahamas`, value: `ASD - Andros International, Bahamas` },
     { label: `ASM - Asmara (Yohannes IV), Erythrée`, value: `ASM - Asmara (Yohannes IV), Erythrée` },
     { label: `ASP - Alice Springs, Australie`, value: `ASP - Alice Springs, Australie` },
+    { label: `ASR – Kayseri, Turquie`, value: `ASR – Kayseri, Turquie` },
     { label: `ASU - Asuncion (Stroessner), Paraguay`, value: `ASU - Asuncion (Stroessner), Paraguay` },
     { label: `ASW - Aswan, Egypte`, value: `ASW - Aswan, Egypte` },
     { label: `ATH - Athens (Hellinikon Internat.), Grèce`, value: `ATH - Athens (Hellinikon Internat.), Grèce` },

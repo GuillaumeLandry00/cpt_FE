@@ -1,24 +1,25 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { BASE_URL, EMAIL } from "../../constants/constantes";
 import { IGenericObject } from "../../interface/interfaces";
 
 export const sendMails = async (from: string, to: string, object: string, msg: string): Promise<boolean> => {
 
 
+    //Send the email right now
+    const params: URLSearchParams = new URLSearchParams();
+    params.append("to", to)
+    params.append("from", from)
+    params.append("subject", object)
+    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+    params.append("msg", msg)
 
-    // //We build the body of the request
-    // let formData = new FormData();
-    // formData.append("from", EMAIL);
-    // formData.append("to", to);
-    // formData.append("object", object);
-    // //we add the custom signature 
-    // msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
-
-    // formData.append("msg", msg);
-
-    // const response: boolean = await axios.post("https://www.voyagesgabymsh.ca/wp-json/mail/send", formData)
-    alert("SENDING EMAIL FROM FRONT END ?? Should not happen")
-    return true;
+    //Call to the API
+    const response: {success: boolean} =(await axios.post(`${BASE_URL}mail/${to}`, params)).data
+    console.log("ICI", response);
+    
+    if(response){        
+        return response.success
+    }else return false
 }
 
 export const addCronTask = async (from: string, to: string, object: string, msg: string, type: string, sendingDate: string): Promise<any> => {

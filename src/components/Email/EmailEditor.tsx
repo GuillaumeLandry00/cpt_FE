@@ -81,13 +81,17 @@ const EmailEditor: React.FC = () => {
         if (selectedValue !== "") {
             setIsLoading(true);
             //we make the api request
+            console.log("sending:" , sendingDate);
+            console.log("sending new:" , new Date().toISOString().slice(0, 10));
+            console.log(sendingDate !== new Date().toISOString().slice(0, 10)&& sendingDate !== "")
 
+            
             //we check if we need to send the mail right now...
-            if (sendingDate != new Date().toISOString().slice(0, 10)) {
-
+            if (sendingDate !== new Date().toISOString().slice(0, 10) && sendingDate !== "") {
+                
                 //we add it to the db
                 if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {
-                    setResponse("Tâche enregistré");
+                    setResponse("Tâche enregistrée");
                 }
             } else {
                 if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
@@ -110,7 +114,7 @@ const EmailEditor: React.FC = () => {
         <>
             <div className="w-4/5 ml-auto mr-auto">
                 <h1 className="text-xl font-bold text-center mt-5">Envoi de courriel</h1>
-                {(response) && (<span className="text-green-500 font-bold">Courriel envoyée</span>)}
+                {(response) && (<span className="text-green-500 font-bold">{response}</span>)}
                 {isLoading ? (
                     <div className="w-full mt-10">
                         <h3 className="text-l font-bold text-center mt-5">Envoi de courriel</h3>
