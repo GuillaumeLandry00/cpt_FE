@@ -25,7 +25,7 @@ const FormClient = ({ idDefault }: props) => {
     const [note, setNote] = useState<string>("");
     const [file, setFile] = useState<any>();
     const [errors, setErrors] = useState<string[]>([]);
-    const [confirmation, setConfirmation] = useState<[{affectedRows: number}] | null>(null);
+    const [confirmation, setConfirmation] = useState<[{ affectedRows: number }] | null>(null);
     const [id, setId] = useState<any>();
     const [linkFile, setLinkFile] = useState<string>("");
     const url = new URL(window.location.href);
@@ -53,6 +53,7 @@ const FormClient = ({ idDefault }: props) => {
 
 
         //we update the form
+        setGender(client[0].gender)
         setAddress(client[0].Adresse);
         setEmail(client[0].Courriel);
         setLanguage(client[0].Langue);
@@ -107,7 +108,7 @@ const FormClient = ({ idDefault }: props) => {
                 //We calculate the number of client added.
                 affectedClients = calcAddedClients(clientDb);
                 console.log(affectedClients);
-                
+
                 if (affectedClients > 0) changes = true;
             }
 
@@ -160,6 +161,7 @@ const FormClient = ({ idDefault }: props) => {
                                 <option value={"M"} selected>M</option>
                                 <option value={"Mrs"}>Mrs</option>
                                 <option value={"Mme"}>Mme</option>
+                                <option value={"Miss"}>Miss</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -233,10 +235,11 @@ const FormClient = ({ idDefault }: props) => {
                             Genre
                         </label>
                         <div className="relative">
-                            <select onChange={(e) => setGender(e.target.value)} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                                <option value={"M"}>M</option>
+                            <select onChange={(e) => setGender(e.target.value)} value={gender} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                                <option value={"M"} >M</option>
                                 <option value={"Mrs"}>Mrs</option>
                                 <option value={"Mme"}>Mme</option>
+                                <option value={"Miss"}>Miss</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
