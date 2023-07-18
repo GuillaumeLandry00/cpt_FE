@@ -19,6 +19,7 @@ const EmailEditor: React.FC = () => {
     const [type, setType] = useState<string>("");
     const [response, setResponse] = useState<string>("");
     const url: URL = new URL(window.location.href);
+    const idReceipt = url.searchParams.get("receipt") as string
 
 
     //we get the agent mail from localstorage
@@ -81,8 +82,7 @@ const EmailEditor: React.FC = () => {
         if (selectedValue !== "") {
             setIsLoading(true);
             //we make the api request
-            console.log("sending:" , sendingDate);
-            console.log("sending new:" , new Date().toISOString().slice(0, 10));
+            
             console.log(sendingDate !== new Date().toISOString().slice(0, 10)&& sendingDate !== "")
 
             
@@ -94,7 +94,7 @@ const EmailEditor: React.FC = () => {
                     setResponse("Tâche enregistrée");
                 }
             } else {
-                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value)) {
+                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value, idReceipt)) {
                     setResponse("Le courriel a été envoyé")
                 } else {
                     setErr("Il y a eu une erreur lors de l'envoi du courriel veuillez ressayer")
@@ -124,12 +124,20 @@ const EmailEditor: React.FC = () => {
                         <label className="block uppercase tracking-wide text-gray-700 text-l font-bold">Gabarit par défaut: </label>
                         <select name="templateSelector" defaultValue="aucun" id="templateSelector" onChange={(e) => { handleSelect(e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="aucun" >Aucun</option>
-                            <option value="birthday">Joyeux anniversaire</option>
-                            <option value="facMSH">Facturation MSH</option>
-                            <option value="facProduire">Facture à produire</option>
-                            <option value="depart">Message de départ</option>
-                            <option value="retour">Message de retour</option>
-                            <option value="christmas">Joyeux Noel</option>
+                            {url.searchParams.get("receipt") as string == null ? (
+                                <>
+                                    <option value="birthday">Joyeux anniversaire</option>
+                                    <option value="depart">Message de départ</option>
+                                    <option value="retour">Message de retour</option>      
+                                    <option value="christmas">Joyeux Noel</option>
+                                </>
+                            ) : (<>
+                                <option value="facMSH">Facturation MSH</option>
+                                <option value="facProduire">Facture à produire</option>
+                            </>)}
+                           
+                           
+                         
                         </select>
                         {enableDate && (<> <span className=" mt-5 uppercase tracking-wide text-gray-700 text-l font-bold">Envoyer le: </span><input value={sendingDate} onChange={(e) => setSendingDate(e.target.value)} className="appearance-none  bg-gray-200 border border-gray-200 text-gray-700 mt-5 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="date" required /> </>)}
                         {err && (<span className="font-bold text-red-500 ">{err}</span>)}

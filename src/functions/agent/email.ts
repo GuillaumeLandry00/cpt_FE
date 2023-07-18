@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL, EMAIL } from "../../constants/constantes";
 import { IGenericObject } from "../../interface/interfaces";
 
-export const sendMails = async (from: string, to: string, object: string, msg: string): Promise<boolean> => {
+export const sendMails = async (from: string, to: string, object: string, msg: string, id: string): Promise<boolean> => {
 
 
     //Send the email right now
@@ -10,6 +10,8 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
     params.append("to", to)
     params.append("from", from)
     params.append("subject", object)
+    params.append("id", id)
+
     msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
     params.append("msg", msg)
 

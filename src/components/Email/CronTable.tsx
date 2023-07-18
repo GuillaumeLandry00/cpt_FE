@@ -34,6 +34,9 @@ const CronTable = ({ utilisateur }: any) => {
                                 <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
                                     Objet
                                 </th>
+                                <th scope="col" className="text-sm font-medium text-gray-100 px-6 py-4 text-left w-2/6">
+                                    Status
+                                </th>
                                 <th scope="col" className="text-sm font-medium text-gray-100 px-1 py-4 text-left w-2/6">
                                     Actions
                                 </th>
@@ -45,6 +48,7 @@ const CronTable = ({ utilisateur }: any) => {
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{task.sending_date.substring(0, 10)}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{task.to}</td>
                                     <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{task.object}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">{task.status}</td>
                                     <td className="text-sm text-gray-900 font-light  py-2 whitespace-nowrap flex flex-row">
                                         <button onClick={() => { deleteCronTask(task.ID) }}>
                                             <MdOutlineDeleteForever size={22} className="ml-4" color='red' />

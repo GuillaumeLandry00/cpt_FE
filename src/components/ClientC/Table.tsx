@@ -9,6 +9,7 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import { GrFormView } from 'react-icons/gr';
 
 import { IClient } from "../../interface/interfaces";
+import { AiOutlineMail } from "react-icons/ai";
 
 
 const Table = () => {
@@ -130,6 +131,9 @@ const Table = () => {
                                             </Link>
                                             <Link to={`form/?action=edit&id=${client.ID}`}>
                                                 <FcEditImage size={22} className="ml-3" />
+                                            </Link>
+                                            <Link to={`mail?to=${client.Courriel}`}>
+                                                <AiOutlineMail size={22} className="ml-4" />
                                             </Link>
                                             <button onClick={() => {
                                                 disableScrolling(false)

@@ -85,9 +85,7 @@ export const validateClient = (client: any): string[] => {
     if (!regExp.test(client.prenom.trim())) {
         errors.push("client_lastname");
     }
-    if (!regExp.test(client.ville.trim())) {
-        errors.push("city");
-    }
+   
     if (client.naissance == "") {
         errors.push("birthdate");
     }
@@ -97,6 +95,10 @@ export const validateClient = (client: any): string[] => {
 
     if (!regExp.test(client.adresse)) {
         errors.push("address");
+    }
+
+    if (!regExp.test(client.ville.trim())) {
+        errors.push("city");
     }
 
     //validate the zip code
