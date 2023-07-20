@@ -16,6 +16,7 @@ const EmailEditor: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [enableDate, setEnableDate] = useState<boolean>(false);
     const [sendingDate, setSendingDate] = useState<string>("");
+    const [additionalEmail, setAdditionalEmail] = useState<string>("");
     const [type, setType] = useState<string>("");
     const [response, setResponse] = useState<string>("");
     const url: URL = new URL(window.location.href);
@@ -82,19 +83,19 @@ const EmailEditor: React.FC = () => {
         if (selectedValue !== "") {
             setIsLoading(true);
             //we make the api request
-            
-            console.log(sendingDate !== new Date().toISOString().slice(0, 10)&& sendingDate !== "")
 
-            
+            console.log(sendingDate !== new Date().toISOString().slice(0, 10) && sendingDate !== "")
+
+
             //we check if we need to send the mail right now...
             if (sendingDate !== new Date().toISOString().slice(0, 10) && sendingDate !== "") {
-                
+
                 //we add it to the db
                 if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {
                     setResponse("Tâche enregistrée");
                 }
             } else {
-                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value, idReceipt)) {
+                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value, additionalEmail, idReceipt)) {
                     setResponse("Le courriel a été envoyé")
                 } else {
                     setErr("Il y a eu une erreur lors de l'envoi du courriel veuillez ressayer")
@@ -128,17 +129,21 @@ const EmailEditor: React.FC = () => {
                                 <>
                                     <option value="birthday">Joyeux anniversaire</option>
                                     <option value="depart">Message de départ</option>
-                                    <option value="retour">Message de retour</option>      
+                                    <option value="retour">Message de retour</option>
                                     <option value="christmas">Joyeux Noel</option>
                                 </>
                             ) : (<>
                                 <option value="facMSH">Facturation MSH</option>
                                 <option value="facProduire">Facture à produire</option>
                             </>)}
-                           
-                           
-                         
+
+
+
                         </select>
+                        {url.searchParams.get("receipt") as string !== null && (<>
+                            <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-8">Envoyer à une personne supplémentaire: </label>
+                            <input type="text" placeholder="Courriel" value={additionalEmail} onChange={(e) => { setAdditionalEmail(e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        </>)}
                         {enableDate && (<> <span className=" mt-5 uppercase tracking-wide text-gray-700 text-l font-bold">Envoyer le: </span><input value={sendingDate} onChange={(e) => setSendingDate(e.target.value)} className="appearance-none  bg-gray-200 border border-gray-200 text-gray-700 mt-5 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="date" required /> </>)}
                         {err && (<span className="font-bold text-red-500 ">{err}</span>)}
                         <p className="text-m mt-5">De: <span className="font-bold text-l">{userEmail} </span> </p>

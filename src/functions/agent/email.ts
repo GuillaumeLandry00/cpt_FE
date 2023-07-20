@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL, EMAIL } from "../../constants/constantes";
 import { IGenericObject } from "../../interface/interfaces";
 
-export const sendMails = async (from: string, to: string, object: string, msg: string, id: string): Promise<boolean> => {
+export const sendMails = async (from: string, to: string, object: string, msg: string, additionalEmail: string, id: string): Promise<boolean> => {
 
 
     //Send the email right now
@@ -11,17 +11,18 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
     params.append("from", from)
     params.append("subject", object)
     params.append("id", id)
+    params.append("additionalEmail", additionalEmail)
 
-    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+    // msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
     params.append("msg", msg)
 
     //Call to the API
-    const response: {success: boolean} =(await axios.post(`${BASE_URL}mail/${to}`, params)).data
+    const response: { success: boolean } = (await axios.post(`${BASE_URL}mail/${to}`, params)).data
     console.log("ICI", response);
-    
-    if(response){        
+
+    if (response) {
         return response.success
-    }else return false
+    } else return false
 }
 
 export const addCronTask = async (from: string, to: string, object: string, msg: string, type: string, sendingDate: string): Promise<any> => {
@@ -36,7 +37,7 @@ export const addCronTask = async (from: string, to: string, object: string, msg:
     params.append("id_agent", userInfo.id);
 
     //we add the custom signature 
-    msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
+    // msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
 
     params.append("msg", msg);
     params.append("type", type);
