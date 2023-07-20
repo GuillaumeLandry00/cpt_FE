@@ -15,6 +15,7 @@ import Admin from './components/Admin/Admin';
 import Accounting from './components/Accounting/Accounting';
 import Footer from './components/Others/Footer';
 import ReportBug from './components/Others/ReportBug';
+import UserGuide from './components/Others/UserGuide';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/dashboard/facturation" element={<TableReceipt />} />
           <Route path="/dashboard/facturation/mail" element={<EmailEditor />} />
           <Route path="/dashboard/reservation" element={<Calendar />} />
+          <Route path="/dashboard/help" element={<UserGuide />} />
 
           {/* Those are private routes */}
           <Route path="/admin/" element={<Admin />} />

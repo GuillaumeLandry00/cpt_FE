@@ -50,6 +50,8 @@ const Passagers = ({ data }: any) => {
     const getClients = async () => {
         let clientsDirty = await getAllClient(10000000000000);
         let clientClean: Array<ISelect> = [];
+        console.log(clientsDirty);
+
         clientsDirty.map((item: IClient) => {
             clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
         });
@@ -89,13 +91,13 @@ const Passagers = ({ data }: any) => {
 
             } else {
                 console.log("We set the data here only ID");
-                
+
                 currentData = data[id];
             }
 
         }
 
-       
+
 
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -106,7 +108,7 @@ const Passagers = ({ data }: any) => {
                     <button onClick={() => {
                         if ((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value) {
                             console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
-                            
+
                             setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
                             setShowModal(true);
                         } else if (parseInt(currentData.id) > 0) {
