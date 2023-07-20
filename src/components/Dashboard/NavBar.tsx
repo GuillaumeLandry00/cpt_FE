@@ -42,7 +42,7 @@ const NavBar = () => {
                             <div className="hidden md:block w-full">
                                 <div className="ml-10 flex items-baseline">
 
-                                     {user && user.typeUtilisateur == 1 && (
+                                    {user && user.typeUtilisateur == 1 && (
                                         <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Admin
                                         </ Link>
@@ -58,6 +58,9 @@ const NavBar = () => {
                                     </ Link>
                                     <Link to={'/dashboard/facturation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Facturation
+                                    </ Link>
+                                    <Link to={'/dashboard/help'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                        Aide
                                     </ Link>
                                     {/* <Link to={'/dashboard/reservation'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                         Call center

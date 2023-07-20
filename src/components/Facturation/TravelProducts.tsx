@@ -34,7 +34,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Taxes</label>
-                <input name={`Ttaxes${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].taxe : ""} onChange={() => { taxesCalculator(id, false) }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
+                <input name={`Ttaxes${id}`} type="number" step=".01" min={0} defaultValue={data && data.length - 1 >= id ? data[id].taxe : ""} onChange={() => { taxesCalculator(id, false) }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No.dossier fournisseur</label>

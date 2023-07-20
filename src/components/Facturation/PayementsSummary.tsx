@@ -4,12 +4,23 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
-//let COUNTER = 0;
+
 const PayementsSummary = ({ data }: ISingleProps) => {
 
 
     const [counter, setCounter] = useState<number>(0);
     const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
+
+    const calcPaiement = () => {
+        let sum = 0;
+
+        for (let i = 0; i < counter + 1; i++) {
+            sum += parseInt((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
+            console.log(sum);
+        }
+        (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
+        (document.getElementById("balance") as HTMLFormElement).value = parseInt((document.getElementById("grand_total") as HTMLFormElement).value) - sum;
+    }
 
     const divPayementsDiv = (id: number) => {
         return (<div key={id} className="flex flex-wrap -mx-3 mt-2">
@@ -51,17 +62,6 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 <input type="text" name={`Ssommaire_no_dossier_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].sommaire_no_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div> */}
         </div>);
-    }
-
-
-    const calcPaiement = () => {
-        let sum = 0;
-
-        for (let i = 0; i < counter; i++) {
-            sum += parseInt((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
-        }
-        (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
-        (document.getElementById("balance") as HTMLFormElement).value = parseInt((document.getElementById("grand_total") as HTMLFormElement).value) - sum;
     }
 
 

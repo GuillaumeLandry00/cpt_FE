@@ -11,7 +11,7 @@ export const getAllClient = async (limit = 25, offset = 0): Promise<any> => {
         checkToken();
         //We check if user is registred in local storage
         let utilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
-        let who: string = /*utilisateur.typeUtilisateur == 1 ? "all" :*/ utilisateur.nom;
+        let who: string = utilisateur.nom;
 
         const response: IResponse = await axios.get(BASE_URL + "client/" + who + `?limit=${limit}&offset=${offset}`, { headers: { "x-access-token": localStorage.getItem('token') as string } });
         authToken(response.data);
@@ -208,10 +208,10 @@ export const buildClientArray = (mixedData: IGenericObject) => {
 
     //First off, we initialize the array with default values.
     let arrClients = new Array<any>((Object.keys(mixedData).length - 1) / 6);
-    for (let i = 0; i < arrClients.length; i++) { arrClients[i] = {genre: "", nom: "", prenom: "", naissance: "", phone1: "", courriel: ""}; }
+    for (let i = 0; i < arrClients.length; i++) { arrClients[i] = { genre: "", nom: "", prenom: "", naissance: "", phone1: "", courriel: "" }; }
 
-    for (const [key, value] of Object.entries(mixedData)) {        
-        if (key !== "notes") arrClients[parseInt(key.charAt(0))-1][key.substring(2)] = value;
+    for (const [key, value] of Object.entries(mixedData)) {
+        if (key !== "notes") arrClients[parseInt(key.charAt(0)) - 1][key.substring(2)] = value;
     }
 
     return arrClients;
