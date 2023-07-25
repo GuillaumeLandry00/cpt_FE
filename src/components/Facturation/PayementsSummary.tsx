@@ -4,6 +4,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
 import { ISingleProps } from "../../interface/interfaces";
+import { Utility } from "../../functions/util/Utility";
 
 const PayementsSummary = ({ data }: ISingleProps) => {
 
@@ -15,11 +16,10 @@ const PayementsSummary = ({ data }: ISingleProps) => {
         let sum = 0;
 
         for (let i = 0; i < counter + 1; i++) {
-            sum += parseInt((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
-            console.log(sum);
+            sum += parseFloat((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
         }
         (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
-        (document.getElementById("balance") as HTMLFormElement).value = parseInt((document.getElementById("grand_total") as HTMLFormElement).value) - sum;
+        (document.getElementById("balance") as HTMLFormElement).value = Utility.roundNumber(parseFloat((document.getElementById("grand_total") as HTMLFormElement).value) - sum);
     }
 
     const divPayementsDiv = (id: number) => {

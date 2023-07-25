@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL, EMAIL } from "../../constants/constantes";
-import { IGenericObject } from "../../interface/interfaces";
+import { IGenericObject, IUtilisateur } from "../../interface/interfaces";
 
 export const sendMails = async (from: string, to: string, object: string, msg: string, additionalEmail: string, id: string): Promise<boolean> => {
 
@@ -16,9 +16,12 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
     // msg += `<p>Vous pouvez me contacter directement par email à <a href="mailto:${from}">${from}</a></p>`;
     params.append("msg", msg)
 
+    let user: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string)
+    params.append("name", user.nom)
+    params.append("completeName", user.nomComplet)
+
     //Call to the API
     const response: { success: boolean } = (await axios.post(`${BASE_URL}mail/${to}`, params)).data
-    console.log("ICI", response);
 
     if (response) {
         return response.success

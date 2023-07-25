@@ -50,10 +50,11 @@ const Dashboard = () => {
                         <li className="">- Le champ genre ne change plus automatiquement</li>
                         <li className="">- Le champ arrivée dans la facture est devenu sous le format AAAA-MM-JJ</li>
                         <li className="">- Le total des paiements et la balance à recevoir se calculent maintenant</li>
+                        <li className="">- L'envoie d'un courriel envoie dorénavant à info@gabymsh.ca, le courriel du premier client enregistré(client 1). Il est possible d'ajouter un courriel  supplémentaire.</li>
+                        <li className="">- Les montants sont arrondies à deux décimales près.</li>
                     </ul>
                     <h1 className="text-2xl font-bold mt-5">Bug découvert (Présentement en train d'être corrigé))</h1>
                     <ul className="ml-4">
-                        <li className="">- Problème de clients qui disparaissent</li>
                         <li className="">- Problème de factures qui disparaissent</li>
                     </ul>
                 </div>

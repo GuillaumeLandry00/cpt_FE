@@ -108,7 +108,7 @@ const ModalClient = ({ setShowModal, id }: props) => {
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                             {view == "view" ?
-                                <button onClick={() => { /*setView("modify")*/ }} className="py-2.5 mx-2 bg-yellow-500  text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out w-1/5  mb-6 md:mb-0 mr-auto">
+                                <button onClick={() => { setView("modify") }} className="py-2.5 mx-2 bg-yellow-500  text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out w-1/5  mb-6 md:mb-0 mr-auto">
                                     Modifier
                                 </button> :
                                 <button onClick={() => { setView("view") }} className="py-2.5 mx-2 bg-cyan-500  text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 active:shadow-lg transition duration-150 ease-in-out w-1/5  mb-6 md:mb-0 mr-auto">

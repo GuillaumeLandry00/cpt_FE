@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IGenericObject, IUtilisateur } from "../../interface/interfaces";
 
 
@@ -13,8 +13,9 @@ type ReceiptProps = {
 
 const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => {
 
-    let agency: Array<string> = utilisateur.agences.split(" ");
-
+    let agency: Array<string> = utilisateur.agences.split(",").join(" ").split(" ");
+    const [noDossier, setNoDossier] = useState("")
+    const [succ, setSucc] = useState("")
 
 
     const generateUniqueNumber = () => {
@@ -22,10 +23,19 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
     }
 
     useEffect(() => {
-        if (dossier) {
-            (document.getElementsByName("Fno_dossier")[0] as HTMLFormElement).values = dossier
+        if (dossier !== "") {
+            setNoDossier(String(dossier));
+        } else {
+            setNoDossier(String(generateUniqueNumber()))
         }
     }, [dossier])
+
+    useEffect(() => {
+        setSucc(agence)
+    }, [agence])
+
+
+
 
     return (
         <>
@@ -39,7 +49,7 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
                 </div>
                 <div className="w-full md:w-2/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro facture: </label>
-                    <input type="number" name="Fno_dossier" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" defaultValue={(dossier !== "") ? dossier : generateUniqueNumber()} readOnly />
+                    <input type="number" name="Fno_dossier" id="no_dossier" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" defaultValue={(dossier !== "") ? dossier : generateUniqueNumber()} value={noDossier} readOnly />
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Agent</label>
@@ -47,8 +57,8 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
                 </div>
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Agence</label>
-                    <select name="Fagency" defaultValue={agence ? agence : ""} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                        {agency.map((item, index) => (<option key={index} defaultValue={(data && data.hasOwnProperty("agency")) ? data.agency : ""} value={item}>{item}</option>))}
+                    <select name="Fagency" defaultValue={agence ? agence : ""} value={succ} onChange={(e) => { setSucc(e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                        {agency.map((item, index) => (<option key={index} defaultValue={(data && data.hasOwnProperty("agency")) ? data.agency : ""} value={item.replace("cwt", "gaby")}>{item.replace("cwt", "gaby")}</option>))}
                     </select>
                 </div>
             </div>

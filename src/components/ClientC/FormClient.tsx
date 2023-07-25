@@ -116,7 +116,7 @@ const FormClient = ({ idDefault }: props) => {
             if (changes) {
                 setConfirmation(clientDb);
                 let myForm = document.getElementById("myForm") as HTMLFormElement;
-                myForm.reset();
+                if (url.searchParams.get("action") !== "edit") myForm.reset();
                 if (clientDb !== "") setErrors([]);
             } else {
                 alert("Erreur");

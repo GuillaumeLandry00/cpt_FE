@@ -181,7 +181,7 @@ export const ORIGINE = [
     { label: `CAS - Casablanca (Metropolitan), Maroc`, value: `CAS - Casablanca (Metropolitan), Maroc` },
     { label: `CAY - Cayenne (Rochambeau), Guyane`, value: `CAY - Cayenne (Rochambeau), Guyane` },
     { label: `CBR - Canberra, Australie`, value: `CBR - Canberra, Australie` },
-    { label: `CCC - Caya Coco, Cuba`, value: `CCC - Caya Coco, Cuba` },
+    { label: `CCC - Cayo Coco, Cuba`, value: `CCC - Cayo Coco, Cuba` },
     { label: `CCE - Saint Martin (Grand Case), Guadeloupe`, value: `CCE - Saint Martin (Grand Case), Guadeloupe` },
     { label: `CCF - Carcassonne, France`, value: `CCF - Carcassonne, France` },
     { label: `CCS - Caracas (Aeropuerto Intern.), Venezuela`, value: `CCS - Caracas (Aeropuerto Intern.), Venezuela` },

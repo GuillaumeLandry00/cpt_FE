@@ -17,8 +17,8 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
                 receipt.facturation[key.substring(1, key.length)] = value;
                 break;
             case "C":
-                console.log("The value {",key,"} is, ", value);
-                
+                console.log("The value {", key, "} is, ", value);
+
                 receipt.passagers.push(value)
                 break;
             case "I":
@@ -30,7 +30,11 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
             case "T":
                 if (receipt.product.length <= key.charAt(key.length - 1)) {
                     receipt.product.push({});
+                    console.log("We just pushed ", receipt.product);
+
                 }
+                console.log("we insert at", key.charAt(key.length - 1));
+
                 //Default
                 receipt.product[key.charAt(key.length - 1)]["type_comm"] = "%";
                 receipt.product[key.charAt(key.length - 1)]["comm"] = utilisateur.comm;
@@ -55,7 +59,7 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
     if (id) receipt.id = id;
 
     console.log(receipt);
-    
+
 
     return await sendReceipt(receipt, action);
 }
@@ -78,7 +82,7 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 
         } else {
             console.log("JUSTE BEFORE SENDINF ", receipt);
-            
+
             response = await axios({
                 method: "patch",
                 url: BASE_URL + "receipt/",
