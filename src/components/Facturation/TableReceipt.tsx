@@ -23,11 +23,11 @@ const TableReceipt = () => {
     const [by, setBy] = useState<string>("date");
 
     //Make the api request
-    const getData = async () => {
+    const getData = async (limit = 50) => {
         if (search == "") {
-            setData([...await getReceipts(order, by,)]);
+            setData([...await getReceipts(order, by, "", limit)]);
         } else {
-            setData([...await getReceipts(order, by, search)]);
+            setData([...await getReceipts(order, by, search, limit)]);
         }
     };
 
@@ -102,6 +102,9 @@ const TableReceipt = () => {
                         )}
                     </tbody>
                 </table>
+            )}
+            {(data.length > 15) && (
+                <button className="ml-auto mr-auto mt-10 font-semibold underline text-l w-full" onClick={() => { getData(10000); }}>Voir toutes factures</button>
             )}
         </div >
     </>);

@@ -7,7 +7,7 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
 
     //Send the email right now
     const params: URLSearchParams = new URLSearchParams();
-    params.append("to", to)
+    params.append("to", to !== "" ? to : "null")
     params.append("from", from)
     params.append("subject", object)
     params.append("id", id)
@@ -21,7 +21,7 @@ export const sendMails = async (from: string, to: string, object: string, msg: s
     params.append("completeName", user.nomComplet)
 
     //Call to the API
-    const response: { success: boolean } = (await axios.post(`${BASE_URL}mail/${to}`, params)).data
+    const response: { success: boolean } = (await axios.post(`${BASE_URL}mail/${to !== "" ? to : "null"}`, params)).data
 
     if (response) {
         return response.success

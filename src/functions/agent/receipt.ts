@@ -100,14 +100,15 @@ export const sendReceipt = async (receipt: IGenericObject, action: string) => {
 
 }
 
-export const getReceipts = async (order: string, by: string, search: string = "", id: string = ""): Promise<any> => {
+export const getReceipts = async (order: string, by: string, search: string = "", limit = 50): Promise<any> => {
     try {
         let utilisateur: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string);
         let request: string = `${BASE_URL}receipt/${utilisateur.id}?search=${search}`;
 
         request += `&order=${order}`;
         request += `&by=${by}`
-        if (id) request += `&id=${id}`;
+        request += `&limit=${limit}`
+
 
         const response: IResponse = await axios.get(request, {
             headers: { "x-access-token": localStorage.getItem('token') as string }

@@ -49,9 +49,6 @@ const FormClient = ({ idDefault }: props) => {
             client = await getClient(idDefault);
         }
 
-
-
-
         //we update the form
         setGender(client[0].gender)
         setAddress(client[0].Adresse);
@@ -290,7 +287,7 @@ const FormClient = ({ idDefault }: props) => {
                         </label>
                         <div className="relative">
                             <select onChange={(e) => setCountry(e.target.value)} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
-                                <option value={"État-unis"}>État-unis</option>
+                                {/* <option value={"État-unis"}>État-unis</option> */}
                                 <option selected value={"Canada"}>Canada</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -305,7 +302,7 @@ const FormClient = ({ idDefault }: props) => {
                             Province
                         </label>
                         <div className="relative">
-                            <select onChange={(e) => setProvince(e.target.value)} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                            <select onChange={(e) => setProvince(e.target.value)} value={province} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
                                 <option>Alberta</option>
                                 <option selected>Québec</option>
                                 <option>Ontario</option>

@@ -10,7 +10,6 @@ const EmailEditor: React.FC = () => {
 
     const [userEmail, setUserEmail] = useState<string>("");
     const [err, setErr] = useState<string>("");
-    const [selectedValue, setSelectedValue] = useState<string>("");
     const [signature, setSignature] = useState<string>(constants.SIGNATURE_CWT);
     const [value, setValue] = useState<string>(signature);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,6 +18,7 @@ const EmailEditor: React.FC = () => {
     const [additionalEmail, setAdditionalEmail] = useState<string>("");
     const [type, setType] = useState<string>("");
     const [response, setResponse] = useState<string>("");
+    const [subject, setSubject] = useState<string>("")
     const url: URL = new URL(window.location.href);
     const idReceipt = url.searchParams.get("receipt") as string
 
@@ -80,22 +80,24 @@ const EmailEditor: React.FC = () => {
     const handleBtn = async (): Promise<void> => {
         setErr("")
         setResponse("");
-        if (selectedValue !== "") {
+        if (subject !== "") {
             setIsLoading(true);
             //we make the api request
 
             console.log(sendingDate !== new Date().toISOString().slice(0, 10) && sendingDate !== "")
 
+            let checkboxEmail = document.getElementById("email-checkbox") as HTMLFormElement
+            let clientEmail = checkboxEmail.checked ? url.searchParams.get("to") as string : "";
 
             //we check if we need to send the mail right now...
             if (sendingDate !== new Date().toISOString().slice(0, 10) && sendingDate !== "") {
 
                 //we add it to the db
-                if ((await addCronTask(userEmail, url.searchParams.get("to") as string, selectedValue, value, type, sendingDate)).data.affectedRows > 0) {
+                if ((await addCronTask(userEmail, clientEmail, subject, value, type, sendingDate)).data.affectedRows > 0) {
                     setResponse("Tâche enregistrée");
                 }
             } else {
-                if (await sendMails(userEmail, url.searchParams.get("to") as string, selectedValue, value, additionalEmail, idReceipt)) {
+                if (await sendMails(userEmail, clientEmail, subject, value, additionalEmail, idReceipt)) {
                     setResponse("Le courriel a été envoyé")
                 } else {
                     setErr("Il y a eu une erreur lors de l'envoi du courriel veuillez ressayer")
@@ -103,12 +105,8 @@ const EmailEditor: React.FC = () => {
             }
             setIsLoading(false);
         } else {
-            setErr("Veuillez selectionner un objet");
+            setErr("Veuillez entrer un objet");
         }
-    }
-    // handle onChange event of the dropdown
-    const handleChange = (e: any): void => {
-        setSelectedValue(e.value);
     }
 
     return (
@@ -142,16 +140,23 @@ const EmailEditor: React.FC = () => {
                         </select>
                         {url.searchParams.get("receipt") as string !== null && (<>
                             <label className="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-8">Envoyer à une personne supplémentaire: </label>
-                            <input type="text" placeholder="Courriel" value={additionalEmail} onChange={(e) => { setAdditionalEmail(e.target.value) }} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                            <div className="flex">
+                                <input type="text" placeholder="Courriel" value={additionalEmail} onChange={(e) => { setAdditionalEmail(e.target.value) }} className="block appearance-none w-2/5 bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                <div className="flex items-center w-3/5 ml-4">
+                                    <input id="email-checkbox" type="checkbox" value="oui" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <label className="ml-2 text-m font-medium text-gray-900 dark:text-gray-600"> Sélectionner si vous souhaitez envoyer une copie à <a className="text-blue-600 dark:text-blue-500 hover:underline">{url.searchParams.get("to")}</a> (client).</label>
+                                </div>
+                            </div>
                         </>)}
                         {enableDate && (<> <span className=" mt-5 uppercase tracking-wide text-gray-700 text-l font-bold">Envoyer le: </span><input value={sendingDate} onChange={(e) => setSendingDate(e.target.value)} className="appearance-none  bg-gray-200 border border-gray-200 text-gray-700 mt-5 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="date" required /> </>)}
                         {err && (<span className="font-bold text-red-500 ">{err}</span>)}
                         <p className="text-m mt-5">De: <span className="font-bold text-l">{userEmail} </span> </p>
-                        <p className="text-m">À: <span className="font-bold text-l">{url.searchParams.get("to")}, {"<AgentTechnique>"}</span> </p>
+                        <p className="text-m">À: <span className="font-bold text-l">{"<AgentTechnique>"}</span> </p>
                         <div className="w-full ml-auto mr-auto flex row-auto">
                             <div className="w-1/2">
                                 <label className="block uppercase tracking-wide text-gray-700 text-l font-bold">Objet: </label>
-                                <Select options={OBJET} id="objectSelect" name="objectSelect" onChange={handleChange} value={OBJET.find(obj => obj.value === selectedValue)} className="block appearance-none w-full  text-gray-700 py-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                                <input type="text" value={subject} onChange={(e) => { setSubject(e.target.value) }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="objectSelect" name="objectSelect" placeholder="objet" />
+                                <Select options={OBJET} onChange={(e) => setSubject(e?.value as string)} value={OBJET.find(obj => obj.value === subject)} className="block appearance-none w-full  text-gray-700 py-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                             </div>
                             <div className="w-1/2">
                                 <label className="block uppercase tracking-wide text-gray-700 text-l font-bold">Signature: </label>

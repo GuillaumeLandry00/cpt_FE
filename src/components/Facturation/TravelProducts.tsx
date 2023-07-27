@@ -13,10 +13,10 @@ type ProductProps = {
     no_dossier: number;
 };
 
-let COUNTER = 0;
 const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) => {
 
     const divProducts = (id: number) => {
+        // if (new URL(window.location.href).searchParams.get("action") !== "edit") id
         return (<div className="flex flex-wrap -mx-3 mt-2" key={id}>
             <div className="w-full md:w-3/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
@@ -84,7 +84,6 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
     useEffect(() => {
         if (data && data.length > 0) {
             setCounter(data.length);
-            COUNTER = data.length;
             let newArr = new Array(data.length);
             for (let i = 0; i < data.length; i++) {
 
@@ -99,14 +98,15 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
         if (action === "add") {
             if (counter < 12) {
-                COUNTER++;
                 setCounter(counter + 1);
-                setProductsDiv([...productsDiv, divProducts(counter)]);
+                if (new URL(window.location.href).searchParams.get("action") == "edit") {
+                    setProductsDiv([...productsDiv, divProducts(counter)]);
+                } else setProductsDiv([...productsDiv, divProducts(counter + 1)]);
+
             }
         } else {
             if (counter >= 1) {
                 setCounter(counter - 1);
-                COUNTER--;
                 let newArray: Array<any> = productsDiv;
                 newArray.pop();
                 setProductsDiv([...newArray]);
