@@ -36,19 +36,20 @@ const Passagers = ({ data }: any) => {
 
     //If we update or view an existing receipt, we put all the values as default
     useEffect(() => {
-        if (clients.length > 0) {
-            if (data && data.length) {
 
-                setCounter(data.length);
-                for (let i = 0; i < data.length; i++) {
-                    clientsDiv[i] = divClient(i);
-                }
+        // if (clients.length > 0) {
+        if (data && data.length) {
+
+            setCounter(data.length);
+            for (let i = 0; i < data.length; i++) {
+                clientsDiv[i] = divClient(i);
             }
         }
-    }, [data, clients])
+        // }
+    }, [data])
 
     const getClients = async () => {
-        let clientsDirty = await getAllClient(10000000000000);
+        let clientsDirty = await getAllClient(10_000);
         let clientClean: Array<ISelect> = [];
         console.log(clientsDirty);
 

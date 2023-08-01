@@ -36,6 +36,8 @@ const TableReceipt = () => {
         getData();
     }, [])
 
+    console.log(data);
+
     return (<>
         <div className="w-4/5 mb-28 overscroll-auto  ml-auto mr-auto ">
             <div className="w-full block mb-0 mt-7">

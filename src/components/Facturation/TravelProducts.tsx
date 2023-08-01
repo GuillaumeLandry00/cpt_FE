@@ -146,11 +146,11 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
         //We check if the user has entered anything
         if (qty != '' && price != '') {
-            let index: number = parseInt((document.getElementById(`mySelectProduct${id}`) as HTMLInputElement).value);
+            let index: number = parseFloat((document.getElementById(`mySelectProduct${id}`) as HTMLInputElement).value);
             console.log("index", index);
 
             //Calculate the sum of each fields
-            let sum = parseInt(qty) * parseFloat(price);
+            let sum = parseFloat(qty) * parseFloat(price);
             let tpsSum = PRODUCT_TYPE[index].tps !== '0' ? String(Math.round((sum * TPS_RATE + Number.EPSILON) * 100) / 100) : "0";
             let tvqSum = PRODUCT_TYPE[index].tvq !== '0' ? String(Math.round((sum * TVQ_RATE + Number.EPSILON) * 100) / 100) : "0";
 
@@ -163,8 +163,8 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].taxe == '0' ? String(Math.round((parseFloat(tpsSum) + parseFloat(tvqSum) + Number.EPSILON) * 100) / 100) : (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value;
             // }
 
-            let taxSum = PRODUCT_TYPE[index].taxe !== '0' ? parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value) * parseInt(qty) : parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value);
-            let discountSum = (document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value !== "" ? (parseFloat((document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value) * parseInt(qty)) : 0;
+            let taxSum = PRODUCT_TYPE[index].taxe !== '0' ? parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value) * parseFloat(qty) : parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value);
+            let discountSum = (document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value !== "" ? (parseFloat((document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value) * parseFloat(qty)) : 0;
 
 
             let finalSum = Math.round((sum + taxSum - discountSum + Number.EPSILON) * 100) / 100;
