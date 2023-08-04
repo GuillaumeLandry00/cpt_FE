@@ -16,6 +16,7 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
     let agency: Array<string> = utilisateur.agences.split(",").join(" ").split(" ");
     const [noDossier, setNoDossier] = useState("")
     const [succ, setSucc] = useState("")
+    const [dateDossier, setDateDossier] = useState(new Date().toISOString().substring(0, 10))
 
 
     const generateUniqueNumber = () => {
@@ -28,13 +29,12 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
         } else {
             setNoDossier(String(generateUniqueNumber()))
         }
+        if (date) setDateDossier(date.substring(0, 10))
     }, [dossier])
 
     useEffect(() => {
         setSucc(agence)
     }, [agence])
-
-
 
 
     return (
@@ -44,7 +44,7 @@ const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => 
                 <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                     <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Date</label>
-                        <input type="date" name="Fdate" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" defaultValue={date ? date.substring(0, 10) : new Date().toISOString().substring(0, 10)} required />
+                        <input type="date" name="Fdate" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Select a date" data-mdb-toggle="datepicker" value={dateDossier} onChange={(e) => setDateDossier(e.target.value)} required />
                     </div>
                 </div>
                 <div className="w-full md:w-2/5 px-3 mb-6 md:mb-0">
