@@ -14,16 +14,17 @@ const PayementsSummary = ({ data }: ISingleProps) => {
 
     const calcPaiement = () => {
         let sum = 0;
+        let payementsLength = document.querySelectorAll(".payement").length
 
-        for (let i = 0; i < counter + 1; i++) {
+        for (let i = 0; i < payementsLength; i++) {
             sum += parseFloat((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
         }
         (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
-        (document.getElementById("balance") as HTMLFormElement).value = Utility.roundNumber(parseFloat((document.getElementById("grand_total") as HTMLFormElement).value) - sum);
+        (document.getElementById("balance") as HTMLFormElement).value = Utility.roundNumber((parseFloat((document.getElementById("grand_total") as HTMLFormElement).value)) - sum);
     }
 
     const divPayementsDiv = (id: number) => {
-        return (<div key={id} className="flex flex-wrap -mx-3 mt-2">
+        return (<div key={id} className="flex flex-wrap -mx-3 mt-2 payement">
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Date</label>
                 <input type="date"

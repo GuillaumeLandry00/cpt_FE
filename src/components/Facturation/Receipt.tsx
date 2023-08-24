@@ -13,7 +13,7 @@ type ReceiptProps = {
 
 const Receipt = ({ utilisateur, data, dossier, agence, date }: ReceiptProps) => {
 
-    let agency: Array<string> = utilisateur.agences.split(",").join(" ").split(" ");
+    let agency: Array<string> = utilisateur.agences.split(",").join(" ").split(" ").reverse()
     const [noDossier, setNoDossier] = useState("")
     const [succ, setSucc] = useState("")
     const [dateDossier, setDateDossier] = useState(new Date().toISOString().substring(0, 10))

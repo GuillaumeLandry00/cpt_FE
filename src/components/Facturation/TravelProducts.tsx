@@ -17,7 +17,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
     const divProducts = (id: number) => {
         // if (new URL(window.location.href).searchParams.get("action") !== "edit") id
-        return (<div className="flex flex-wrap -mx-3 mt-2" key={id}>
+        return (<div className="flex flex-wrap -mx-3 mt-2 product" key={id}>
             <div className="w-full md:w-3/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
                 <select onChange={() => { taxesCalculator(id) }} name={`Ttype_produit_${id}`} id={`mySelectProduct${id}`} defaultValue={data && data.length - 1 >= id ? data[id].type_produit : "0"} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -119,7 +119,10 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
         let sum = 0;
         let bigSum = 0;
 
-        for (let i = 0; i < counter + 2; i++) {
+        console.log("We calculate the price...", document.querySelectorAll(".product").length);
+        let productsLength = document.querySelectorAll(".product").length
+
+        for (let i = 0; i < productsLength; i++) {
             if (document.getElementById(`mySelectProduct${i}`)) {
                 let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
                 let total: number = parseFloat((document.getElementsByName(`Ttotal_${i}`)[0] as HTMLInputElement).value)
@@ -139,15 +142,12 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
     const taxesCalculator = async (id: string | number, calcTaxes = true): Promise<void> => {
 
-
         let qty: string = (document.getElementById(`qty${id}`) as HTMLInputElement).value;
         let price: string = (document.getElementById(`prix${id}`) as HTMLInputElement).value;
-
 
         //We check if the user has entered anything
         if (qty != '' && price != '') {
             let index: number = parseFloat((document.getElementById(`mySelectProduct${id}`) as HTMLInputElement).value);
-            console.log("index", index);
 
             //Calculate the sum of each fields
             let sum = parseFloat(qty) * parseFloat(price);
@@ -157,11 +157,8 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             //We add the correct sum at each field
             (document.getElementsByName(`Tproduit_tps_${id}`)[0] as HTMLInputElement).value = tpsSum;
             (document.getElementsByName(`Tproduit_tvq_${id}`)[0] as HTMLInputElement).value = tvqSum;
-
-            // if (calcTaxes) {
-
             (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value = PRODUCT_TYPE[index].taxe == '0' ? String(Math.round((parseFloat(tpsSum) + parseFloat(tvqSum) + Number.EPSILON) * 100) / 100) : (document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value;
-            // }
+
 
             let taxSum = PRODUCT_TYPE[index].taxe !== '0' ? parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value) * parseFloat(qty) : parseFloat((document.getElementsByName(`Ttaxes${id}`)[0] as HTMLInputElement).value);
             let discountSum = (document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value !== "" ? (parseFloat((document.getElementsByName(`Tescompte_${id}`)[0] as HTMLInputElement).value) * parseFloat(qty)) : 0;
