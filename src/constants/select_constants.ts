@@ -1035,6 +1035,7 @@ export const ORIGINE = [
 export const PRODUCT_TYPE = [
     { label: 'Aucun', value: 'Aucun', taxe: '0', tps: '0', tvq: '0', rabais: '0', opc: '0' },
     { label: 'Air Canada /Vol', value: 'Air Canada /Vol', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
+    { label: `Air Transat`, value: `AT`, taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1'  },
     { label: 'Alio', value: 'Alio', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Amerik Aventure ', value: 'Amerik Aventure ', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Amtrak', value: 'Amtrak', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
@@ -1141,6 +1142,7 @@ export const PRODUCT_TYPE = [
     { label: 'Norwegian Cruise Line', value: 'Norwegian Cruise Line', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Objectif Monde', value: 'Objectif Monde', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Océania Cruises', value: 'Océania Cruises', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
+    { label: 'Oceana Tours', value: 'Oceana Tours', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Pascan Aviation', value: 'Pascan Aviation', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Porter', value: 'Porter', taxe: '1', tps: '0', tvq: '0', rabais: '1', opc: '1' },
     { label: 'Pourboire Prépayé', value: 'Pourboire Prépayé', taxe: '0', tps: '0', tvq: '0', rabais: '0', opc: '0' },
@@ -1232,8 +1234,8 @@ export const REMARKS = [
     { label: `République Dominicaine Sunwing:Taxe de sortie payable sur place de $20 US et $10 US pour Carte Touristique`, value: `République Dominicaine Sunwing:Taxe de sortie payable sur place de $20 US et $10 US pour Carte Touristique` },
     { label: `San Andrès: Taxe de sortie payable sur place de $24 US`, value: `San Andrès: Taxe de sortie payable sur place de $24 US` },
     { label: `Transat / Frais  de 25 $ sur  le premier bagage enregistré sur tous  les vols en direction des Etats Unis `, value: `Transat / Frais  de 25 $ sur  le premier bagage enregistré sur tous  les vols en direction des Etats Unis ` },
-    { label: `Sunwing : bagage de cabine payant : 25$`, value: `Vérifier la validité des passeports de vos clients ` },
-    { label: `Vérifier la validité des passeports de vos clients`, value: `Sunwing : bagage de cabine payant : 25$` },
+    { label: `Sunwing : bagage de cabine payant : 25$`, value: `Sunwing : bagage de cabine payant : 25$`  },
+    { label: `Vérifier la validité des passeports de vos clients`, value: `Vérifier la validité des passeports de vos clients` },
     { label: `Sunwing : repas / snacks / boissons payants à bord (eau et café gratuit)`, value: `Sunwing : repas / snacks / boissons payants à bord (eau et café gratuit)` },
 ]
 

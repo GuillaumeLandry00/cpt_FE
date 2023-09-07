@@ -52,7 +52,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">CVV</label>
-                <input type="number" name={`Scvv_${id}`} min={100} max={999} defaultValue={data && data.length - 1 >= id ? data[id].cvv : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <input type="number" name={`Scvv_${id}`} min={0} max={999} defaultValue={data && data.length - 1 >= id ? data[id].cvv : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Expiration</label>

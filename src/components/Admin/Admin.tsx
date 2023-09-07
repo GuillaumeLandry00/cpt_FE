@@ -12,7 +12,7 @@ const Admin = () => {
 
     useEffect(() => {
         let user: IUtilisateur = JSON.parse(localStorage.getItem("utilisateur") as string)
-        if (user.typeUtilisateur !== 1) window.location.href = SITE_URL;
+        if (user.typeUtilisateur !== 99) window.location.href = SITE_URL;
     }, []);
 
     const [views, setViews] = useState(<DefaultAdmin />);

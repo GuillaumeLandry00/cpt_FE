@@ -42,7 +42,7 @@ const NavBar = () => {
                             <div className="hidden md:block w-full">
                                 <div className="ml-10 flex items-baseline">
 
-                                    {user && user.typeUtilisateur == 1 && (
+                                    {user && user.typeUtilisateur == 99 && (
                                         <Link to={'/admin'} className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Admin
                                         </ Link>
