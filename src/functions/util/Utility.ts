@@ -23,6 +23,17 @@ export class Utility {
         return true;
     }
 
+    public static addUnsignifiantZero(unparsedNumber: string): number {
+        console.log('The number we have  is', unparsedNumber);
+        
+        if(unparsedNumber.endsWith(".")){
+            unparsedNumber += "00"
+            console.log("we add the zero->", unparsedNumber);
+            
+        }
+        return parseFloat(unparsedNumber);
+    }
+
     public static calcComm(type: string, comm: number, total: number): number {
 
         let amount = 0;

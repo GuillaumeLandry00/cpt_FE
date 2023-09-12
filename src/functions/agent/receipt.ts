@@ -59,7 +59,8 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
 
 export const sendReceipt = async (receipt: IGenericObject, action: string) => {
-
+    console.log("The receupt we are sending", receipt);
+    
     //we check if the receipt is valid
     if (!validateReceipt(receipt)) {
 

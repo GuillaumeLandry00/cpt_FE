@@ -78,7 +78,7 @@ export const validateClient = (client: any): string[] => {
     let regExp: RegExp;
 
     //we validate the name
-    regExp = new RegExp("^([a-zA-ZÀ-ÿ.]-?)+$", "i");
+    regExp = new RegExp("^([a-zA-ZÀ-ÿ.][ -]?)+$", "i");
     if (!regExp.test(client.nom.trim())) {
         errors.push("client_name");
     }
