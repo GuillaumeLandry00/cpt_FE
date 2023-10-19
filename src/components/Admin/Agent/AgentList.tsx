@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FcEditImage } from "react-icons/fc";
+import { FcEditImage, FcSearch } from "react-icons/fc";
 import { GrFormView } from "react-icons/gr";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteAgent, getAllAgent } from "../../../functions/admin/agent";
@@ -14,7 +14,8 @@ interface Props {
 const AgentList = ({ switchViews }: Props) => {
 
     const fetchAgents = async (): Promise<void> => {
-        setAgents([... await getAllAgent()]);
+        setIsLoading(true)
+        setAgents([... await getAllAgent(search)]);
         setIsLoading(false);
     }
 
@@ -29,6 +30,7 @@ const AgentList = ({ switchViews }: Props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(0);
     const [response, setResponse] = useState<string>("");
+    const [search, setSearch] = useState<string>("")
 
     const deleteUser = async () => {
         if ((await deleteAgent(selectedId)).affectedRows > 0) {
@@ -44,6 +46,12 @@ const AgentList = ({ switchViews }: Props) => {
             <div className="flex">
                 <h1 className="text-xl font-bold w-11/12">Liste des utilisateurs  {response && (<span className="text-green-500">{response}</span>)}</h1>
                 <button onClick={() => switchViews("add-agent")} className="w-1/12 ml-auto bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white  px-4 border border-green-500 hover:border-transparent rounded">Ajouter un agent</button>
+            </div>
+            <div className="pt-2 relative mx-auto text-gray-600" >
+                <input onKeyDown={(e) => e.key === 'Enter' ? fetchAgents() : ""} id="searchInput" className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full" type="search" name="rechercher" placeholder="Rechercher par nom & prénom" onChange={(e) => setSearch(e.target.value)} value={search} />
+                <button type="submit" className="absolute right-0 top-0 mt-4 mr-4" onClick={() => fetchAgents()}>
+                    <FcSearch size={28} />
+                </button>
             </div>
             {isLoading ? (
                 <div className="w-full mt-10">

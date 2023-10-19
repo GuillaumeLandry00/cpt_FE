@@ -1,8 +1,8 @@
 import axios from "axios"
 import { BASE_URL } from "../../constants/constantes"
-import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
+import { IGenericObject, IReceiptErrors, IResponse, IUtilisateur } from "../../interface/interfaces";
 import { authToken } from "./authentification";
- 
+
 export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
@@ -16,7 +16,7 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
                 receipt.facturation[key.substring(1, key.length)] = value;
                 break;
             case "C":
-                if(value !== "") {
+                if (value !== "") {
                     receipt.passagers.push(value)
                 }
                 break;
@@ -60,8 +60,9 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
 
 export const sendReceipt = async (receipt: IGenericObject, action: string) => {
     console.log("The receupt we are sending", receipt);
-    
+
     //we check if the receipt is valid
+
     if (!validateReceipt(receipt)) {
 
         let response: IGenericObject;
@@ -144,11 +145,65 @@ export const deleteReceipt = async (id: string | number) => {
 const validateReceipt = (receipt: IGenericObject) => {
 
     let err = false;
-
+    let generic_errors = verifacationReceipt(receipt);
     if (receipt.facturation.date == "") err = true;
     if (receipt.facturation.no_dossier == "") err = true;
     if (receipt.itinerary[0].date_depart == "") err = true;
     if (receipt.passagers.length <= 0) err = true;
+    if (generic_errors.passagers.length > 0 || generic_errors.itinerary.length > 0 || generic_errors.products.length > 0) {
+        alert(
+            generic_errors.passagers.join("\n") +
+            generic_errors.itinerary.join("\n") +
+            generic_errors.products.join("\n")
+        )
+    }
 
     return err;
 }
+
+const verifacationReceipt = (receipt: IGenericObject) => {
+    let errors: IReceiptErrors = {
+        passagers: [],
+        itinerary: [],
+        products: [],
+        summaryOpc: [],
+        paiements: [],
+        general: [],
+    };
+
+    //First of, we check the passagers
+    receipt.passagers.map((passager: String, i: number) => {
+        if (passager == "") errors.passagers.push(`Erreur avec le client ${i + 1}`);
+    })
+
+    //We check the itinerary
+    receipt.itinerary.map((iti: IGenericObject) => {
+        if (!(iti.depart_hh < 24 && iti.depart_hh > 0) && !(iti.depart_mm < 60 && iti.depart_mm > 0)) {
+            errors.passagers.push(`L'heure de départ doit être valide`);
+        }
+
+
+        if (!(iti.arrive_hh < 24 && iti.arrive_hh > 0) && !(iti.arrive_mm < 60 && iti.arrive_mm > 0)) {
+            errors.passagers.push(`L'heure d'arrivée doit être valide`);
+        }
+
+        let dateDepart = new Date(iti.date_depart)
+        let dateArrive = new Date(iti.arrive)
+        if (dateArrive.getTime() - dateDepart.getTime() < 0) {
+            errors.passagers.push(`La date d'arrivée ne peut pas être avant la date de départ`);
+        }
+    })
+
+
+    receipt.product.map((item: IGenericObject) => {
+        if (item.qty < 0) {
+            errors.products.push("la quantité ne peut pas être inférieur à 0")
+        }
+    })
+
+    return errors;
+
+
+
+}
+

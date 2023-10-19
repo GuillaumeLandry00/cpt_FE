@@ -115,6 +115,7 @@ const PayementsSummary = ({ data }: ISingleProps) => {
             <div className="mt-2">
                 <button onClick={() => handleClick("remove")}><AiOutlineMinusCircle size={28} color={"red"} /></button>
                 <button className="ml-2" onClick={() => handleClick("add")}><AiOutlinePlusCircle size={28} color={"green"} /></button>
+                <button className=" ml-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded" onClick={() => calcPaiement()}>Rafraîchir paiements</button>
             </div>
         </>
     );

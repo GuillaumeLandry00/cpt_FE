@@ -107,5 +107,14 @@ interface ISelect {
     label: string
 }
 
+interface IReceiptErrors {
+    passagers: Array<String>
+    itinerary: Array<String>
+    products: Array<String>
+    summaryOpc: Array<String>
+    paiements: Array<String>
+    general: Array<String>
+}
 
-export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps, ISelect, IFacture, IFactureDB }
+
+export type { IResponse, IResponseAuth, IClient, IReducerClientArray, IUtilisateur, IReceipt, IGenericObject, ISingleProps, ISelect, IFacture, IFactureDB, IReceiptErrors }
