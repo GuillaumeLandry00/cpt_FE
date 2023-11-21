@@ -3,7 +3,7 @@ import { BASE_URL } from "../../constants/constantes"
 import { IGenericObject, IReceiptErrors, IResponse, IUtilisateur } from "../../interface/interfaces";
 import { authToken } from "./authentification";
 
-export const buildReceipt = async (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
+export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: string, id: string = "") => {
 
     let receipt: any = { agent: utilisateur, facturation: {}, passagers: [], itinerary: [], product: [], opc: {}, summary: [], others: {} };
 
@@ -54,43 +54,32 @@ export const buildReceipt = async (values: any, utilisateur: IUtilisateur, actio
     //we add an ID if we update 
     if (id) receipt.id = id;
 
-    return await sendReceipt(receipt, action);
+    return receipt;
 }
 
 
 export const sendReceipt = async (receipt: IGenericObject, action: string) => {
-    console.log("The receupt we are sending", receipt);
+    let response: IGenericObject;
 
-    //we check if the receipt is valid
+    if (action == "add") {
+        response = await axios({
+            method: "post",
+            url: BASE_URL + "receipt/",
+            data: receipt,
+            headers: { "x-access-token": localStorage.getItem('token') as string },
+        });
 
-    if (!validateReceipt(receipt)) {
-
-        let response: IGenericObject;
-
-        if (action == "add") {
-            response = await axios({
-                method: "post",
-                url: BASE_URL + "receipt/",
-                data: receipt,
-                headers: { "x-access-token": localStorage.getItem('token') as string },
-            });
-
-        } else {
-            response = await axios({
-                method: "patch",
-                url: BASE_URL + "receipt/",
-                data: receipt,
-                headers: { "x-access-token": localStorage.getItem('token') as string },
-            });
-        }
-
-        authToken(response.data);
-        return response.data;
     } else {
-        alert("Veuillez avoir au minimum rempli la date, le numéro de dossier, la date de départ et au moins un passager.")
+        response = await axios({
+            method: "patch",
+            url: BASE_URL + "receipt/",
+            data: receipt,
+            headers: { "x-access-token": localStorage.getItem('token') as string },
+        });
     }
 
-
+    authToken(response.data);
+    return response.data;
 }
 
 export const getReceipts = async (order: string, by: string, search: string = "", limit = 50): Promise<any> => {
@@ -142,23 +131,28 @@ export const deleteReceipt = async (id: string | number) => {
     }
 }
 
-const validateReceipt = (receipt: IGenericObject) => {
+export const duplicateReceipt = async (id: number) => {
+    try {
+        const response: IResponse = await axios.get(`${BASE_URL}receipt/duplicate/${id}`, {
+            headers: { "x-access-token": localStorage.getItem('token') as string }
+        });
 
-    let err = false;
-    let generic_errors = verifacationReceipt(receipt);
-    if (receipt.facturation.date == "") err = true;
-    if (receipt.facturation.no_dossier == "") err = true;
-    if (receipt.itinerary[0].date_depart == "") err = true;
-    if (receipt.passagers.length <= 0) err = true;
-    if (generic_errors.passagers.length > 0 || generic_errors.itinerary.length > 0 || generic_errors.products.length > 0) {
-        alert(
-            generic_errors.passagers.join("\n") +
-            generic_errors.itinerary.join("\n") +
-            generic_errors.products.join("\n")
-        )
+        authToken(response.data);
+        return response.data;
+    } catch (error: unknown) {
+        console.log(error);
+
     }
+}
 
-    return err;
+export const validateReceipt = (receipt: IGenericObject) => {
+    let generic_errors = verifacationReceipt(receipt);
+    if (receipt.facturation.date == "") generic_errors.others.push("Date invalide");
+    if (receipt.facturation.no_dossier == "") generic_errors.others.push("Le numéro de dossier n'est pas valide ");;
+    if (receipt.itinerary[0].date_depart == "") generic_errors.others.push("Date invalide");;
+    if (receipt.passagers.length <= 0) generic_errors.others.push("Vous devez avoir au minimum un passager");
+
+    return generic_errors;
 }
 
 const verifacationReceipt = (receipt: IGenericObject) => {
@@ -169,6 +163,7 @@ const verifacationReceipt = (receipt: IGenericObject) => {
         summaryOpc: [],
         paiements: [],
         general: [],
+        others: []
     };
 
     //First of, we check the passagers
@@ -195,9 +190,29 @@ const verifacationReceipt = (receipt: IGenericObject) => {
     })
 
 
-    receipt.product.map((item: IGenericObject) => {
-        if (item.qty < 0) {
-            errors.products.push("la quantité ne peut pas être inférieur à 0")
+    receipt.product.map((item: IGenericObject, index: number) => {
+        if (item.qty < 0 || item.qty == "") {
+            errors.products.push(`Produit(${index + 1}) la quantité ne peut pas être inférieur à 0`)
+        }
+        if (item.prix == "" || item.prix < 0) {
+            errors.products.push(`Produit(${index + 1}) le prix ne peut pas être inférieur à zéro`)
+        }
+        if (item.produit_tps == "" || item.produit_tps < 0) {
+            errors.products.push(`Produit(${index + 1}) la tps ne peut pas être inférieur à zéro`)
+        }
+        if (item.produit_tvq == "" || item.produit_tvq < 0) {
+            errors.products.push(`Produit(${index + 1}) la tvq ne peut pas être inférieur à zéro`)
+        }
+        if (item.escompte == "" || item.escompte < 0 || item.total == "") {
+            errors.products.push(`Produit(${index + 1}) l'escompte ne peut pas être inférieur à zéro`)
+        }
+
+        if (item.total == "" || item.total < 0) {
+            errors.products.push(`Produit(${index + 1}) le total ne peut pas être inférieur à zéro`)
+        }
+
+        if (item.produit_dossier == "") {
+            errors.products.push(`Produit(${index + 1}) le numéro de dossier ne peut pas être vide`)
         }
     })
 

@@ -1,23 +1,22 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
-import { OPC_RATE, TAXE_RATE, TPS_RATE, TVQ_RATE } from "../../constants/constantes";
 import { PRODUCT_TYPE } from "../../constants/select_constants";
 import { IGenericObject } from "../../interface/interfaces";
 
 type ProductProps = {
-    data: IGenericObject
-    setOpcAmount: Dispatch<SetStateAction<number>>;
-    setGrandTotal: Dispatch<SetStateAction<number>>;
-    no_dossier: number;
+    data: IGenericObject;
+    newTaxesCalculator: () => void;
 };
 
-const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) => {
+let counterPreserved = 0;
+
+const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) => {
 
     const divProducts = (id: number) => {
         // if (new URL(window.location.href).searchParams.get("action") !== "edit") id
-        return (<div className="flex flex-wrap -mx-3 mt-2 product" key={id}>
+        return (<div className="flex flex-wrap -mx-3 mt-2 product" key={id + 1}>
             <div className="w-full md:w-3/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
                 <select onChange={() => { newTaxesCalculator() }} name={`Ttype_produit_${id}`} id={`mySelectProduct${id}`} defaultValue={data && data.length - 1 >= id ? data[id].type_produit : "0"} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -39,7 +38,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             </div>
             <div className="w-full md:w-2/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No.dossier fournisseur</label>
-                <input name={`Tproduit_dossier_${id}`} type="text" defaultValue={data && data.length - 1 >= id ? data[id].produit_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <input name={`Tproduit_dossier_${id}`} type="text" id="produit_dossier" defaultValue={data && data.length - 1 >= id ? data[id].produit_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">TPS</label>
@@ -55,7 +54,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Total</label>
-                <input name={`Ttotal_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].total : ""} onChange={() => { opcCalculator() }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
+                <input name={`Ttotal_${id}`} type="number" step=".01" defaultValue={data && data.length - 1 >= id ? data[id].total : ""} onChange={() => { newTaxesCalculator() }} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="0.00" />
             </div>
             <div className="w-full px-3 mb-6 md:mb-0" >
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Type de produit</label>
@@ -70,8 +69,7 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
     }
 
     const [productsDiv, setProductsDiv] = useState<Array<any>>([]);
-    const [counter, setCounter] = useState(0);
-
+    const [counter, setCounter] = useState(counterPreserved);
 
     //Here we deal with react-select async problem
     useEffect(() => {
@@ -106,11 +104,11 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
             }
         } else {
-            if (counter > 1) {
-                let copyCounter = counter;
-                copyCounter--;
+
+            if (document.querySelectorAll(".product").length > 1) {
+
                 //We update taxes...
-                setCounter(copyCounter);
+                setCounter(counter - 1);
 
                 let newArray: Array<any> = productsDiv;
                 newArray.pop();
@@ -120,71 +118,13 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
             }
         }
+
+
+        //HARD FIX
+        setTimeout(() => {
+            counterPreserved = document.querySelectorAll(".product").length
+        }, 100)
     }
-
-    //This we calculate the total amount of OPC
-    const opcCalculator = (): void => {
-        let sum = 0;
-        let bigSum = 0;
-
-        console.log("We calculate the price...", document.querySelectorAll(".product").length);
-        let productsLength = document.querySelectorAll(".product").length
-
-        for (let i = 0; i < productsLength; i++) {
-            if (document.getElementById(`mySelectProduct${i}`)) {
-                let index: number = parseInt((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
-                let total: number = parseFloat((document.getElementsByName(`Ttotal_${i}`)[0] as HTMLInputElement).value)
-
-                //For opc
-                if (PRODUCT_TYPE[index].opc !== '0') {
-                    sum += total
-                }
-                //For grand total
-                bigSum += total
-            }
-        }
-
-        (document.getElementById("opc") as HTMLFormElement).value = Math.round((sum * OPC_RATE + Number.EPSILON) * 100) / 100;
-        (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum + sum * OPC_RATE) + Number.EPSILON) * 100) / 100;;
-    }
-
-    const newTaxesCalculator = async () => {
-        let sum = 0;
-        let totalSum = 0;
-
-        let productsLength = document.querySelectorAll(".product").length
-        for (let i = 0; i < productsLength; i++) {
-            if (document.getElementById(`mySelectProduct${i}`)) {
-                let index: number = parseFloat((document.getElementById(`mySelectProduct${i}`) as HTMLInputElement).value);
-
-                //we calculate the taxes here..
-                let qty: string = (document.getElementById(`qty${i}`) as HTMLInputElement).value;
-                let price: string = (document.getElementById(`prix${i}`) as HTMLInputElement).value;
-
-                let sum = parseFloat(qty) * parseFloat(price);
-                let tpsSum = PRODUCT_TYPE[index].tps !== '0' ? String(Math.round((sum * TPS_RATE + Number.EPSILON) * 100) / 100) : "0";
-                let tvqSum = PRODUCT_TYPE[index].tvq !== '0' ? String(Math.round((sum * TVQ_RATE + Number.EPSILON) * 100) / 100) : "0";
-
-                //We add the correct sum at each field
-                (document.getElementsByName(`Tproduit_tps_${i}`)[0] as HTMLInputElement).value = tpsSum;
-                (document.getElementsByName(`Tproduit_tvq_${i}`)[0] as HTMLInputElement).value = tvqSum;
-                if (PRODUCT_TYPE[index].taxe == '0') {
-                    (document.getElementsByName(`Ttaxes${i}`)[0] as HTMLInputElement).value = String(Math.round((parseFloat(tpsSum) + parseFloat(tvqSum) + Number.EPSILON) * 100) / 100)
-                }
-
-                let taxSum = PRODUCT_TYPE[index].taxe !== '0' ? parseFloat((document.getElementsByName(`Ttaxes${i}`)[0] as HTMLInputElement).value) * parseFloat(qty) : parseFloat((document.getElementsByName(`Ttaxes${i}`)[0] as HTMLInputElement).value);
-                let discountSum = (document.getElementsByName(`Tescompte_${i}`)[0] as HTMLInputElement).value !== "" ? (parseFloat((document.getElementsByName(`Tescompte_${i}`)[0] as HTMLInputElement).value) * parseFloat(qty)) : 0;
-
-
-                let finalSum = Math.round((sum + taxSum - discountSum + Number.EPSILON) * 100) / 100;
-                (document.getElementsByName(`Ttotal_${i}`)[0] as HTMLInputElement).value = String(finalSum)
-            }
-        }
-
-        opcCalculator();
-    }
-
-
 
     return (
         <>
@@ -199,6 +139,6 @@ const TravelProducts = ({ data, setOpcAmount, setGrandTotal, }: ProductProps) =>
 
         </>
     );
-}
+})
 
 export default TravelProducts;

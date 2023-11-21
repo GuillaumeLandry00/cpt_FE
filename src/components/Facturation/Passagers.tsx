@@ -5,8 +5,6 @@ import Select from 'react-select';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle, AiOutlineInfoCircle } from 'react-icons/ai';
 import ModalClient from "../ClientC/ModalClient";
 import { Utility } from "../../functions/util/Utility";
-import { log } from "console";
-
 
 const Passagers = ({ data }: any) => {
 
@@ -18,47 +16,48 @@ const Passagers = ({ data }: any) => {
 
     //First off, we go fetch all the clients from the DB
     useEffect(() => {
+        console.log("[Default] start");
+
         const fetchClients = async () => { await getClients() }
         fetchClients();
     }, [])
 
     //Now all the clients are fetch from the db
     useEffect(() => {
-
         if (clients.length > 0) {
-
             const url: URL = new URL(window.location.href);
             if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
                 setClientsDiv([divClient(0)])
             }
         }
+
+        //If we have a default value we set it
+        if (data && data.length > 0) {
+            setCounter(data.length);
+            if (data.length == 1) {
+                setClientsDiv([divClient(0)])
+            } else {
+                for (let i = 0; i < data.length; i++) {
+                    clientsDiv[i] = divClient(i);
+                }
+            }
+
+
+        }
     }, [clients])
 
-    //If we update or view an existing receipt, we put all the values as default
-    useEffect(() => {
-
-        // if (clients.length > 0) {
-        if (data && data.length) {
-
-            setCounter(data.length);
-            for (let i = 0; i < data.length; i++) {
-                clientsDiv[i] = divClient(i);
-            }
-        }
-        // }
-    }, [data])
-
     const getClients = async () => {
-        let clientsDirty = await getAllClient(10_000);
-        let clientClean: Array<ISelect> = [];
-        console.log(clientsDirty);
 
-        clientsDirty.map((item: IClient) => {
-            clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
-        });
-        setClients(clientClean);
+        if (clients.length < 1) {
+            let clientsDirty = await getAllClient(2000);
+            let clientClean: Array<ISelect> = [];
+
+            clientsDirty.map((item: IClient) => {
+                clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
+            });
+            setClients(clientClean);
+        }
     }
-
 
 
     /**
@@ -82,22 +81,25 @@ const Passagers = ({ data }: any) => {
         }
     }
 
+    useEffect(() => {
+        console.log("clients div updated the len is ", clientsDiv.length);
+    }, [clientsDiv])
+
     //Component
     const divClient = (id: number) => {
+        //Set the default value
         let currentData = { nom: "", id: "0" };
+
         if (data[id]) {
             if (Utility.isJsonString(data[id])) {
                 currentData = JSON.parse(data[id]);
-                console.log("We set the complete JSON", data[id]);
-
             } else {
-                console.log("We set the data here only ID");
-
                 currentData = data[id];
             }
 
         }
 
+        console.log("Default value ", currentData.nom ? { label: capitalizeString(currentData.nom), value: JSON.stringify(currentData).toString() } : "");
 
 
         return (
@@ -108,8 +110,6 @@ const Passagers = ({ data }: any) => {
                     <Select name={"Cpassager_" + id} options={clients} defaultValue={currentData.nom ? { label: capitalizeString(currentData.nom), value: JSON.stringify(currentData).toString() } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-1 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     <button onClick={() => {
                         if ((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value) {
-                            console.log(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
-
                             setId(JSON.parse((document.getElementsByName("Cpassager_" + id)[0] as HTMLFormElement).value).id);
                             setShowModal(true);
                         } else if (parseInt(currentData.id) > 0) {
@@ -132,6 +132,7 @@ const Passagers = ({ data }: any) => {
             <h1 className="text-2xl  text-center border-b-2 ">Passagers</h1>
 
             <div className="flex flex-wrap -mx-3 mt-2">
+
                 {clientsDiv.map((item: any) => { return item })}
             </div>
             <div className="mt-2">

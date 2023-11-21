@@ -3,24 +3,64 @@ import Select from 'react-select';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { MODE } from "../../constants/select_constants";
-import { ISingleProps } from "../../interface/interfaces";
+import { IGenericObject, ISingleProps } from "../../interface/interfaces";
 import { Utility } from "../../functions/util/Utility";
+interface Props {
+    data: IGenericObject,
+    calcPaiement: () => void
+}
 
-const PayementsSummary = ({ data }: ISingleProps) => {
 
+const PayementsSummary = ({ data, calcPaiement }: Props) => {
 
-    const [counter, setCounter] = useState<number>(0);
-    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
+    //This function set the dossier number as the option of the select
+    let options: string[] = []
 
-    const calcPaiement = () => {
-        let sum = 0;
-        let payementsLength = document.querySelectorAll(".payement").length
+    const setDossierOptions = (id: number) => {
 
-        for (let i = 0; i < payementsLength; i++) {
-            sum += parseFloat((document.getElementById(`tot_paiement${i}`) as HTMLInputElement).value);
+        let optionsValue: string[] = []
+        Array.from(document.querySelectorAll("#produit_dossier")).map((item) => {
+            let formElement = item as HTMLFormElement;
+            optionsValue.push(formElement.value as string)
+        })
+
+        if (!checkArrayAreEqual(options, optionsValue)) {
+            //Clean up select's options, remove dup
+            let select = document.getElementById(`dossierSelect${id}`);
+            if (select) select.innerHTML = "";
+
+            //Set the options in the select
+            optionsValue.map((value) => {
+                let opt = document.createElement('option');
+                opt.value = value;
+                opt.innerHTML = value;
+                options.push(value);
+
+                if (select) select.appendChild(opt);
+            })
         }
-        (document.getElementById("total_paiement") as HTMLFormElement).value = sum;
-        (document.getElementById("balance") as HTMLFormElement).value = Utility.roundNumber((parseFloat((document.getElementById("grand_total") as HTMLFormElement).value)) - sum);
+    }
+
+    const checkArrayAreEqual = (arr1: string[], arr2: string[]) => {
+        let N = arr1.length;
+        let M = arr2.length;
+
+        // If lengths of array are not equal means
+        // array are not equal
+        if (N != M)
+            return false;
+
+        // Sort both arrays
+        arr1.sort();
+        arr2.sort();
+
+        // Linearly compare elements
+        for (let i = 0; i < N; i++)
+            if (arr1[i] != arr2[i])
+                return false;
+
+        // If all elements were same.
+        return true;
     }
 
     const divPayementsDiv = (id: number) => {
@@ -38,9 +78,17 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 <input type="text" name={`Stotal_paiements_${id}`} id={`tot_paiement${id}`} defaultValue={data && data.length - 1 >= id ? data[id].total_paiements : ""} onChange={() => calcPaiement()} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
 
-            <div className="w-full md:w-2/4 px-3 mb-6 md:mb-0">
+            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Numéro de carte</label>
                 <input type="text" name={`Snumero_carte_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].numero_carte : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+            </div>
+            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                <label htmlFor="" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">No. Dossier(Remplir produits avant)</label>
+                <select name={`Ssommaire_no_dossier_${id}`} id={`dossierSelect${id}`} defaultValue={data && data.length - 1 >= id ? data[id].sommaire_no_dossier : ""} onClick={() => setDossierOptions(id)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
+                    {
+                        data && data.length - 1 >= id ? (<option value={data[id].sommaire_no_dossier}>{data[id].sommaire_no_dossier}</option>) : ""
+                    }
+                </select>
             </div>
             <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Mode</label>
@@ -58,12 +106,12 @@ const PayementsSummary = ({ data }: ISingleProps) => {
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Expiration</label>
                 <input type="text" name={`Sexp_${id}`} id={`exp_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].exp : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
             </div>
-            {/* <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">No. Dossier</label>
-                <input type="text" name={`Ssommaire_no_dossier_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].sommaire_no_dossier : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
-            </div> */}
+
         </div>);
     }
+
+    const [counter, setCounter] = useState<number>(0);
+    const [payementsDiv, setPayementsDiv] = useState<Array<any>>([]);
 
 
 
@@ -77,11 +125,14 @@ const PayementsSummary = ({ data }: ISingleProps) => {
     }, [])
 
     useEffect(() => {
-        if (data.length) {
+        if (data && data.length > 0) {
             setCounter(data.length);
+            let newArr = new Array(data.length);
             for (let i = 0; i < data.length; i++) {
-                payementsDiv[i] = divPayementsDiv(i);
+
+                newArr[i] = divPayementsDiv(i);
             }
+            setPayementsDiv([...newArr])
         }
     }, [data])
 
@@ -90,18 +141,23 @@ const PayementsSummary = ({ data }: ISingleProps) => {
         if (action === "add") {
             if (counter < 12) {
                 setCounter(counter + 1);
-                // COUNTER++
-                setPayementsDiv([...payementsDiv, divPayementsDiv(counter)]);
+                if (new URL(window.location.href).searchParams.get("action") == "edit") {
+                    setPayementsDiv([...payementsDiv, divPayementsDiv(counter)]);
+                } else setPayementsDiv([...payementsDiv, divPayementsDiv(counter + 1)]);
             }
         } else {
 
 
-            if (counter > 1) {
+            if (document.querySelectorAll(".payement").length > 1) {
                 setCounter(counter - 1);
-                // COUNTER--;
+
+
                 let newArray: Array<any> = payementsDiv;
                 newArray.pop();
                 setPayementsDiv([...newArray]);
+
+                calcPaiement()
+
             }
         }
     }

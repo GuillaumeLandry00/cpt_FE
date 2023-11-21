@@ -114,6 +114,7 @@ interface IReceiptErrors {
     summaryOpc: Array<String>
     paiements: Array<String>
     general: Array<String>
+    others: Array<String>
 }
 
 
