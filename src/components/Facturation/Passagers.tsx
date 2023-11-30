@@ -16,8 +16,6 @@ const Passagers = ({ data }: any) => {
 
     //First off, we go fetch all the clients from the DB
     useEffect(() => {
-        console.log("[Default] start");
-
         const fetchClients = async () => { await getClients() }
         fetchClients();
     }, [])
@@ -49,13 +47,20 @@ const Passagers = ({ data }: any) => {
     const getClients = async () => {
 
         if (clients.length < 1) {
-            let clientsDirty = await getAllClient(2000);
+            let clientsDirty = await getAllClient(3000);
             let clientClean: Array<ISelect> = [];
 
-            clientsDirty.map((item: IClient) => {
-                clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
+            let promise = new Promise((resolve) => {
+                clientsDirty.map((item: IClient) => {
+                    clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
+                })
+                resolve(clientClean);
             });
-            setClients(clientClean);
+
+            //Make sure that the loop is finished
+            promise.then((result) => {
+                setClients(result);
+            })
         }
     }
 

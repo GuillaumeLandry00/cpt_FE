@@ -117,7 +117,7 @@ export const getReceipt = async (id: string): Promise<any> => {
     }
 }
 
-export const deleteReceipt = async (id: string | number) => {
+export const deleteReceipt = async (id: number) => {
     try {
         const response: IResponse = await axios.delete(`${BASE_URL}receipt/${id}`, {
             headers: { "x-access-token": localStorage.getItem('token') as string }

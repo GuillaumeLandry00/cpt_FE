@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from "react";
-import { duplicateReceipt, getReceipts } from "../../functions/agent/receipt";
+import { duplicateReceipt, getReceipts, deleteReceipt as delReceipt } from "../../functions/agent/receipt";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../constants/constantes";
 
@@ -8,12 +8,13 @@ import { FcEditImage } from 'react-icons/fc';
 import { FcSearch, FcPlus } from 'react-icons/fc';
 import { GrDocumentPdf } from 'react-icons/gr';
 import { AiOutlineMail } from 'react-icons/ai';
-import { MdCancel } from 'react-icons/md';
+import { MdCancel, MdOutlineDeleteForever } from 'react-icons/md';
 import { GrFormView, } from 'react-icons/gr';
 import { IFacture } from "../../interface/interfaces";
 import { capitalizeString } from "../../functions/agent/clients";
 import FilterReceipt from "./FilterReceipt";
 import DuplicateReceipt from "./DuplicateReceipt";
+import DeleteReceipt from "./DeleteReceipt";
 
 const TableReceipt = () => {
 
@@ -23,8 +24,10 @@ const TableReceipt = () => {
     //Filter useState
     const [order, setOrder] = useState<string>("DESC");
     const [by, setBy] = useState<string>("date");
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModalDuplicate, setShowModalDuplicate] = useState<boolean>(false);
+    const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
     const [idDuplicate, setIdDuplicate] = useState<number>(0)
+    const [idDelete, setIdDelete] = useState<number>(0)
     const [response, setResponse] = useState<string>("");
 
     //Make the api request
@@ -41,13 +44,27 @@ const TableReceipt = () => {
             let response = duplicateReceipt(idDuplicate);
             response.then((result: { affectedRows: number, dossier: number }) => {
                 if (result.affectedRows > 0) {
-                    setShowModal(false)
+                    setShowModalDuplicate(false)
                     setResponse(`La facture a été dupliqué, le nouveau numéro de dossier est: ${result.dossier}`)
                     getData()
                 }
             })
         }
     }
+
+    const deleteReceipt = async () => {
+        if (idDelete) {
+            let response = delReceipt(idDelete);
+            response.then((result: { affectedRows: number }) => {
+                if (result.affectedRows > 0) {
+                    setShowModalDelete(false)
+                    setResponse(`La facture a été supprimée`)
+                    getData()
+                }
+            })
+        }
+    }
+
 
     //Make the request when the component is created
     useEffect(() => {
@@ -83,7 +100,8 @@ const TableReceipt = () => {
 
             </div>)}
             <FilterReceipt setOrder={setOrder} setBy={setBy} getData={getData} />
-            {showModal && (<DuplicateReceipt setShowModal={setShowModal} duplicateReceipt={dupReceipt} />)}
+            {showModalDuplicate && (<DuplicateReceipt setShowModal={setShowModalDuplicate} duplicateReceipt={dupReceipt} />)}
+            {showModalDelete && (<DeleteReceipt setShowModal={setShowModalDuplicate} deleteReceipt={deleteReceipt} />)}
             {data.length == 0 ? (<span className="text-center font-bold text-lg">Vous n'avez pas de facture</span>) : (
 
                 <table className="w-full h-full shadow-2xl mt-8">
@@ -128,7 +146,10 @@ const TableReceipt = () => {
                                                 <AiOutlineMail size={22} className="ml-4" />
                                             </Link>
                                             <a className="ml-4 cursor-pointer">
-                                                <FcPlus size={20} color="white" onClick={() => { setIdDuplicate(receipt.id); setShowModal(true); }} />
+                                                <FcPlus size={20} color="white" onClick={() => { setIdDuplicate(receipt.id); setShowModalDuplicate(true); }} />
+                                            </a>
+                                            <a className="ml-4 cursor-pointer">
+                                                <MdOutlineDeleteForever size={20} color="red" onClick={() => { setIdDelete(receipt.id); setShowModalDelete(true); }} />
                                             </a>
                                         </>
                                     )}

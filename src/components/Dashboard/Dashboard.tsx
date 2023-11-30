@@ -44,19 +44,19 @@ const Dashboard = () => {
                 <div className="w-1/2">
                     <h1 className="text-2xl font-bold">Bug fix</h1>
                     <ul className="ml-4">
-                        <li className="">- L'ajout de nouveaux clients marche</li>
+                        {/* <li className="">- L'ajout de nouveaux clients marche</li>
                         <li className="">- L'ajout de nouveaux clients avec le même nom de famille marche</li>
                         <li className="">- Le calcul des taxes se comporte exactement comme l'ancien système</li>
                         <li className="">- Le champ genre ne change plus automatiquement</li>
                         <li className="">- Le champ arrivée dans la facture est devenu sous le format AAAA-MM-JJ</li>
                         <li className="">- Le total des paiements et la balance à recevoir se calculent maintenant</li>
                         <li className="">- L'envoie d'un courriel envoie dorénavant à info@gabymsh.ca, le courriel du premier client enregistré(client 1). Il est possible d'ajouter un courriel  supplémentaire.</li>
-                        <li className="">- Les montants sont arrondies à deux décimales près.</li>
+                        <li className="">- Les montants sont arrondies à deux décimales près.</li> */}
+                        <li className="">- Pour ajouter plusieurs clients à une famille en même temps, il suffit de cliquer sur le plus en vert dans le formulaire d'ajout des clients. Les clients ajoutés auront la même adresse.</li>
                     </ul>
-                    <h1 className="text-2xl font-bold mt-5">Bug découvert (Présentement en train d'être corrigé))</h1>
+                    {/* <h1 className="text-2xl font-bold mt-5">Bug découvert (Présentement en train d'être corrigé))</h1>
                     <ul className="ml-4">
-                        <li className="">- Problème de factures qui disparaissent</li>
-                    </ul>
+                    </ul> */}
                 </div>
 
 
