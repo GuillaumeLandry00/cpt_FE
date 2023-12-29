@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { IUtilisateur } from "../../interface/interfaces";
+import { IClient, ISelect, IUtilisateur } from "../../interface/interfaces";
 import CronTable from "../Email/CronTable";
+import {  setupCache } from "../../functions/agent/clients";
 
 const Dashboard = () => {
 
     const [utilisateur, setUtilisateur] = useState<any>(JSON.parse(localStorage.getItem("utilisateur") as string));
 
+    setupCache();
     return (
         <>
             <div className="w-4/5 ml-auto mr-auto shadow-xl mt-11 bg-slate-100 p-8 flex">

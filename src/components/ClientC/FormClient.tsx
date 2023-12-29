@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { validateClient, addClient, getClient, updateClient, buildClientArray, calcAddedClients } from "../../functions/agent/clients";
-import NavBar from "../Dashboard/NavBar";
-import { log } from "console";
+import { setupCache } from "../../functions/agent/clients";
 
 type props = {
     idDefault: number
@@ -104,8 +103,6 @@ const FormClient = ({ idDefault }: props) => {
 
                 //We calculate the number of client added.
                 affectedClients = calcAddedClients(clientDb);
-                console.log(affectedClients);
-
                 if (affectedClients > 0) changes = true;
             }
 
@@ -115,6 +112,8 @@ const FormClient = ({ idDefault }: props) => {
                 let myForm = document.getElementById("myForm") as HTMLFormElement;
                 if (url.searchParams.get("action") !== "edit") myForm.reset();
                 if (clientDb !== "") setErrors([]);
+                localStorage.removeItem("clientsCache")
+                setupCache()
             } else {
                 alert("Erreur");
             }
@@ -396,3 +395,4 @@ const FormClient = ({ idDefault }: props) => {
 }
 
 export default FormClient;
+

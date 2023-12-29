@@ -18,6 +18,7 @@ const NavBar = () => {
         localStorage.removeItem("utilisateur");
         localStorage.removeItem("debug");
         localStorage.removeItem("token");
+        localStorage.removeItem("clientsCache")
         window.location.href = SITE_URL;
     }
 

@@ -9,27 +9,45 @@ import { Utility } from "../../functions/util/Utility";
 const Passagers = ({ data }: any) => {
 
     const [counter, setCounter] = useState<number>(1);
-    const [clients, setClients] = useState<any>([]);
+    // const [clients, setClients] = useState<any>([]);
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [id, setId] = useState<string>();
+    let clients: any = JSON.parse(String(localStorage.getItem("clientsCache")));
 
     //First off, we go fetch all the clients from the DB
     useEffect(() => {
-        const fetchClients = async () => { await getClients() }
-        fetchClients();
+        // const fetchClients = async () => { await getClients() }
+        // fetchClients();
+        init();
     }, [])
 
-    //Now all the clients are fetch from the db
     useEffect(() => {
+        console.log(data);
+
+        setDefaultValues()
+    }, [data])
+
+
+
+    const init = async (first = true) => {
+        //Fetch all the clients
+        // if (first) await getClients()
+
+        //Add the divs.
         if (clients.length > 0) {
             const url: URL = new URL(window.location.href);
+            //Add the first passager for a new receipt
             if (!(url.searchParams.get("id") && (url.searchParams.get("action") == "edit" || url.searchParams.get("action") == "view"))) {
                 setClientsDiv([divClient(0)])
             }
         }
 
-        //If we have a default value we set it
+
+
+    }
+
+    const setDefaultValues = async () => {
         if (data && data.length > 0) {
             setCounter(data.length);
             if (data.length == 1) {
@@ -39,31 +57,8 @@ const Passagers = ({ data }: any) => {
                     clientsDiv[i] = divClient(i);
                 }
             }
-
-
-        }
-    }, [clients])
-
-    const getClients = async () => {
-
-        if (clients.length < 1) {
-            let clientsDirty = await getAllClient(3000);
-            let clientClean: Array<ISelect> = [];
-
-            let promise = new Promise((resolve) => {
-                clientsDirty.map((item: IClient) => {
-                    clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
-                })
-                resolve(clientClean);
-            });
-
-            //Make sure that the loop is finished
-            promise.then((result) => {
-                setClients(result);
-            })
         }
     }
-
 
     /**
      * This function help addin a client to the form
@@ -86,10 +81,6 @@ const Passagers = ({ data }: any) => {
         }
     }
 
-    useEffect(() => {
-        console.log("clients div updated the len is ", clientsDiv.length);
-    }, [clientsDiv])
-
     //Component
     const divClient = (id: number) => {
         //Set the default value
@@ -103,9 +94,7 @@ const Passagers = ({ data }: any) => {
             }
 
         }
-
-        console.log("Default value ", currentData.nom ? { label: capitalizeString(currentData.nom), value: JSON.stringify(currentData).toString() } : "");
-
+        console.log("The clients ?", clients);
 
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -137,8 +126,9 @@ const Passagers = ({ data }: any) => {
             <h1 className="text-2xl  text-center border-b-2 ">Passagers</h1>
 
             <div className="flex flex-wrap -mx-3 mt-2">
+                {clientsDiv.map((item: any) => { return item })
+                }
 
-                {clientsDiv.map((item: any) => { return item })}
             </div>
             <div className="mt-2">
                 <button onClick={() => { ; handleAddClient("rem ove") }}><AiOutlineMinusCircle size={28} color={"red"} /></button>

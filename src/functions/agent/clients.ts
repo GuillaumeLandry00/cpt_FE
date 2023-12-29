@@ -1,6 +1,6 @@
 import axios from "axios"
 import { BASE_URL, SITE_URL } from "../../constants/constantes";
-import { IGenericObject, IResponse, IUtilisateur } from "../../interface/interfaces";
+import { IClient, IGenericObject, IResponse, ISelect, IUtilisateur } from "../../interface/interfaces";
 import { authToken, checkToken } from "./authentification";
 import { Buffer } from "buffer";
 
@@ -85,7 +85,7 @@ export const validateClient = (client: any): string[] => {
     if (!regExp.test(client.prenom.trim())) {
         errors.push("client_lastname");
     }
-   
+
     if (client.naissance == "") {
         errors.push("birthdate");
     }
@@ -288,3 +288,23 @@ export const downloadPassport = async (password: string, link: string): Promise<
     return "";
 
 };
+
+export const setupCache = async () => {
+    if (localStorage.getItem("clientsCache") == null) {
+        let clientsDirty = await getAllClient(5000);
+        let clientClean: Array<ISelect> = [];
+
+        let promise = new Promise((resolve) => {
+            clientsDirty.map((item: IClient) => {
+                clientClean.push({ value: JSON.stringify({ id: item.ID, nom: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) }), label: capitalizeString(item.Nom) + ", " + capitalizeString(item.Prenom) });
+            })
+            resolve(clientClean);
+        });
+
+        //Make sure that the loop is finished
+        promise.then((result) => {
+            console.log("Cache updated");
+            localStorage.setItem("clientsCache", JSON.stringify(result))
+        })
+    }
+}

@@ -68,7 +68,8 @@ export const authToken = (response: any) => {
 
     //Token failed so we delete the old one
     if (response.code && response.code == 500) {
-        localStorage.setItem("token", "");
+        localStorage.removeItem("token");
+        localStorage.removeItem("clientsCache");
         window.location.href = `${SITE_URL}?token_failed=true`;
     }
 
