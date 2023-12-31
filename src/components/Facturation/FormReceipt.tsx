@@ -169,7 +169,7 @@ const FormReceipt = () => {
         }
 
         (document.getElementById("opc") as HTMLFormElement).value = Math.round((opcSum * OPC_RATE + Number.EPSILON) * 100) / 100;
-        (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum + opcSum * OPC_RATE) + Number.EPSILON) * 100) / 100;;
+        (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum /*+ opcSum * OPC_RATE */) + Number.EPSILON) * 100) / 100;;
     }
 
     return (
