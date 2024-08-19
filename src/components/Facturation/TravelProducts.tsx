@@ -14,6 +14,8 @@ let counterPreserved = 0;
 
 const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) => {
 
+
+
     const divProducts = (id: number) => {
         // if (new URL(window.location.href).searchParams.get("action") !== "edit") id
         return (<div className="flex flex-wrap -mx-3 mt-2 product" key={id + 1}>
@@ -70,6 +72,7 @@ const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) =
 
     const [productsDiv, setProductsDiv] = useState<Array<any>>([]);
     const [counter, setCounter] = useState(counterPreserved);
+    const [initialized, setInitialized] = useState(false);
 
     //Here we deal with react-select async problem
     useEffect(() => {
@@ -81,13 +84,15 @@ const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) =
 
     //This will help us deal with the default values
     useEffect(() => {
-        if (data && data.length > 0) {
+        if (data && data.length > 0 && !initialized) {
             setCounter(data.length);
             let newArr = new Array(data.length);
             for (let i = 0; i < data.length; i++) {
 
                 newArr[i] = divProducts(i);
             }
+            console.log("Setting data... ", data.length);
+            setInitialized(true);
             setProductsDiv([...newArr])
         }
     }, [data])

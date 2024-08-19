@@ -79,7 +79,7 @@ const TableReceipt = () => {
             <div className="w-full block mb-0 mt-7">
                 <p className="ml-auto text-right">
                     <Link to="form/" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                        Ajouter une facutre
+                        Ajouter une facture
                     </Link>
                 </p>
             </div>

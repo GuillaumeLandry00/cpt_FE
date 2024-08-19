@@ -54,7 +54,7 @@ const FormReceipt = () => {
     }, [])
 
     const handleBtn = (): void => {
-        console.log('Save button clicked');
+        console.log('Saving...');
 
         //We refresh all the price 
         newTaxesCalculator()
@@ -169,7 +169,12 @@ const FormReceipt = () => {
         }
 
         (document.getElementById("opc") as HTMLFormElement).value = Math.round((opcSum * OPC_RATE + Number.EPSILON) * 100) / 100;
-        (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum /*+ opcSum * OPC_RATE */) + Number.EPSILON) * 100) / 100;;
+        if (new Date(data ? data.date : new Date()).getFullYear() > 2023) {
+            (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum /*+ opcSum * OPC_RATE */) + Number.EPSILON) * 100) / 100;
+        } else {
+            //Year 2023 and below so we need to add the opc 
+            (document.getElementById("grand_total") as HTMLFormElement).value = Math.round(((bigSum + opcSum * OPC_RATE) + Number.EPSILON) * 100) / 100;
+        }
     }
 
     return (
@@ -184,8 +189,8 @@ const FormReceipt = () => {
                     {errors && (
                         <div className="bg-red-200 p-3 rounded-lg shadow-xl">
                             <p className="text-red-500" style={{ whiteSpace: "pre-wrap" }}>
-                                <strong>Il y a une ou plusieurs erreurs:</strong>
-                                {"\n- " + errors.passagers.join("\n- ") + errors.itinerary.join("\n- ") + "\n- " +
+                                <strong>Il y a une ou plusieurs erreurs:</strong> <br></br>
+                                {errors.passagers.join("\n- ") + errors.itinerary.join("\n- ") + "\n- " +
                                     errors.products.join("\n- ") + errors.others.join("\n- ")}
                             </p>
                         </div>

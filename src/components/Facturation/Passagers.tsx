@@ -23,8 +23,6 @@ const Passagers = ({ data }: any) => {
     }, [])
 
     useEffect(() => {
-        console.log(data);
-
         setDefaultValues()
     }, [data])
 
@@ -94,8 +92,6 @@ const Passagers = ({ data }: any) => {
             }
 
         }
-        console.log("The clients ?", clients);
-
         return (
             <div key={id} className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Client {id + 1}</label>
