@@ -1041,8 +1041,8 @@ export const ORIGINE = [
 
 export const PRODUCT_TYPE = [
   {
-    "label": "Aucun",
-    "value": "Aucun",
+    "label": "Annulation / Remboursement",
+    "value": "Annulation / Remboursement",
     "taxe": "0",
     "tps": "0",
     "tvq": "0",
@@ -3175,6 +3175,7 @@ export const TRAVEL_SUPPLIER = [
   { label: `MANOIR SAINT-SAUVEUR`, value: `MSS` },
   { label: `MULTI VACANCES INC.`, value: `MUL` },
   { label: `Mundo Fx`, value: `MUN` },
+  { label: `Munditour`, value: `Munditour` },
   { label: `MEXICANA`, value: `MX` },
   { label: `Navtours`, value: `NAV` },
   { label: `Norwegian Cruise Line`, value: `NCL` },

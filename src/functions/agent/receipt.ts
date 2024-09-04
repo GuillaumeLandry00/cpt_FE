@@ -194,20 +194,20 @@ const verifacationReceipt = (receipt: IGenericObject) => {
         if (item.qty < 0 || item.qty == "") {
             errors.products.push(`Produit(${index + 1}) la quantité ne peut pas être inférieur à 0`)
         }
-        if (item.prix == "" || item.prix < 0) {
+        if (item.prix == "") {
             errors.products.push(`Produit(${index + 1}) le prix ne peut pas être inférieur à zéro`)
         }
-        if (item.produit_tps == "" || item.produit_tps < 0) {
+        if (item.produit_tps == "" ) {
             errors.products.push(`Produit(${index + 1}) la tps ne peut pas être inférieur à zéro`)
         }
-        if (item.produit_tvq == "" || item.produit_tvq < 0) {
+        if (item.produit_tvq == "") {
             errors.products.push(`Produit(${index + 1}) la tvq ne peut pas être inférieur à zéro`)
         }
-        if (item.escompte == "" || item.escompte < 0 || item.total == "") {
+        if (item.escompte == "" ) {
             errors.products.push(`Produit(${index + 1}) l'escompte ne peut pas être inférieur à zéro`)
         }
 
-        if (item.total == "" || item.total < 0) {
+        if (item.total == "" ) {
             errors.products.push(`Produit(${index + 1}) le total ne peut pas être inférieur à zéro`)
         }
 
