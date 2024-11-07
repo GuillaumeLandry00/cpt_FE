@@ -146,7 +146,6 @@ const FormReceipt = () => {
 
 
                 let finalSum = Math.round((sum + taxSum - discountSum + Number.EPSILON) * 100) / 100;
-                console.log("THE FINAL SUM: ", sum);
                 
                 (document.getElementsByName(`Ttotal_${i}`)[0] as HTMLInputElement).value = String(finalSum)
             }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IClient, ISelect, IUtilisateur } from "../../interface/interfaces";
 import CronTable from "../Email/CronTable";
-import {  setupCache } from "../../functions/agent/clients";
+import {  setupCache,setupCacheAirportProduct } from "../../functions/agent/clients";
 
 const Dashboard = () => {
 
     const [utilisateur, setUtilisateur] = useState<any>(JSON.parse(localStorage.getItem("utilisateur") as string));
-
+    setupCacheAirportProduct();
     setupCache();
     return (
         <>

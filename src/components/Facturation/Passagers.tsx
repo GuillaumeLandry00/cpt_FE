@@ -13,12 +13,11 @@ const Passagers = ({ data }: any) => {
     const [clientsDiv, setClientsDiv] = useState<Array<any>>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [id, setId] = useState<string>();
+    //Should check and update the cache if time greater >
     let clients: any = JSON.parse(String(localStorage.getItem("clientsCache")));
 
     //First off, we go fetch all the clients from the DB
     useEffect(() => {
-        // const fetchClients = async () => { await getClients() }
-        // fetchClients();
         init();
     }, [])
 

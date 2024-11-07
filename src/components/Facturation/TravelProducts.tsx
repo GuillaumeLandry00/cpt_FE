@@ -4,6 +4,7 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { PRODUCT_TYPE } from "../../constants/select_constants";
 import { IGenericObject } from "../../interface/interfaces";
+import { LocalStorageKeys } from "../../constants/constantes";
 
 type ProductProps = {
     data: IGenericObject;
@@ -14,8 +15,8 @@ let counterPreserved = 0;
 
 const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) => {
 
-
-
+    const productCache = JSON.parse(localStorage.getItem(LocalStorageKeys.Products) as string);
+    
     const divProducts = (id: number) => {
         // if (new URL(window.location.href).searchParams.get("action") !== "edit") id
         return (<div className="flex flex-wrap -mx-3 mt-2 product" key={id + 1}>
@@ -23,6 +24,7 @@ const TravelProducts = React.memo(({ data, newTaxesCalculator }: ProductProps) =
                 <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Fournisseur</label>
                 <select onChange={() => { newTaxesCalculator() }} name={`Ttype_produit_${id}`} id={`mySelectProduct${id}`} defaultValue={data && data.length - 1 >= id ? data[id].type_produit : "0"} className="block appearance-none bg-gray-200 border w-full border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                     {PRODUCT_TYPE.map((item, index) => (<option key={item.id} value={item.id} >{item.label}</option>))}
+                    {productCache ? productCache.value.map((item: any) => (<option key={item.id} value={item.id} >{item.label}</option>)) : PRODUCT_TYPE.map((item, index) => (<option key={item.id} value={item.id} >{item.label}</option>))}
                 </select>
             </div>
             <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">

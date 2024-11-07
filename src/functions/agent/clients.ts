@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BASE_URL, SITE_URL } from "../../constants/constantes";
+import { BASE_URL, LocalStorageKeys, SITE_URL } from "../../constants/constantes";
 import { IClient, IGenericObject, IResponse, ISelect, IUtilisateur } from "../../interface/interfaces";
 import { authToken, checkToken } from "./authentification";
 import { Buffer } from "buffer";
@@ -291,7 +291,7 @@ export const downloadPassport = async (password: string, link: string): Promise<
 
 export const setupCache = async () => {
     if (localStorage.getItem("clientsCache") == null) {
-        let clientsDirty = await getAllClient(5000);
+        let clientsDirty = await getAllClient(7000);
         let clientClean: Array<ISelect> = [];
 
         let promise = new Promise((resolve) => {
@@ -306,5 +306,37 @@ export const setupCache = async () => {
             console.log("Cache updated");
             localStorage.setItem("clientsCache", JSON.stringify(result))
         })
+    }
+}
+
+export const setupCacheAirportProduct = async () =>{
+    const now = new Date();
+    const EXPIRY_TIME = 24 * 60 // 24 hours
+
+    const cacheAirport = JSON.parse(localStorage.getItem(LocalStorageKeys.Airports) as string);
+    const cacheProduct = JSON.parse(localStorage.getItem(LocalStorageKeys.Products) as string);
+
+    if (cacheAirport == null || now.getTime() > cacheAirport.expiry) {
+        //Fetch
+        const airports: IResponse = await axios.get(BASE_URL + "airport", { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        if(airports.data.length > 0) {
+            //Set local storage
+            localStorage.setItem(LocalStorageKeys.Airports,JSON.stringify({
+                value: airports.data,
+                expiry: EXPIRY_TIME
+            }));
+        }
+    }
+
+    if (cacheProduct == null || now.getTime() > cacheProduct.expiry) {
+        const products: IResponse = await axios.get(BASE_URL + "product", { headers: { "x-access-token": localStorage.getItem('token') as string } });
+        if(products.data.length > 0) {
+            //Set local storage
+            localStorage.setItem(LocalStorageKeys.Products,JSON.stringify({
+                value: products.data,
+                expiry: EXPIRY_TIME
+            }));
+        }
+            
     }
 }

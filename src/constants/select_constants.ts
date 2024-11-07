@@ -888,6 +888,7 @@ export const ORIGINE = [
   { label: `TPA - Tampa, Floride`, value: `TPA - Tampa, Floride` },
   { label: `TPE - Taipei (Chiang Kai Shek), Taiwan`, value: `TPE - Taipei (Chiang Kai Shek), Taiwan` },
   { label: `TRD - Trondheim (Vaernes), Norvège`, value: `TRD - Trondheim (Vaernes), Norvège` },
+  { label: `TRG - Tauranga Nouvelle Zélande`, value: `TRG - Tauranga Nouvelle Zélande` },
   { label: `TRN - Turin (Caselle), Italie`, value: `TRN - Turin (Caselle), Italie` },
   { label: `TRS - Trieste (Ronchi dei Legionari), Italie`, value: `TRS - Trieste (Ronchi dei Legionari), Italie` },
   { label: `TRU - Trujillo, Pérou`, value: `TRU - Trujillo, Pérou` },
@@ -2841,6 +2842,16 @@ export const PRODUCT_TYPE = [
     "id": 178
   },
   {
+    "label": "Wing buddy",
+    "value": "Wing buddy",
+    "taxe": "1",
+    "tps": "0",
+    "tvq": "0",
+    "rabais": "1",
+    "opc": "1",
+    "id": 179
+  },
+  {
     "label": "Manuvie forfait sans soins médicaux",
     "value": "Manuvie forfait sans soins médicaux",
     "taxe": "1",
@@ -2848,7 +2859,7 @@ export const PRODUCT_TYPE = [
     "tvq": "0",
     "rabais": "1",
     "opc": "0",
-    "id": 179
+    "id": 180
   }
 ]
 

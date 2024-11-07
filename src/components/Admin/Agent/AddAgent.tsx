@@ -144,7 +144,7 @@ const AddAgent = ({ switchViews }: Props) => {
 
                     </div>
                     <div className="w-1/6 md:w-1/4 mt-6">
-                        <button type="button" onClick={() => handleBtn()} className="appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">Modifier</button>
+                        <button type="button" onClick={() => handleBtn()} className="appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">Ajouter l'agent</button>
                     </div>
                 </div>
             </form>
