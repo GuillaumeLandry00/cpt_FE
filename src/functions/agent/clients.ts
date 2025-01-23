@@ -311,12 +311,16 @@ export const setupCache = async () => {
 
 export const setupCacheAirportProduct = async () =>{
     const now = new Date();
-    const EXPIRY_TIME = 24 * 60 // 24 hours
+    const EXPIRY_TIME = 60 * 24 * 7 // 7 days
 
     const cacheAirport = JSON.parse(localStorage.getItem(LocalStorageKeys.Airports) as string);
     const cacheProduct = JSON.parse(localStorage.getItem(LocalStorageKeys.Products) as string);
 
-    if (cacheAirport == null || now.getTime() > cacheAirport.expiry) {
+    //Check if the state between the DB and cache is consistent
+    const airportsCount: IResponse = await axios.get(BASE_URL + "airport/count", { headers: { "x-access-token": localStorage.getItem('token') as string } });    
+    const productsCount: IResponse = await axios.get(BASE_URL + "product/count", { headers: { "x-access-token": localStorage.getItem('token') as string } });    
+    
+    if (cacheAirport == null || now.getTime() > cacheAirport.expiry || cacheAirport.value.length < airportsCount) {
         //Fetch
         const airports: IResponse = await axios.get(BASE_URL + "airport", { headers: { "x-access-token": localStorage.getItem('token') as string } });
         if(airports.data.length > 0) {
@@ -328,7 +332,7 @@ export const setupCacheAirportProduct = async () =>{
         }
     }
 
-    if (cacheProduct == null || now.getTime() > cacheProduct.expiry) {
+    if (cacheProduct == null || now.getTime() > cacheProduct.expiry || cacheProduct.value.length < productsCount) {
         const products: IResponse = await axios.get(BASE_URL + "product", { headers: { "x-access-token": localStorage.getItem('token') as string } });
         if(products.data.length > 0) {
             //Set local storage

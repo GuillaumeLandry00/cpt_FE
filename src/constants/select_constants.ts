@@ -2552,16 +2552,6 @@ export const PRODUCT_TYPE = [
     "id": 150
   },
   {
-    "label": "Travel Brands",
-    "value": "Travel Brands",
-    "taxe": "1",
-    "tps": "0",
-    "tvq": "0",
-    "rabais": "1",
-    "opc": "1",
-    "id": 150
-  },
-  {
     "label": "Unikatours",
     "value": "Unikatours",
     "taxe": "1",
@@ -3130,6 +3120,7 @@ export const TRAVEL_SUPPLIER = [
   { label: `Huntington`, value: `HUN` },
   { label: `Huberte Vienneau`, value: `HV` },
   { label: `IBER-SOL`, value: `IBE` },
+  { label: `Iberia`, value: `Iberia`},
   { label: `Icelandair`, value: `Icelandair` },
   { label: `INTER CONTINENETAL`, value: `ICO` },
   { label: `IMAGINE QUEBEC`, value: `IMQ` },

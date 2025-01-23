@@ -10,7 +10,7 @@ import { LocalStorageKeys } from "../../constants/constantes";
 const Itinerary = ({ data }: IGenericObject) => {
 
     const airportsCache = JSON.parse(localStorage.getItem(LocalStorageKeys.Airports) as string);
-
+    
     //Samll inner component
     const divItineraries = (id: number) => {
         return (
