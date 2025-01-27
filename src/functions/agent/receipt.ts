@@ -23,14 +23,13 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: str
             case "I":
                 if (receipt.itinerary.length <= key.charAt(key.length - 1)) {
                     receipt.itinerary.push({});
-                }
+                }                
                 receipt.itinerary[key.charAt(key.length - 1)][name] = value;
                 break;
             case "T":
                 if (receipt.product.length <= key.charAt(key.length - 1)) {
                     receipt.product.push({});
                 }
-
                 //Default
                 receipt.product[key.charAt(key.length - 1)]["type_comm"] = "%";
                 receipt.product[key.charAt(key.length - 1)]["comm"] = utilisateur.comm;
@@ -43,7 +42,13 @@ export const buildReceipt = (values: any, utilisateur: IUtilisateur, action: str
                 if (receipt.summary.length <= key.charAt(key.length - 1)) {
                     receipt.summary.push({});
                 }
-                receipt.summary[key.charAt(key.length - 1)][name] = value;
+                //Will truncate number of the card
+                if(name == "numero_carte"){
+                    let cardNumber = value as string;
+                    receipt.summary[key.charAt(key.length - 1)][name] = `XXXX${cardNumber.substring(cardNumber.length - 4, cardNumber.length)}`;
+                }else{
+                    receipt.summary[key.charAt(key.length - 1)][name] = value;
+                }
                 break;
             default:
                 receipt.others[key] = value;

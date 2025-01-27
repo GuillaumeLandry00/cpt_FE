@@ -54,8 +54,6 @@ const FormReceipt = () => {
     }, [])
 
     const handleBtn = (): void => {
-        console.log('Saving...');
-
         //We refresh all the price 
         newTaxesCalculator()
         calcPaiement()
@@ -73,6 +71,8 @@ const FormReceipt = () => {
             }
             //we build the receipt object                
             const receipt = buildReceipt(values, utilisateur, "update", url.searchParams.get("id") as string);
+            console.log("The receipt: ", receipt);
+            
             //we validate the receipt
             const errors = validateReceipt(receipt);
             if (errors.general.length > 0 || errors.itinerary.length > 0 || errors.others.length > 0 ||
