@@ -7,6 +7,9 @@ import AgentList from "./Agent/AgentList";
 import EditAgent from "./Agent/EditAgent";
 import DefaultAdmin from "./DefaultAdmin";
 import SupplierList from "./Supplier/SupplierList";
+import AirportList from "./Airport/AirportList";
+import ProductsList from "../Admin/Product/ProductsList";
+import AddAirport from "./Airport/AddAirport";
 
 const Admin = () => {
 
@@ -20,19 +23,22 @@ const Admin = () => {
     const switchViews = (views: string, id = ""): void => {
         switch (views) {
             case "agents":
-
                 setViews(<AgentList switchViews={switchViews} />)
                 break;
             case "edit-agent":
-
                 setViews(<EditAgent id={id} switchViews={switchViews} />);
                 break;
             case "add-agent":
-
                 setViews(<AddAgent switchViews={switchViews} />);
                 break;
             case "fournisseurs":
                 setViews(<SupplierList switchViews={switchViews} />)
+                break;
+            case "aeroport": 
+                setViews(<AirportList  switchViews={switchViews}  />);
+                break;
+            case "produit": 
+                setViews(<ProductsList switchViews={switchViews}/>);
                 break;
             default:
                 setViews(<DefaultAdmin />)
