@@ -71,7 +71,6 @@ const FormReceipt = () => {
             }
             //we build the receipt object                
             const receipt = buildReceipt(values, utilisateur, "update", url.searchParams.get("id") as string);
-            console.log("The receipt: ", receipt);
             
             //we validate the receipt
             const errors = validateReceipt(receipt);

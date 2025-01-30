@@ -50,11 +50,11 @@ const Itinerary = ({ data }: IGenericObject) => {
                     </div>
                     <div className="flex flex-wrap  mt-6 md:mb-0 md: w-1/5 ">
                         <div className="w-full md:w-1/3">
-                            <input name={`Idepart_hh_${id}`} type="number" defaultValue={data && data.length - 1 >= id ? data[id].depart_hh : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={24} />
+                            <input name={`Idepart_hh_${id}`} type="number" defaultValue={data && data.length - 1 >= id ? data[id].depart_hh : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={24} />
                         </div>
                         <div className="w-full md:w-4 ml-1.5 mt-1.5">H</div>
                         <div className="w-full md:w-1/3">
-                            <input type="number" name={`Idepart_mm_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].depart_mm : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={60} />
+                            <input type="number" name={`Idepart_mm_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].depart_mm : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={60} />
                         </div>
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
@@ -67,11 +67,11 @@ const Itinerary = ({ data }: IGenericObject) => {
                     </div>
                     <div className="flex flex-wrap  mt-6 md:mb-0 md: w-1/5 ">
                         <div className="w-full md:w-1/3">
-                            <input type="number" defaultValue={data && data.length - 1 >= id ? data[id].arrive_hh : ""} name={`Iarrive_hh_${id}`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={24} />
+                            <input type="number" defaultValue={data && data.length - 1 >= id ? data[id].arrive_hh : ""} name={`Iarrive_hh_${id}`} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={24} />
                         </div>
                         <div className="w-full md:w-4 ml-1.5 mt-1.5">H</div>
                         <div className="w-full md:w-1/3">
-                            <input type="number" name={`Iarrive_mm_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].arrive_mm : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={60} />
+                            <input type="number" name={`Iarrive_mm_${id}`} defaultValue={data && data.length - 1 >= id ? data[id].arrive_mm : ""} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" min={0} max={60} />
                         </div>
                     </div>
                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">

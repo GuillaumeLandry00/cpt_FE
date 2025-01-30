@@ -187,6 +187,7 @@ const verifacationReceipt = (receipt: IGenericObject) => {
             errors.passagers.push(`L'heure d'arrivée doit être valide`);
         }
 
+        //Removed for international flights
         let dateDepart = new Date(iti.date_depart)
         let dateArrive = new Date(iti.arrive)
         if (dateArrive.getTime() - dateDepart.getTime() < 0) {
