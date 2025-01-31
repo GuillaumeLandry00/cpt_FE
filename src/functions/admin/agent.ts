@@ -67,6 +67,28 @@ export const updateAgent = async (agent: agentUpdate, id: number) => {
 }
 
 
+export const resetPassword = async (password: string, id: number) => {
+    try {
+
+        const params = new URLSearchParams();
+        params.append("password", password);
+
+        //We make the request
+        const response: IResponse = await axios({
+            method: "patch",
+            url: BASE_URL + `agent/password/${id}`,
+            data: params,
+            headers: { 'content-type': 'application/x-www-form-urlencoded', "x-access-token": localStorage.getItem('token') as string },
+        });
+
+        authToken(response.data);
+
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 /**
  * This function will add an agent to the database
  * @param id, id of the agent 

@@ -9,7 +9,13 @@ import { LocalStorageKeys } from "../../constants/constantes";
 
 const Itinerary = ({ data }: IGenericObject) => {
 
-    const airportsCache = JSON.parse(localStorage.getItem(LocalStorageKeys.Airports) as string);
+    let airportsCache = JSON.parse(localStorage.getItem(LocalStorageKeys.Airports) as string);
+    if(airportsCache){
+        airportsCache = airportsCache.value.map((airport: {label: string}) => ({
+            label: airport.label,
+            value: airport.label
+        }));        
+    }
     
     //Samll inner component
     const divItineraries = (id: number) => {
@@ -19,11 +25,11 @@ const Itinerary = ({ data }: IGenericObject) => {
                 <div className="flex flex-wrap -mx-3 mt-2">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Origine</label>
-                        <Select name={`Iorigin_${id}`} options={airportsCache ? airportsCache.value : ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].origin, value: data[id].origin } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Iorigin_${id}`} options={airportsCache ? airportsCache : ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].origin, value: data[id].origin } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Destination</label>
-                        <Select name={`Idestination_${id}`} options={airportsCache ? airportsCache.value : ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                        <Select name={`Idestination_${id}`} options={airportsCache ? airportsCache : ORIGINE} defaultValue={data && data.length - 1 >= id ? { label: data[id].destination, value: data[id].destination } : ""} className="block appearance-none w-full  text-gray-700 py-1 px-1  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
                     </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label htmlFor="" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cie</label>

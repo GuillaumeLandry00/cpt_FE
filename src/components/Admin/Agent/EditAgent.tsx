@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAgent, updateAgent } from "../../../functions/admin/agent";
+import { getAgent, updateAgent, resetPassword } from "../../../functions/admin/agent";
 import { IUtilisateur } from "../../../interface/interfaces";
 import { BiArrowBack } from "react-icons/bi";
 
@@ -33,12 +33,20 @@ const EditAgent = ({ id, switchViews }: Props) => {
     const [userType, setUserType] = useState<number>(0);
     const [comm, setComm] = useState<number>(0);
     const [agences, setAgences] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const [response, setResponse] = useState<string>("");
 
     const update = async () => {
         if ((await updateAgent({ user_type: userType, comm: comm, agence: agences }, parseInt(id))).affectedRows > 0) {
             setResponse("Agent modifié");
+        }
+    }
+
+    const reInitPassword = async () => {
+        if ((await resetPassword(password, parseInt(id))).affectedRows > 0) {
+            setPassword("");
+            setResponse("Mot de passe modifié");
         }
     }
 
@@ -108,6 +116,24 @@ const EditAgent = ({ id, switchViews }: Props) => {
                             </div>
                         </div>
                     </form>
+                    <hr />
+                    <div className="w-full  ml-auto mr-auto mt-10 p-8 flex flex-wrap " id="formResetPassword">
+                            <div className="w-full md:w-3/4 px-3 mb-6 md:mb-0">
+                                <div className="datepicker relative form-floating mb-3" data-mdb-toggle-button="false">
+                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Mot de passe</label>
+                                    <input 
+                                        value={password}
+                                        onChange={(e)=>setPassword(e.target.value)}
+                                        placeholder="Mot de passe"
+                                        type="text"
+                                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        />
+                                </div>
+                            </div>
+                            <div className="w-1/6 md:w-1/4 mt-6">
+                                <button type="button" onClick={() => { reInitPassword(); }} className=" appearance-none block w-full bg-blue-600 text-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">Réinitialiser mot de passe</button>
+                            </div>
+                    </div>
                 </>
             )}
 
